@@ -1,7 +1,7 @@
-class Monster extends Thing implements Damageable, Movable{
-  int damage, health, num_sprites;
+abstract class Monster extends Thing implements Damageable, Movable{
+  int damage, cHealth, mHealth, num_sprites;
   float x, y;
-  PImage sprite;
+  PImage[] sprite;
   boolean isBoss;
   
   Monster(float xcor, float ycor, float x_size, float y_size, PImage image, int numSprites, boolean boss) {
@@ -18,13 +18,9 @@ class Monster extends Thing implements Damageable, Movable{
   void loseHealth(float num) {
     health -= num;
   }
-  void attack(float num) {
-    
-  }
-  void move(float direction) {
-    
-  }
   boolean isMoving() {
     return true;
   }
+  abstract void attack(float num);
+  abstract void move(float direction);
 }
