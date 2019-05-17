@@ -1,4 +1,4 @@
-abstract class Thing {
+abstract class Thing implements Collideable {
   
   float x_size, y_size;
   
@@ -9,4 +9,8 @@ abstract class Thing {
     y_size = y;
   }
   
+    boolean isTouching(Thing other) {
+    return true;
+  }
+
 }
