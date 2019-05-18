@@ -1,0 +1,4 @@
+slime_front_0
+slime_front_1
+slime_front_2
+slime_front_3
