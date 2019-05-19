@@ -1,6 +1,6 @@
 abstract class Thing implements Collideable {
   
-  float x_size, y_size;
+  float x_size, y_size, x_pos, y_pos;
   
   abstract void display();
   

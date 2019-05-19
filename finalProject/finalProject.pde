@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import java.util.*;
 
 Player p;
@@ -16,4 +17,24 @@ void draw() {
   s.display();
   s.update();
   s.move(s.currentDirection);
+=======
+Player p;
+
+void setup() {
+  size(800, 600);
+   p = new Player(60,60,300,300,loadImage("hollow_knight.jpg"));
+ }
+ 
+void draw() {
+  p.display();
+  p.move();
+}
+
+void keyPressed() {
+  p.setMove(keyCode, true);
+}
+
+void keyReleased() {
+  p.setMove(keyCode, false);
+>>>>>>> 8a78e3f534dab5270b5c21ba314ceaab4f8c29d6
 }
