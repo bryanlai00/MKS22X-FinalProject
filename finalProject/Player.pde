@@ -1,4 +1,4 @@
-class Player extends Thing {
+class Player extends Thing implements Damageable, Collideable {
   int c_health, m_health, damage, gaugeValue, num_sprites;
   float x_pos, y_pos, x_size, y_size, direction;
   boolean isMoving, isRunning;
@@ -21,5 +21,20 @@ class Player extends Thing {
   }
   
   void display() {
+    
+  }
+  
+  void loseHealth(float num) {
+    c_health -= (int) num;
+  }
+  
+  boolean isTouching(Thing other) {
+    return dist(x_pos,y_pos,other.x_pos,other.y_pos) < x_size;
+  }
+  
+  void attack(float num) {
+  }
+  
+  void move(float num) {
   }
 }
