@@ -8,20 +8,25 @@ class Slime extends Monster {
   }
   void attack(float num) {}
   void move(float direction) {
-    x += currentSpeed * Math.cos(radians(direction));
-    y += currentSpeed * Math.sin(radians(direction));
+      x += currentSpeed * Math.cos(radians(direction));
+      y += currentSpeed * Math.sin(radians(direction));
   }
   void update() {
-    if (pathTimer <= pathTime && pathTimer > pathTime/2) currentSpeed = speed;
-    else if (pathTimer <= 0 && pathTimer > -pathTime/2) {
-      currentDirection = (float)Math.toDegrees(Math.atan2((double)(spawnY - y), (double)(spawnX - x)));
+    if (playerInRange) {
       currentSpeed = speed;
     }
-    else if ((pathTimer <= pathTime/2 && pathTimer > 0) || (pathTimer <= -pathTime/2 && pathTimer > -pathTime)) currentSpeed = 0;
-    else  {
-      pathTimer = pathTime;
-      currentDirection = (float)(Math.random() * 360);
+    else {
+      if (pathTimer <= pathTime && pathTimer > pathTime/2) currentSpeed = speed;
+      else if (pathTimer <= 0 && pathTimer > -pathTime/2) {
+        currentDirection = (float)Math.toDegrees(Math.atan2((double)(spawnY - y), (double)(spawnX - x)));
+        currentSpeed = speed;
+      }
+      else if ((pathTimer <= pathTime/2 && pathTimer > 0) || (pathTimer <= -pathTime/2 && pathTimer > -pathTime)) currentSpeed = 0;
+      else  {
+        pathTimer = pathTime;
+        currentDirection = (float)(Math.random() * 360);
+      }
+      pathTimer--;
     }
-    pathTimer--;
   }
 }

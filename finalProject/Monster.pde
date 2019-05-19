@@ -2,7 +2,7 @@ abstract class Monster extends Thing implements Damageable, Movable{
   int damage, cHealth, mHealth, num_sprites, delay = 0, frame = 0, pathTimer, pathTime;
   float x, y, spawnX, spawnY, currentDirection, speed, currentSpeed, sightDistance;
   ArrayList<PImage> sprite = new ArrayList<PImage>();
-  boolean isBoss;
+  boolean isBoss, playerInRange;
   
   Monster(float xcor, float ycor, float x_size, float y_size, float spe, float sight, int numSprites, int pT, boolean boss) {
     super(x_size, y_size);
@@ -17,7 +17,7 @@ abstract class Monster extends Thing implements Damageable, Movable{
     pathTimer = pT;
     pathTime = pT;
     isBoss = boss;
-    currentDirection = (float)(Math.random() * 360);
+    playerInRange = false;
   }
   void display() {
     if (delay <= 10) delay ++;
@@ -34,8 +34,12 @@ abstract class Monster extends Thing implements Damageable, Movable{
   boolean isMoving() {
     return true;
   }
-  boolean checkForPlayer(Player p) {
-    return Math.sqrt(Math.pow(p.x - x, 2) + Math.pow(p.y - y, 2)) < sightDistance;
+  void checkForPlayer(Player p) {
+    if (Math.sqrt(Math.pow(p.x - x, 2) + Math.pow(p.y - y, 2)) < sightDistance) {
+      playerInRange = true;
+      currentDirection = (float)Math.toDegrees(Math.atan2((double)(p.y - y), (double)(p.x - x)));
+    }
+    else playerInRange = false;
   }
   abstract void attack(float num);
   abstract void move(float direction);
