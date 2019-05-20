@@ -8,7 +8,9 @@ class Slime extends Monster {
      }
   }
   }
-  void attack(float num) {}
+  void attack(Thing other, float num) {
+    
+  }
   void move(float direction) {
       imageMode(CENTER);
       x_pos += currentSpeed * Math.cos(radians(direction));
@@ -19,6 +21,7 @@ class Slime extends Monster {
     if (playerInRange) {
       if (isTouching(p)){
         currentSpeed = 0;
+        attack();
       }
       else {
         currentDirection = (float)Math.toDegrees(Math.atan2((double)(p.y_pos - y_pos), (double)(p.x_pos - x_pos)));
