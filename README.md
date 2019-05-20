@@ -23,3 +23,8 @@ _________________________
 * created a function implementing basic passive movement for a monster
 * implemeted file reading to obtain sprite images to animate a slime
 * added basic player tracking for monster
+##### 5/19/19
+* fixed and refined basic player tracking for monster - implemented monster update behavior regarding proximity to player
+* fixed isTouching() method
+* added experimental directional animation
+* changed implementaion of loading sprites
