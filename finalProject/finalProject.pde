@@ -20,5 +20,4 @@ void keyPressed() {
 
 void keyReleased() {
   p.setMove(keyCode, false);
-  p.isRunning = false;
 }

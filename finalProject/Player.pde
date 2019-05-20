@@ -47,6 +47,7 @@ class Player extends Thing implements Damageable, Collideable {
     double f = Math.pow(x_size, 2);
     double s = Math.pow(y_size, 2);
     float r = (float)Math.sqrt(f + s); 
+    /*Speed for movement 4 for running, 2 for normal*/
     float speed;
     if(isRunning) {
       speed = 4;
@@ -54,9 +55,38 @@ class Player extends Thing implements Damageable, Collideable {
     else {
       speed = 2;
     }
+    
     //Makes sure that the position does not go out.
     float xChange = x_pos + speed*(int(isRight) - int(isLeft));
     float yChange = y_pos + speed*(int(isDown) - int(isUp));
+    //List of x-statements to find angleDirection:
+    //For basical cardinal directions:
+        if(isRight) {
+          direction = 0;
+        }
+        else if(isLeft) {
+          direction = 180;
+        }
+        else if(isDown) {
+          direction = 270;
+        }
+        else if(isUp) {
+          direction = 90;
+        }
+    //For combined directions:
+        if(isRight && isUp) {
+          direction = 45;
+        }
+        else if(isRight && isDown) {
+          direction = 315;
+        }
+        else if(isLeft && isUp) {
+          direction = 135;
+        }
+        else if(isLeft && isDown) {
+          direction = 225;
+        }
+    
     x_pos = constrain(xChange, r, width  - r);
     y_pos = constrain(yChange, r, height - r);
   }
@@ -75,6 +105,15 @@ class Player extends Thing implements Damageable, Collideable {
  
     case RIGHT:
       return isRight = b;
+     
+    case 'X':
+      isRunning = true;
+      return isRunning;
+      
+    case 'C':
+      isRunning = false;
+      return isRunning;
+      
  
     default:
       return b;
