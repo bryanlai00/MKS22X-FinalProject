@@ -40,7 +40,6 @@ class Player extends Thing implements Damageable, Collideable {
   }
   
   void move() {
-    imageMode(CENTER);
     //Calculating radius.
     double f = Math.pow(x_size, 2);
     double s = Math.pow(y_size, 2);
