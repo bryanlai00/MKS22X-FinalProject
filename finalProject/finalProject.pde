@@ -6,7 +6,10 @@ void setup() {
  }
  
 void draw() {
-  background(0);
+  textSize(32);
+  fill(0, 102, 153, 204);
+  text("hello world",30,30);
+  background(223);
   p.display();
   p.move();
 }
@@ -17,4 +20,5 @@ void keyPressed() {
 
 void keyReleased() {
   p.setMove(keyCode, false);
+  p.isRunning = false;
 }

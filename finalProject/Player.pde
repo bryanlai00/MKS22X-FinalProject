@@ -1,6 +1,6 @@
 class Player extends Thing implements Damageable, Collideable {
   int c_health, m_health, damage, gaugeValue, num_sprites;
-  float x_pos, y_pos, x_size, y_size;
+  float x_pos, y_pos, x_size, y_size, direction;
   boolean isMoving, isRunning;
   boolean isLeft, isRight, isUp, isDown;
   int[] abilities;
@@ -9,6 +9,8 @@ class Player extends Thing implements Damageable, Collideable {
   //Takes in size then pos.
   Player(int x_size, int y_size, int x_pos, int y_pos, PImage s) {
     super(x_size,y_size);
+    this.x_size = x_size;
+    this.y_size = y_size;
     this.x_pos = x_pos;
     this.y_pos = y_pos;
     m_health = 3;
@@ -37,16 +39,26 @@ class Player extends Thing implements Damageable, Collideable {
   }
   
   void attack(float num) {
+    
   }
   
   void move() {
     //Calculating radius.
     double f = Math.pow(x_size, 2);
     double s = Math.pow(y_size, 2);
-    float r = (float)Math.sqrt(f + s) / 2; 
+    float r = (float)Math.sqrt(f + s); 
+    float speed;
+    if(isRunning) {
+      speed = 4;
+    }
+    else {
+      speed = 2;
+    }
     //Makes sure that the position does not go out.
-    x_pos = constrain(x_pos + 2*(int(isRight) - int(isLeft)), r, width  - r);
-    y_pos = constrain(y_pos + 2*(int(isDown)  - int(isUp)),   r, height - r);
+    float xChange = x_pos + speed*(int(isRight) - int(isLeft));
+    float yChange = y_pos + speed*(int(isDown) - int(isUp));
+    x_pos = constrain(xChange, r, width  - r);
+    y_pos = constrain(yChange, r, height - r);
   }
   
   boolean setMove(int k, boolean b) {
