@@ -5,15 +5,15 @@ Slime s, s2;
 String[] spriteNames;
 ArrayList<Monster> m = new ArrayList<Monster>();
 ArrayList<PImage> sprite = new ArrayList<PImage>();
-int iT = 
+int iT = 30;
 void setup() {
   size(1000,1000);
   spriteNames = loadStrings("data/SpriteNames.txt");
   for (String str : spriteNames) {
      sprite.add(loadImage("data/sprites/" + str + ".png"));
   }
-  s = new Slime(width/2, height/2, 50, 50, 1, 200.0, 4, 120, .5, false);
-  s2 = new Slime(200, 600, 50, 50, 1, 200.0, 4, 120, .5, false);
+  s = new Slime(width/2, height/2, 50, 50, 1, 200.0, 4, 120, iT, .5, false);
+  s2 = new Slime(200, 600, 50, 50, 1, 200.0, 4, 120, iT, .5, false);
   m.add(s);
   m.add(s2);
   p = new Player(60,60,300,300,loadImage("hollow_knight.jpg"));

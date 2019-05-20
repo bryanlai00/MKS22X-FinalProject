@@ -1,5 +1,5 @@
 abstract class Monster extends Thing implements Damageable, Movable{
-  int cHealth, mHealth, num_sprites, delay = 0, frame = 0, pathTimer, pathTime, index, invulTimer;
+  int cHealth, mHealth, num_sprites, delay = 0, frame = 0, pathTimer, pathTime, index, invulTimer, invulTime;
   float x_pos, y_pos, spawnX, spawnY, currentDirection, speed, currentSpeed, sightDistance, damage;
   ArrayList<PImage> localSprite = new ArrayList<PImage>();
   ArrayList<String> localSpriteName = new ArrayList<String>();
@@ -24,6 +24,7 @@ abstract class Monster extends Thing implements Damageable, Movable{
     pathTime = pT;
     damage = dam;
     invulTimer = iT;
+    invulTime = iT;
     isBoss = boss;
     playerInRange = false;
     currentDir = "aosndoipanf";
@@ -40,8 +41,15 @@ abstract class Monster extends Thing implements Damageable, Movable{
     }
   }
   void loseHealth(float num) {
-    cHealth -= num;
+    if (invulTimer == invulTime) {
+      cHealth -= num;
+      invulTimer = 0;
+    }
   }
+  void update() {
+    while (invulTimer < invulTime) invulTimer++;
+  }
+  
   boolean isMoving() {
     return true;
   }
