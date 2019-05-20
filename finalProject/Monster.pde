@@ -1,13 +1,19 @@
 abstract class Monster extends Thing implements Damageable, Movable{
-  int damage, cHealth, mHealth, num_sprites, delay = 0, frame = 0, pathTimer, pathTime;
-  float x, y, spawnX, spawnY, currentDirection, speed, currentSpeed, sightDistance;
-  ArrayList<PImage> sprite = new ArrayList<PImage>();
+  int damage, cHealth, mHealth, num_sprites, delay = 0, frame = 0, pathTimer, pathTime, index;
+  float x_pos, y_pos, spawnX, spawnY, currentDirection, speed, currentSpeed, sightDistance;
+  ArrayList<PImage> localSprite = new ArrayList<PImage>();
+  ArrayList<String> localSpriteName = new ArrayList<String>();
   boolean isBoss, playerInRange;
+  String currentDir;
   
-  Monster(float xcor, float ycor, float x_size, float y_size, float spe, float sight, int numSprites, int pT, boolean boss) {
-    super(x_size, y_size);
-    x = xcor;
-    y = ycor;
+  float getX() {return x_pos;}
+  float getY() {return y_pos;}
+  float getX_size() {return x_size;}
+  float getY_size() {return y_size;}
+  Monster(float xcor, float ycor, float x_si, float y_si, float spe, float sight, int numSprites, int pT, boolean boss) {
+    super(x_si, y_si);
+    x_pos = xcor;
+    y_pos = ycor;
     spawnX = xcor;
     spawnY = ycor;
     speed = spe;
@@ -18,15 +24,18 @@ abstract class Monster extends Thing implements Damageable, Movable{
     pathTime = pT;
     isBoss = boss;
     playerInRange = false;
+    currentDir = "aosndoipanf";
+    index = 0;
   }
   void display() {
+    if (updateImageDir()) frame = 0;
+    image(localSprite.get(frame + index), x_pos, y_pos, x_size, y_size);
     if (delay <= 10) delay ++;
     else {
       delay = 0;
       if (frame + 1 < num_sprites) frame ++;
       else frame = 0;
     }
-    image(sprite.get(frame), x, y, super.x_size, super.y_size);
   }
   void loseHealth(float num) {
     cHealth -= num;
@@ -35,12 +44,29 @@ abstract class Monster extends Thing implements Damageable, Movable{
     return true;
   }
   void checkForPlayer(Player p) {
-    if (Math.sqrt(Math.pow(p.x - x, 2) + Math.pow(p.y - y, 2)) < sightDistance) {
+    if (dist(p.x_pos,p.y_pos,x_pos,y_pos) < sightDistance) {
       playerInRange = true;
-      currentDirection = (float)Math.toDegrees(Math.atan2((double)(p.y - y), (double)(p.x - x)));
+      currentDirection = (float)Math.toDegrees(Math.atan2((double)(p.y_pos - y_pos), (double)(p.x_pos - x_pos)));
     }
     else playerInRange = false;
   }
+  boolean updateImageDir() {
+    String temp = currentDir;
+    if (currentDirection <= 45 && currentDirection > -45) currentDir = "right";
+    else if (currentDirection <= 135 && currentDirection > 45) currentDir = "down";
+    else if (currentDirection <= -135 || currentDirection > 135) currentDir = "left";
+    else if (currentDirection <= -45 && currentDirection > -135)currentDir = "up";
+    if (!temp.equals(currentDir)) {
+      for (int i = 0; i < localSpriteName.size(); i++) {
+        if (localSpriteName.get(i).contains(currentDir)) {
+          index = i;
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+  abstract void updateBehavior(Player p);
   abstract void attack(float num);
   abstract void move(float direction);
 }

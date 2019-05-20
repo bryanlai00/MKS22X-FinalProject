@@ -1,18 +1,15 @@
-<<<<<<< HEAD
-class Player extends Thing {
-   float x, y;
-   Player(float xcor, float ycor, float x_size, float y_size) {
-    super(x_size,y_size);
-    x = xcor;
-    y = ycor;
-=======
 class Player extends Thing implements Damageable, Collideable {
   int c_health, m_health, damage, gaugeValue, num_sprites;
-  float x_pos, y_pos, x_size, y_size;
+  float x_pos, y_pos;
   boolean isMoving, isRunning;
   boolean isLeft, isRight, isUp, isDown;
   int[] abilities;
   PImage sprite;
+  
+  float getX() {return x_pos;}
+  float getY() {return y_pos;}
+  float getX_size() {return x_size;}
+  float getY_size() {return y_size;}
   
   //Takes in size then pos.
   Player(int x_size, int y_size, int x_pos, int y_pos, PImage s) {
@@ -30,7 +27,6 @@ class Player extends Thing implements Damageable, Collideable {
     sprite = s;
     sprite.resize(x_size,y_size);
     //Takes in pos then size.
->>>>>>> 8a78e3f534dab5270b5c21ba314ceaab4f8c29d6
   }
   
   void display() {
@@ -42,7 +38,9 @@ class Player extends Thing implements Damageable, Collideable {
   }
   
   boolean isTouching(Thing other) {
-    return dist(x_pos,y_pos,other.x_pos,other.y_pos) < x_size;
+    //System.out.print(getX() + ", " + getY() + "   ");
+    //System.out.print(dist(getX(), getY() , other.getX(), other.getY()) + "   ");
+    return dist(getX(), getY() , other.getX(), other.getY()) < x_size;
   }
   
   void attack(float num) {
