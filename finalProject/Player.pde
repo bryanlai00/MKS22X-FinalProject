@@ -34,7 +34,7 @@ class Player extends Thing implements Damageable, Collideable {
   }
   
   void loseHealth(float num) {
-    c_health -= (int) num;
+    c_health -= num;
   }
   
   boolean isTouching(Thing other) {
@@ -43,7 +43,7 @@ class Player extends Thing implements Damageable, Collideable {
     return dist(getX(), getY() , other.getX(), other.getY()) < x_size;
   }
   
-  void attack(float num) {
+  void attack(Thing target, float num) {
   }
   
   void move() {
