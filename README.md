@@ -28,3 +28,7 @@ _________________________
 * fixed isTouching() method
 * added experimental directional animation
 * changed implementaion of loading sprites
+##### 5/20/19
+* modified attack method to take in Thing target
+* added basic attack for slime (isTouching => loseHealth)
+* added invulnerability timers for Player and Monster when they are attacked
