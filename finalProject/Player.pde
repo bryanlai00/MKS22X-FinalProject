@@ -1,10 +1,10 @@
 class Player extends Thing implements Damageable, Collideable {
-  int c_health, m_health, damage, gaugeValue, num_sprites;
+  int c_health, m_health, damage, gaugeValue, num_sprites, sprite_index, delay = 0, frame = 0;
   float x_pos, y_pos, x_size, y_size, direction;
   boolean isMoving, isRunning;
   boolean isLeft, isRight, isUp, isDown;
   int[] abilities;
-  PImage sprite;
+  ArrayList<PImage> localSprites = new ArrayList<PImage>();
   
   float getX() {return x_pos;}
   float getY() {return y_pos;}
@@ -12,7 +12,7 @@ class Player extends Thing implements Damageable, Collideable {
   float getY_size() {return y_size;}
   
   //Takes in size then pos.
-  Player(int x_size, int y_size, int x_pos, int y_pos, PImage s) {
+  Player(int x_size, int y_size, int x_pos, int y_pos, int num_sprites, ArrayList<PImage> ls) {
     super(x_size,y_size);
     this.x_size = x_size;
     this.y_size = y_size;
@@ -26,13 +26,20 @@ class Player extends Thing implements Damageable, Collideable {
     abilities = new int[5];
     //The maximum value for this will be equal to 100.
     gaugeValue = 0;
-    sprite = s;
-    sprite.resize(x_size,y_size);
+    this.num_sprites = num_sprites;
+    this.localSprites = ls;
+    sprite_index = 0;
     //Takes in pos then size.
   }
   
   void display() {
-    image(sprite,x_pos,y_pos);
+    image(localSprites.get(frame + sprite_index), x_pos, y_pos, x_size, y_size);
+    if (delay <= 10) delay ++;
+    else {
+      delay = 0;
+      if (frame + 1 < num_sprites) frame ++;
+      else frame = 0;
+    }
   }
   
   void loseHealth(float num) {

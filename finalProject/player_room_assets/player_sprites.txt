@@ -1,0 +1,2 @@
+knight_m_idle_anim_f0
+knight_m_idle_anim_f1
