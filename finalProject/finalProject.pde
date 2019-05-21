@@ -39,8 +39,8 @@ void draw() {
   //System.out.print(p.y_pos);
   //System.out.print(" " + s.x_pos + ",");
   //System.out.print(s.y_pos);
-  p.display();
   p.move();
+  p.display();
 }
 
 void keyPressed() {

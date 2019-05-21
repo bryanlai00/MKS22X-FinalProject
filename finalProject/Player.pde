@@ -35,7 +35,7 @@ class Player extends Thing implements Damageable, Collideable {
   void display() {
     //Changes sprite_index based on buttons pressed.
       /* IF RUNNING Sprites Indexes 4-11*/
-    if(isRunning) {
+    if(isMoving) {
       if(isRight) {
         sprite_index = 8;;
       }
@@ -88,6 +88,9 @@ class Player extends Thing implements Damageable, Collideable {
     }
     
     //Makes sure that the position does not go out.
+    //Used to see if the position changes to determine if something moves.
+    float x_prev_pos = x_pos;
+    float y_prev_pos = y_pos;
     float xChange = x_pos + speed*(int(isRight) - int(isLeft));
     float yChange = y_pos + speed*(int(isDown) - int(isUp));
     //List of x-statements to find angleDirection:
@@ -117,9 +120,17 @@ class Player extends Thing implements Damageable, Collideable {
         else if(isLeft && isDown) {
           direction = 225;
         }
+        
+    //See if moving.
     
     x_pos = constrain(xChange, r, width  - r);
     y_pos = constrain(yChange, r, height - r);
+    if(x_prev_pos != x_pos || y_prev_pos != y_pos) {
+      isMoving = true;
+    }
+    else {
+      isMoving = false;
+    }
   }
   
   boolean setMove(int k, boolean b) {
