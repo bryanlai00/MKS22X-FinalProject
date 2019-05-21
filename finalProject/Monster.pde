@@ -54,7 +54,7 @@ abstract class Monster extends Thing implements Damageable, Movable{
     else playerInRange = false;
   }
   boolean isMoving() {
-    return true;
+    return currentSpeed > 0;
   }
   abstract void move(float direction);
   
