@@ -1,0 +1,16 @@
+slime_up_0
+slime_up_1
+slime_up_2
+slime_up_3
+slime_down_0
+slime_down_1
+slime_down_2
+slime_down_3
+slime_left_0
+slime_left_1
+slime_left_2
+slime_left_3
+slime_right_0
+slime_right_1
+slime_right_2
+slime_right_3

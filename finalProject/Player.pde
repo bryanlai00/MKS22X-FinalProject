@@ -6,6 +6,11 @@ class Player extends Thing implements Damageable, Collideable {
   int[] abilities;
   PImage sprite;
   
+  float getX() {return x_pos;}
+  float getY() {return y_pos;}
+  float getX_size() {return x_size;}
+  float getY_size() {return y_size;}
+  
   //Takes in size then pos.
   Player(int x_size, int y_size, int x_pos, int y_pos, PImage s) {
     super(x_size,y_size);
@@ -35,11 +40,12 @@ class Player extends Thing implements Damageable, Collideable {
   }
   
   boolean isTouching(Thing other) {
-    return dist(x_pos,y_pos,other.x_pos,other.y_pos) < x_size;
+    //System.out.print(getX() + ", " + getY() + "   ");
+    //System.out.print(dist(getX(), getY() , other.getX(), other.getY()) + "   ");
+    return dist(getX(), getY() , other.getX(), other.getY()) < x_size;
   }
   
-  void attack(float num) {
-    
+  void attack(Thing other, float num) {
   }
   
   void move() {
@@ -114,6 +120,8 @@ class Player extends Thing implements Damageable, Collideable {
       isRunning = false;
       return isRunning;
       
+    case 'Z':
+      arc(50, 50, 80, 80, 0, PI+QUARTER_PI, PIE);
  
     default:
       return b;
