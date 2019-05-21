@@ -33,6 +33,24 @@ class Player extends Thing implements Damageable, Collideable {
   }
   
   void display() {
+    //Changes sprite_index based on buttons pressed.
+      /* IF RUNNING Sprites Indexes 4-11*/
+    if(isRunning) {
+      if(isRight) {
+        sprite_index = 8;;
+      }
+      else if(isLeft) {
+        sprite_index = 12;;
+      }
+    }
+    else {
+      if(isLeft) {
+        sprite_index = 4;
+      }
+      else {
+        sprite_index = 0;
+      }
+    }
     image(localSprites.get(frame + sprite_index), x_pos, y_pos, x_size, y_size);
     if (delay <= 10) delay ++;
     else {

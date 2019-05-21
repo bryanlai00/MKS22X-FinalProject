@@ -23,7 +23,8 @@ void setup() {
   for (String s : assetNames) {
     assets.add(loadImage("player_room_assets/" + s + ".png"));
   }
-  p = new Player(50,50,300,300,2,assets);
+  //4 stands for # of sprites for each PHASE. Not the number of sprites in total. 
+  p = new Player(70,70,300,300,4,assets);
 }
 
 void draw() {
