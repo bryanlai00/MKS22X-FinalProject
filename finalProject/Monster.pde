@@ -46,13 +46,6 @@ abstract class Monster extends Thing implements Damageable, Movable{
       invulTimer = 0;
     }
   }
-  void update() {
-    while (invulTimer < invulTime) invulTimer++;
-  }
-  
-  boolean isMoving() {
-    return true;
-  }
   void checkForPlayer(Player p) {
     if (dist(p.x_pos,p.y_pos,x_pos,y_pos) < sightDistance) {
       playerInRange = true;
@@ -60,6 +53,12 @@ abstract class Monster extends Thing implements Damageable, Movable{
     }
     else playerInRange = false;
   }
+  boolean isMoving() {
+    return true;
+  }
+  abstract void move(float direction);
+  
+  
   boolean updateImageDir() {
     String temp = currentDir;
     if (currentDirection <= 45 && currentDirection > -45) currentDir = "right";
@@ -76,6 +75,12 @@ abstract class Monster extends Thing implements Damageable, Movable{
     }
     return false;
   }
+  void updateInvul() {
+    if (invulTimer < invulTime) invulTimer++;
+  }
   abstract void updateBehavior(Player p);
-  abstract void move(float direction);
+  void update(Player p) {
+    updateInvul();
+    updateBehavior(p);
+  }
 }

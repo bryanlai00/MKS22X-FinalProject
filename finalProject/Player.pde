@@ -1,6 +1,6 @@
 class Player extends Thing implements Damageable, Collideable {
-  int c_health, m_health, damage, gaugeValue, num_sprites;
-  float x_pos, y_pos;
+  int m_health, damage, gaugeValue, num_sprites, invulTimer, invulTime;
+  float x_pos, y_pos, c_health;
   boolean isMoving, isRunning;
   boolean isLeft, isRight, isUp, isDown;
   int[] abilities;
@@ -12,10 +12,12 @@ class Player extends Thing implements Damageable, Collideable {
   float getY_size() {return y_size;}
   
   //Takes in size then pos.
-  Player(int x_size, int y_size, int x_pos, int y_pos, PImage s) {
+  Player(int x_size, int y_size, int x_pos, int y_pos, int iT, PImage s) {
     super(x_size,y_size);
     this.x_pos = x_pos;
     this.y_pos = y_pos;
+    invulTimer = iT;
+    invulTime = iT;
     m_health = 3;
     c_health = 3;
     damage = 1;
@@ -34,7 +36,10 @@ class Player extends Thing implements Damageable, Collideable {
   }
   
   void loseHealth(float num) {
-    c_health -= num;
+    if (invulTimer == invulTime) {
+      c_health -= num;
+      invulTimer = 0;
+    }
   }
   
   boolean isTouching(Thing other) {
@@ -44,6 +49,10 @@ class Player extends Thing implements Damageable, Collideable {
   }
   
   void attack(Thing target, float num) {
+  }
+  
+  void update() {
+    if (invulTimer < invulTime) invulTimer++;
   }
   
   void move() {
