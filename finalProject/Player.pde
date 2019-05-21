@@ -1,6 +1,7 @@
 class Player extends Thing implements Damageable, Collideable {
   int c_health, m_health, damage, gaugeValue, num_sprites, sprite_index, delay = 0, frame = 0;
-  float x_pos, y_pos, x_size, y_size, direction;
+  String lastDirection;
+  float x_pos, y_pos, x_size, y_size, directionAngle;
   boolean isMoving, isRunning;
   boolean isLeft, isRight, isUp, isDown;
   int[] abilities;
@@ -35,6 +36,10 @@ class Player extends Thing implements Damageable, Collideable {
   void display() {
     //Changes sprite_index based on buttons pressed.
       /* IF RUNNING Sprites Indexes 4-11*/
+      print("isRight: " + isRight);
+      print("isLeft: " + isLeft);
+      print("isUp: " + isUp);
+      print("isDown: " + isDown);
     if(isMoving) {
       if(isRight) {
         sprite_index = 8;;
@@ -47,7 +52,7 @@ class Player extends Thing implements Damageable, Collideable {
       if(isLeft) {
         sprite_index = 4;
       }
-      else {
+      else if(isRight){
         sprite_index = 0;
       }
     }
@@ -96,29 +101,29 @@ class Player extends Thing implements Damageable, Collideable {
     //List of x-statements to find angleDirection:
     //For basical cardinal directions:
         if(isRight) {
-          direction = 0;
+          directionAngle = 0;
         }
         else if(isLeft) {
-          direction = 180;
+          directionAngle = 180;
         }
         else if(isDown) {
-          direction = 270;
+          directionAngle = 270;
         }
         else if(isUp) {
-          direction = 90;
+          directionAngle = 90;
         }
-    //For combined directions:
+    //For combined directionAngles:
         if(isRight && isUp) {
-          direction = 45;
+          directionAngle = 45;
         }
         else if(isRight && isDown) {
-          direction = 315;
+          directionAngle = 315;
         }
         else if(isLeft && isUp) {
-          direction = 135;
+          directionAngle = 135;
         }
         else if(isLeft && isDown) {
-          direction = 225;
+          directionAngle = 225;
         }
         
     //See if moving.
@@ -127,9 +132,11 @@ class Player extends Thing implements Damageable, Collideable {
     y_pos = constrain(yChange, r, height - r);
     if(x_prev_pos != x_pos || y_prev_pos != y_pos) {
       isMoving = true;
+      print("isMoving is true \n");
     }
     else {
       isMoving = false;
+      print("isMoving is false \n"); 
     }
   }
   
@@ -143,9 +150,11 @@ class Player extends Thing implements Damageable, Collideable {
       return isDown = b;
  
     case LEFT:
+      lastDirection = "left";
       return isLeft = b;
  
     case RIGHT:
+      lastDirection = "right";
       return isRight = b;
      
     case 'X':
