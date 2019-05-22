@@ -16,7 +16,7 @@ void setup() {
   s = new Slime(width/2, height/2, 50, 50, 1, 200.0, 4, 120, false);
   s2 = new Slime(200, 600, 50, 50, 1, 200.0, 4, 120, false);
   m.add(s);
-  m.add(s2);
+  //m.add(s2);
   
   //Player and room assets:
   assetNames = loadStrings("player_room_assets/player_sprites.txt");
@@ -29,6 +29,9 @@ void setup() {
 
 void draw() {
   background(255);
+  textSize(32);
+  text(p.x_pos + " " + p.y_pos, 50, 50);
+  fill(0, 102, 153);
   for (Monster mons : m) {
     mons.updateBehavior(p);
     mons.move(mons.currentDirection);
@@ -42,8 +45,6 @@ void draw() {
   //System.out.print(s.y_pos);
   p.move();
   p.display();
-  textSize(32);
-  text(p.x_pos + p.y_pos, 30, 30);
 }
 
 void keyPressed() {

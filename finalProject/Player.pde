@@ -72,13 +72,29 @@ class Player extends Thing implements Damageable, Collideable {
   }
   
   void attack(Thing enemy, float num) {
-    float range = 1;
+    float range = 100;
+    float coneSliceAngle = degrees(PI/4);
+    textSize(13);
+    text(dist(x_pos, y_pos, enemy.getX(), enemy.getY()), 100, 100);
     //If the distance is greater than the range, return and iterate with the next monster.
-    if(dist(enemy.x_pos, enemy.y_pos, x_pos, y_pos) < range) {
+    if(dist(x_pos, y_pos, enemy.getX(), enemy.getY()) > range) {
       return;
     }
-    float anglePosition = (float) Math.atan2(enemy.y_pos - y_pos, enemy.x_pos - x_pos);
-    print("Angle position: " + anglePosition + "\n");
+    else {
+      float anglePosition = degrees((float)Math.atan2(enemy.y_pos - y_pos, enemy.x_pos - x_pos));
+      textSize(13);
+      text("Angle between monster and player: " + anglePosition, 100, 130);      
+      float dif = Math.abs(directionAngle - anglePosition);
+      if(dif > 180) {
+        dif = Math.abs(dif-360);
+      }
+      if(dif > Math.abs(directionAngle - coneSliceAngle) && dif < Math.abs(directionAngle + coneSliceAngle)) {
+        print("enemy lost health");
+      }
+      print("dif angle: " + dif);
+      //See if the difference angle is applicable for the coneSliceAngle:
+      
+    }
     
   }
   
@@ -169,7 +185,8 @@ class Player extends Thing implements Damageable, Collideable {
       return isRunning;
       
     case 'Z':
-      arc(50, 50, 80, 80, 0, PI+QUARTER_PI, PIE);
+      arc(x_pos, y_pos, 80, 80, radians(directionAngle), PI/2 + radians(directionAngle));
+      noFill();
  
     default:
     return b;
