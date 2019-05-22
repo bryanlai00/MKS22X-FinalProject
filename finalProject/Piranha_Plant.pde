@@ -2,8 +2,9 @@ class Piranha_Plant extends Monster {
   boolean safe;
   PImage projectile;
   String phase;
-  Piranha_Plant(float xcor, float ycor, float x_size, float y_size, float spe, float sight, int numSprites, int pT, int iT, float dam, boolean boss) {
-     super(xcor, ycor, x_size, y_size, spe, sight, numSprites, pT, iT, dam, boss);
+  float sRF, playerGenDir;
+  Piranha_Plant(float xcor, float ycor, float x_size, float y_size, float spe, float sight, float mH, int numSprites, int pT, int iT, float dam, boolean boss) {
+     super(xcor, ycor, x_size, y_size, spe, sight, mH, numSprites, pT, iT, dam, boss);
   for (int i = 0; i < spriteNames.length; i++) {
      if (spriteNames[i].contains("dragon")) {
        localSprite.add(sprite.get(i));
@@ -13,6 +14,8 @@ class Piranha_Plant extends Monster {
        projectile = sprite.get(i);
      }
   }
+  sRF = sight / 3;
+  phase = "aoksdpok";
   }
   void attack(Thing target, float num) {
     Projectile p = new Projectile(x_pos, y_pos, 50, 50, num, 10, 60, projectile, (Player)target);
@@ -37,10 +40,11 @@ class Piranha_Plant extends Monster {
     else safe = true;
   }
   void updateBehavior(Player p) {
-    checkForPlayer(p, 3.0);
+    checkForPlayer(p, sRF);
+    playerGenDir = (float)Math.toDegrees(Math.atan2((double)(p.y_pos - y_pos), (double)(p.x_pos - x_pos)));
+    currentSpeed = speed;
     if (playerInRange) {
-        currentSpeed = speed;
-        if (safe) {
+        if (!safe) {
           currentDirection = 180 - (float)Math.toDegrees(Math.atan2((double)(p.y_pos - y_pos), (double)(p.x_pos - x_pos)));
         }
         else currentDirection = (float)Math.toDegrees(Math.atan2((double)(p.y_pos - y_pos), (double)(p.x_pos - x_pos)));
@@ -60,13 +64,13 @@ class Piranha_Plant extends Monster {
     }
   }
   boolean updateImageDir() {
-    String temp = currentDir;
+    String temp = phase;
     if (playerInRange) {
       phase = "attack";
     }
     else if (cHealth <= 0) phase = "death";
     else phase = "idle";
-    if (!temp.equals(currentDir)) {
+    if (!temp.equals(phase)) {
       for (int i = 0; i < localSpriteName.size(); i++) {
         if (localSpriteName.get(i).contains(phase)) {
           index = i;
@@ -79,14 +83,26 @@ class Piranha_Plant extends Monster {
   void display() {
     imageMode(CENTER);
     if (updateImageDir()) frame = 0;
-    if (currentDirection >= 90 || currentDirection < -90 || (currentDirection >= 90 && currentDirection < 270)) {
-      pushMatrix();
-      translate(x_pos, y_pos);
-      scale(-1.0, 1.0);
-      image(localSprite.get(frame + index), 0,0,x_size, y_size);
-      popMatrix();
+    if (playerInRange) {
+      if (playerGenDir > 45 || playerGenDir < -45) {
+        pushMatrix();
+        translate(x_pos, y_pos);
+        scale(-1.0, 1.0);
+        image(localSprite.get(frame + index), 0,0,x_size, y_size);
+        popMatrix();
+      }
+      else image(localSprite.get(frame + index), x_pos, y_pos, x_size, y_size);
     }
-    else image(localSprite.get(frame + index), x_pos, y_pos, x_size, y_size);
+    else {
+      if (currentDirection >= 90 || currentDirection < -90 || (currentDirection >= 90 && currentDirection < 270)) {
+        pushMatrix();
+        translate(x_pos, y_pos);
+        scale(-1.0, 1.0);
+        image(localSprite.get(frame + index), 0,0,x_size, y_size);
+        popMatrix();
+      }
+      else image(localSprite.get(frame + index), x_pos, y_pos, x_size, y_size);
+    }
     if (delay <= 10) delay ++;
     else {
       delay = 0;

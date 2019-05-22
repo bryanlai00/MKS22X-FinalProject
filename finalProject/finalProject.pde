@@ -14,9 +14,9 @@ void setup() {
   for (String str : spriteNames) {
      sprite.add(loadImage("data/sprites/" + str + ".png"));
   }
-  d = new Piranha_Plant(500, 800, 100, 100, 2, 300.0, 10, 120, iT, 1, false);
-  s = new Slime(width/2, height/2, 50, 50, 1, 200.0, 4, 120, iT, .5, false);
-  s2 = new Slime(200, 600, 50, 50, 1, 200.0, 4, 120, iT, .5, false);
+  d = new Piranha_Plant(500, 800, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false);
+  s = new Slime(width/2, height/2, 50, 50, 1, 200.0, 1, 4, 120, iT, .5, false);
+  s2 = new Slime(200, 600, 50, 50, 1, 200.0, 1, 4, 120, iT, .5, false);
   m.add(s);
   m.add(s2);
   m.add(d);

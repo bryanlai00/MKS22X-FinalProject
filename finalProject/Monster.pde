@@ -1,6 +1,6 @@
 abstract class Monster extends Thing implements Damageable, Movable{
-  int cHealth, mHealth, num_sprites, delay = 0, frame = 0, pathTimer, pathTime, index, invulTimer, invulTime;
-  float x_pos, y_pos, spawnX, spawnY, currentDirection, speed, currentSpeed, sightDistance, damage;
+  int num_sprites, delay = 0, frame = 0, pathTimer, pathTime, index, invulTimer, invulTime;
+  float x_pos, y_pos, spawnX, spawnY, currentDirection, speed, currentSpeed, sightDistance, damage, cHealth, mHealth;
   ArrayList<PImage> localSprite = new ArrayList<PImage>();
   ArrayList<String> localSpriteName = new ArrayList<String>();
   boolean isBoss, playerInRange;
@@ -10,7 +10,7 @@ abstract class Monster extends Thing implements Damageable, Movable{
   float getY() {return y_pos;}
   float getX_size() {return x_size;}
   float getY_size() {return y_size;}
-  Monster(float xcor, float ycor, float x_si, float y_si, float spe, float sight, int numSprites, int pT, int iT, float dam, boolean boss) {
+  Monster(float xcor, float ycor, float x_si, float y_si, float spe, float sight, float mH, int numSprites, int pT, int iT, float dam, boolean boss) {
     super(x_si, y_si);
     x_pos = xcor;
     y_pos = ycor;
@@ -19,6 +19,8 @@ abstract class Monster extends Thing implements Damageable, Movable{
     speed = spe;
     currentSpeed = spe;
     sightDistance = sight;
+    mHealth = mH;
+    cHealth = mH;
     num_sprites = numSprites;
     pathTimer = pT;
     pathTime = pT;
