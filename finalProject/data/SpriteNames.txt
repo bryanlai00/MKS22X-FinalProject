@@ -44,3 +44,4 @@ dragon_death_6
 dragon_death_7
 dragon_death_8
 dragon_death_9
+fireball

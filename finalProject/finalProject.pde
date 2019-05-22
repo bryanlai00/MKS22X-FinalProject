@@ -26,21 +26,17 @@ void setup() {
 void draw() {
   background(255);
   text(p.c_health + "", 50, 50);
-  text("(" + d.getX() + "," + d.getY(), 100, 100);
+  text(projectiles.toString(), 100, 100);
   fill(0, 102, 153);
   for (Monster mons : m) {
     mons.update(p);
     mons.move(mons.currentDirection);
     mons.display();
   }
-  for (Projectile pro : projectiles) {
-    int temp = projectiles.size();
-    pro.update();
-    if (projectiles.size() < temp) {
-     for (Projectile p : projectiles) p.setIndex(p.getIndex()-1); 
-    }
-    pro.move();
-    pro.display();
+  for (int i = projectiles.size() - 1; i >= 0; i--) {
+    projectiles.get(i).move();
+    projectiles.get(i).display();
+    projectiles.get(i).update();
   }
   //if(p.isTouching(s)) System.out.print("hi");
   //System.out.print(p.x_pos + ",");

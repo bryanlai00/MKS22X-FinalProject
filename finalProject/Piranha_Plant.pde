@@ -3,6 +3,7 @@ class Piranha_Plant extends Monster {
   PImage projectile;
   String phase;
   float sRF, playerGenDir;
+  int cooldown;
   Piranha_Plant(float xcor, float ycor, float x_size, float y_size, float spe, float sight, float mH, int numSprites, int pT, int iT, float dam, boolean boss) {
      super(xcor, ycor, x_size, y_size, spe, sight, mH, numSprites, pT, iT, dam, boss);
   for (int i = 0; i < spriteNames.length; i++) {
@@ -16,11 +17,11 @@ class Piranha_Plant extends Monster {
   }
   sRF = sight / 3;
   phase = "aoksdpok";
+  cooldown = 0;
   }
   void attack(Thing target, float num) {
-    Projectile p = new Projectile(x_pos, y_pos, 50, 50, num, 10, 60, projectile, (Player)target);
-    p.setIndex(projectiles.size());
-    projectiles.add(p);
+    Projectile p = new Projectile(x_pos, y_pos, 50, 50, num, 10, 15, projectile, (Player)target);
+    projectiles.add(projectiles.size(), p);
   }
   void move(float direction) {
       imageMode(CENTER);
@@ -44,6 +45,8 @@ class Piranha_Plant extends Monster {
     playerGenDir = (float)Math.toDegrees(Math.atan2((double)(p.y_pos - y_pos), (double)(p.x_pos - x_pos)));
     currentSpeed = speed;
     if (playerInRange) {
+        if (cooldown == 0) {attack(p, damage); cooldown = 60;}
+        else cooldown--;
         if (!safe) {
           currentDirection = 180 - (float)Math.toDegrees(Math.atan2((double)(p.y_pos - y_pos), (double)(p.x_pos - x_pos)));
         }
