@@ -12,7 +12,6 @@ class Slime extends Monster {
     ((Player)target).loseHealth(num);
   }
   void move(float direction) {
-      imageMode(CENTER);
       x_pos += currentSpeed * Math.cos(radians(direction));
       y_pos += currentSpeed * Math.sin(radians(direction));
   }

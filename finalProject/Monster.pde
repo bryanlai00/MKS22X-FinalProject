@@ -31,6 +31,7 @@ abstract class Monster extends Thing implements Damageable, Movable{
     index = 0;
   }
   void display() {
+    imageMode(CENTER);
     if (updateImageDir()) frame = 0;
     image(localSprite.get(frame + index), x_pos, y_pos, x_size, y_size);
     if (delay <= 10) delay ++;
