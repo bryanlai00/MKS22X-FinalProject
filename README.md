@@ -33,3 +33,8 @@ _________________________
 * added basic attack for slime (isTouching => loseHealth)
 * added invulnerability timers for Player and Monster when they are attacked
 * filled out all present methods for Monster class
+##### 5/21/19
+* start of piranha_plant class (name w.i.p.)
+* added sprites for piranha plant
+* added unique movement behavior for pirnha plant
+* started piranha plant attack function
