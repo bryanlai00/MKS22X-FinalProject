@@ -1,6 +1,6 @@
 class Player extends Thing implements Damageable, Collideable {
   int c_health, m_health, damage, gaugeValue, num_sprites, sprite_index, delay = 0, frame = 0;
-  String lastDirection;
+  String lastDirection = "right";
   float x_pos, y_pos, x_size, y_size, directionAngle;
   boolean isMoving, isRunning;
   boolean isLeft, isRight, isUp, isDown;
@@ -36,23 +36,19 @@ class Player extends Thing implements Damageable, Collideable {
   void display() {
     //Changes sprite_index based on buttons pressed.
       /* IF RUNNING Sprites Indexes 4-11*/
-      print("isRight: " + isRight);
-      print("isLeft: " + isLeft);
-      print("isUp: " + isUp);
-      print("isDown: " + isDown);
     if(isMoving) {
-      if(isRight) {
+      if(lastDirection.equals("right")) {
         sprite_index = 8;;
       }
-      else if(isLeft) {
+      else if(lastDirection.equals("left")) {
         sprite_index = 12;;
       }
     }
     else {
-      if(isLeft) {
+      if(lastDirection.equals("left")) {
         sprite_index = 4;
       }
-      else if(isRight){
+      else if(lastDirection.equals("right")){
         sprite_index = 0;
       }
     }
@@ -75,7 +71,15 @@ class Player extends Thing implements Damageable, Collideable {
     return dist(getX(), getY() , other.getX(), other.getY()) < x_size;
   }
   
-  void attack(Thing other, float num) {
+  void attack(Thing enemy, float num) {
+    float range = 1;
+    //If the distance is greater than the range, return and iterate with the next monster.
+    if(dist(enemy.x_pos, enemy.y_pos, x_pos, y_pos) < range) {
+      return;
+    }
+    float anglePosition = (float) Math.atan2(enemy.y_pos - y_pos, enemy.x_pos - x_pos);
+    print("Angle position: " + anglePosition + "\n");
+    
   }
   
   void move() {
@@ -100,6 +104,7 @@ class Player extends Thing implements Damageable, Collideable {
     float yChange = y_pos + speed*(int(isDown) - int(isUp));
     //List of x-statements to find angleDirection:
     //For basical cardinal directions:
+        print("direction angle" + directionAngle + "\n");
         if(isRight) {
           directionAngle = 0;
         }
@@ -132,11 +137,9 @@ class Player extends Thing implements Damageable, Collideable {
     y_pos = constrain(yChange, r, height - r);
     if(x_prev_pos != x_pos || y_prev_pos != y_pos) {
       isMoving = true;
-      print("isMoving is true \n");
     }
     else {
       isMoving = false;
-      print("isMoving is false \n"); 
     }
   }
   
@@ -169,7 +172,7 @@ class Player extends Thing implements Damageable, Collideable {
       arc(50, 50, 80, 80, 0, PI+QUARTER_PI, PIE);
  
     default:
-      return b;
+    return b;
     }
   }
 }

@@ -33,6 +33,7 @@ void draw() {
     mons.updateBehavior(p);
     mons.move(mons.currentDirection);
     mons.display();
+    p.attack(mons, 1);
   }
   //if(p.isTouching(s)) System.out.print("hi");
   //System.out.print(p.x_pos + ",");
@@ -41,6 +42,8 @@ void draw() {
   //System.out.print(s.y_pos);
   p.move();
   p.display();
+  textSize(32);
+  text(p.x_pos + p.y_pos, 30, 30);
 }
 
 void keyPressed() {
