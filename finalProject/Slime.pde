@@ -1,6 +1,6 @@
 class Slime extends Monster {
-  Slime(float xcor, float ycor, float x_size, float y_size, float spe, float sight, int numSprites, int pT, boolean boss) {
-     super(xcor, ycor, x_size, y_size, spe, sight, numSprites, pT, boss);
+  Slime(float xcor, float ycor, float x_size, float y_size, float spe, float sight, float mH, int numSprites, int pT, int iT, float dam, boolean boss) {
+     super(xcor, ycor, x_size, y_size, spe, sight, mH, numSprites, pT, iT, dam, boss);
   for (int i = 0; i < spriteNames.length; i++) {
      if (spriteNames[i].contains("slime")) {
        localSprite.add(sprite.get(i));
@@ -8,9 +8,10 @@ class Slime extends Monster {
      }
   }
   }
-  void attack(Thing other, float num) {}
+  void attack(Thing target, float num) {
+    ((Player)target).loseHealth(num);
+  }
   void move(float direction) {
-      imageMode(CENTER);
       x_pos += currentSpeed * Math.cos(radians(direction));
       y_pos += currentSpeed * Math.sin(radians(direction));
   }
@@ -19,6 +20,7 @@ class Slime extends Monster {
     if (playerInRange) {
       if (isTouching(p)){
         currentSpeed = 0;
+        attack(p, damage);
       }
       else {
         currentDirection = (float)Math.toDegrees(Math.atan2((double)(p.y_pos - y_pos), (double)(p.x_pos - x_pos)));

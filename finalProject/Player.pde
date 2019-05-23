@@ -1,7 +1,7 @@
 class Player extends Thing implements Damageable, Collideable {
-  int c_health, m_health, damage, gaugeValue, num_sprites, sprite_index, delay = 0, frame = 0;
+  int m_health, damage, gaugeValue, num_sprites, sprite_index, delay = 0, frame = 0, invulTimer, invulTime;
   String lastDirection = "right";
-  float x_pos, y_pos, x_size, y_size, directionAngle;
+  float x_pos, y_pos, x_size, y_size, directionAngle, c_health;
   boolean isMoving, isRunning;
   boolean isLeft, isRight, isUp, isDown;
   int[] abilities;
@@ -13,12 +13,14 @@ class Player extends Thing implements Damageable, Collideable {
   float getY_size() {return y_size;}
   
   //Takes in size then pos.
-  Player(int x_size, int y_size, int x_pos, int y_pos, int num_sprites, ArrayList<PImage> ls) {
+  Player(int x_size, int y_size, int x_pos, int y_pos, int iT, int num_sprites, ArrayList<PImage> ls) {
     super(x_size,y_size);
     this.x_size = x_size;
     this.y_size = y_size;
     this.x_pos = x_pos;
     this.y_pos = y_pos;
+    invulTimer = iT;
+    invulTime = iT;
     m_health = 3;
     c_health = 3;
     damage = 1;
@@ -62,7 +64,10 @@ class Player extends Thing implements Damageable, Collideable {
   }
   
   void loseHealth(float num) {
-    c_health -= (int) num;
+    if (invulTimer == invulTime) {
+      c_health -= num;
+      invulTimer = 0;
+    }
   }
   
   boolean isTouching(Thing other) {
@@ -98,7 +103,10 @@ class Player extends Thing implements Damageable, Collideable {
       //See if the difference angle is applicable for the coneSliceAngle:
       
     }
-    
+  }
+  
+  void update() {
+    if (invulTimer < invulTime) invulTimer++;
   }
   
   void move() {
