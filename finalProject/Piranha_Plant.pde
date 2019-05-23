@@ -20,8 +20,7 @@ class Piranha_Plant extends Monster {
   cooldown = 0;
   }
   void attack(Thing target, float num) {
-    Projectile p = new Projectile(x_pos, y_pos, 50, 50, num, 10, 15, projectile, (Player)target);
-    projectiles.add(projectiles.size(), p);
+    projectiles.add(0, new Projectile(x_pos, y_pos, 50, 50, num, 5, 60, projectile, (Player)target));
   }
   void move(float direction) {
       imageMode(CENTER);
@@ -45,10 +44,10 @@ class Piranha_Plant extends Monster {
     playerGenDir = (float)Math.toDegrees(Math.atan2((double)(p.y_pos - y_pos), (double)(p.x_pos - x_pos)));
     currentSpeed = speed;
     if (playerInRange) {
-        if (cooldown == 0) {attack(p, damage); cooldown = 60;}
+        if (cooldown == 0) {attack(p, damage); cooldown = 120;}
         else cooldown--;
         if (!safe) {
-          currentDirection = 180 - (float)Math.toDegrees(Math.atan2((double)(p.y_pos - y_pos), (double)(p.x_pos - x_pos)));
+          currentDirection = (float)Math.toDegrees(Math.atan2((double)(p.y_pos - y_pos), (double)(p.x_pos - x_pos))) - 180;
         }
         else currentDirection = (float)Math.toDegrees(Math.atan2((double)(p.y_pos - y_pos), (double)(p.x_pos - x_pos)));
     }
