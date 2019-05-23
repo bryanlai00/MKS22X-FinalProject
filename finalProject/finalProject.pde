@@ -3,7 +3,8 @@ import java.util.*;
 Player p;
 Slime s, s2;
 String[] spriteNames;
-String[] assetNames;
+String[] playerNames;
+ArrayList<OverworldObject> roomSprites = new ArrayList<OverworldObject>();
 ArrayList<Monster> m = new ArrayList<Monster>();
 ArrayList<PImage> sprite = new ArrayList<PImage>();
 ArrayList<PImage> assets = new ArrayList<PImage>();
@@ -18,13 +19,15 @@ void setup() {
   m.add(s);
   //m.add(s2);
   
-  //Player and room assets:
-  assetNames = loadStrings("player_room_assets/player_sprites.txt");
-  for (String s : assetNames) {
-    assets.add(loadImage("player_room_assets/" + s + ".png"));
+  //Player assets:
+  playerNames = loadStrings("player_assets/player_sprites.txt");
+  for (String s : playerNames) {
+    assets.add(loadImage("player_assets/" + s + ".png"));
   }
-  //4 stands for # of sprites for each PHASE. Not the number of sprites in total. 
-  p = new Player(70,70,300,300,4,assets);
+  //4 stands for # of sprites for each PHASE. Not the number of sprites in total. The value changes in differnet cases.
+  p = new Player(40,40,300,300,4,assets);
+  
+  //Room assets:
 }
 
 void draw() {

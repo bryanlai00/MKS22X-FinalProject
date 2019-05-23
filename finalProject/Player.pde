@@ -73,7 +73,7 @@ class Player extends Thing implements Damageable, Collideable {
   
   void attack(Thing enemy, float num) {
     float range = 100;
-    float coneSliceAngle = degrees(PI/4);
+    float coneSliceAngle = degrees(PI/5);
     textSize(13);
     text(dist(x_pos, y_pos, enemy.getX(), enemy.getY()), 100, 100);
     //If the distance is greater than the range, return and iterate with the next monster.
@@ -81,17 +81,23 @@ class Player extends Thing implements Damageable, Collideable {
       return;
     }
     else {
-      float anglePosition = degrees((float)Math.atan2(enemy.y_pos - y_pos, enemy.x_pos - x_pos));
+      float anglePosition = degrees((float)Math.atan2(enemy.getY() - y_pos, enemy.getX() - x_pos));
       textSize(13);
       text("Angle between monster and player: " + anglePosition, 100, 130);      
       float dif = Math.abs(directionAngle - anglePosition);
+      float rightConstraint = directionAngle + coneSliceAngle;
+      float leftConstraint = directionAngle - coneSliceAngle;
       if(dif > 180) {
-        dif = Math.abs(dif-360);
+        dif = Math.abs(360 - dif);
       }
-      if(dif > Math.abs(directionAngle - coneSliceAngle) && dif < Math.abs(directionAngle + coneSliceAngle)) {
-        print("enemy lost health");
+
+      print("\n left constraint: " + leftConstraint);
+      print("\n right constraint: " + rightConstraint);
+
+      if(dif < rightConstraint && dif > leftConstraint) {
+        print("\n enemy lost health");
       }
-      print("dif angle: " + dif);
+      print("\n dif angle: " + dif);  
       //See if the difference angle is applicable for the coneSliceAngle:
       
     }
@@ -128,23 +134,23 @@ class Player extends Thing implements Damageable, Collideable {
           directionAngle = 180;
         }
         else if(isDown) {
-          directionAngle = 270;
+          directionAngle = 90;
         }
         else if(isUp) {
-          directionAngle = 90;
+          directionAngle = 270;
         }
     //For combined directionAngles:
         if(isRight && isUp) {
-          directionAngle = 45;
-        }
-        else if(isRight && isDown) {
           directionAngle = 315;
         }
+        else if(isRight && isDown) {
+          directionAngle = 45;
+        }
         else if(isLeft && isUp) {
-          directionAngle = 135;
+          directionAngle = 225;
         }
         else if(isLeft && isDown) {
-          directionAngle = 225;
+          directionAngle = 135;
         }
         
     //See if moving.
