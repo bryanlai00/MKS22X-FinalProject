@@ -17,6 +17,7 @@ void setup() {
   s = new Slime(width/2, height/2, 50, 50, 1, 200.0, 4, 120, false);
   s2 = new Slime(200, 600, 50, 50, 1, 200.0, 4, 120, false);
   m.add(s);
+  s.cHealth = 3;
   //m.add(s2);
   
   //Player assets:
@@ -39,8 +40,9 @@ void draw() {
     mons.updateBehavior(p);
     mons.move(mons.currentDirection);
     mons.display();
-    p.attack(mons, 1);
+    text("Monster health: " + mons.cHealth, 500, 50);
   }
+
   //if(p.isTouching(s)) System.out.print("hi");
   //System.out.print(p.x_pos + ",");
   //System.out.print(p.y_pos);
@@ -51,9 +53,9 @@ void draw() {
 }
 
 void keyPressed() {
-  p.setMove(keyCode, true);
+  p.setMove(keyCode, true, m);
 }
 
 void keyReleased() {
-  p.setMove(keyCode, false);
+  p.setMove(keyCode, false, m);
 }
