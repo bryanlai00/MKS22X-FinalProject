@@ -3,11 +3,12 @@ import java.util.*;
 Player p;
 Slime s, s2;
 Piranha_Plant d, d2;
-String[] spriteNames;
+String[] spriteNames, hudNames;
 String[] assetNames;
 ArrayList<Monster> m = new ArrayList<Monster>();
 ArrayList<PImage> sprite = new ArrayList<PImage>();
 ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
+ArrayList<PImage> hud = new ArrayList<PImage>();
 int iT = 60;
 ArrayList<PImage> assets = new ArrayList<PImage>();
 
@@ -17,6 +18,7 @@ void setup() {
   for (String str : spriteNames) {
      sprite.add(loadImage("data/sprites/" + str + ".png"));
   }
+  
   d = new Piranha_Plant(500, 800, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false);
   d2 = new Piranha_Plant(500, 200, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false);
   s = new Slime(width/2, height/2, 50, 50, 1, 200.0, 1, 4, 120, iT, .5, false);
