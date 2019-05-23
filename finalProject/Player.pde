@@ -73,7 +73,7 @@ class Player extends Thing implements Damageable, Collideable {
   
   void attack(Thing enemy, float num) {
     float range = 100;
-    float coneSliceAngle = degrees(PI/5);
+    float coneSliceAngle = degrees(PI/4);
     textSize(13);
     text(dist(x_pos, y_pos, enemy.getX(), enemy.getY()), 100, 100);
     //If the distance is greater than the range, return and iterate with the next monster.
@@ -190,7 +190,7 @@ class Player extends Thing implements Damageable, Collideable {
     case 'Z':
       for(Monster mons : m) {
         p.attack(mons, 1);
-        arc(x_pos, y_pos, 80, 80, radians(directionAngle) - PI/2, PI/2 + radians(directionAngle));
+        arc(x_pos, y_pos, 80, 80, radians(directionAngle) - PI/5, PI/5 + radians(directionAngle));
       }
  
     default:
