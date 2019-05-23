@@ -83,21 +83,18 @@ class Player extends Thing implements Damageable, Collideable {
     else {
       float anglePosition = degrees((float)Math.atan2(enemy.getY() - y_pos, enemy.getX() - x_pos));
       textSize(13);
-      text("Angle between monster and player: " + anglePosition, 100, 130);      
-      float dif = Math.abs(directionAngle - anglePosition);
+      text("Angle between monster and player: " + anglePosition, 100, 130);    
+      //If angle is less than 0:
       float rightConstraint = directionAngle + coneSliceAngle;
       float leftConstraint = directionAngle - coneSliceAngle;
-      if(dif > 180) {
-        dif = Math.abs(360 - dif);
-      }
 
       print("\n left constraint: " + leftConstraint);
       print("\n right constraint: " + rightConstraint);
 
-      if(dif < rightConstraint && dif > leftConstraint) {
+      if(anglePosition < rightConstraint && anglePosition > leftConstraint) {
         print("\n enemy lost health");
       }
-      print("\n dif angle: " + dif);  
+      print("\n anglePosition: " + anglePosition);  
       //See if the difference angle is applicable for the coneSliceAngle:
       
     }
@@ -110,7 +107,7 @@ class Player extends Thing implements Damageable, Collideable {
     double s = Math.pow(y_size, 2);
     float r = (float)Math.sqrt(f + s); 
     /*Speed for movement 4 for running, 2 for normal*/
-    float speed;
+       float speed;
     if(isRunning) {
       speed = 4;
     }
@@ -137,17 +134,17 @@ class Player extends Thing implements Damageable, Collideable {
           directionAngle = 90;
         }
         else if(isUp) {
-          directionAngle = 270;
+          directionAngle = -90;
         }
     //For combined directionAngles:
         if(isRight && isUp) {
-          directionAngle = 315;
+          directionAngle = -45;
         }
         else if(isRight && isDown) {
           directionAngle = 45;
         }
         else if(isLeft && isUp) {
-          directionAngle = 225;
+          directionAngle = -135;
         }
         else if(isLeft && isDown) {
           directionAngle = 135;
@@ -191,7 +188,7 @@ class Player extends Thing implements Damageable, Collideable {
       return isRunning;
       
     case 'Z':
-      arc(x_pos, y_pos, 80, 80, radians(directionAngle), PI/2 + radians(directionAngle));
+      arc(x_pos, y_pos, 80, 80, radians(directionAngle) - PI/2, PI/2 + radians(directionAngle));
       noFill();
  
     default:
