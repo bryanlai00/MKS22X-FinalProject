@@ -15,12 +15,12 @@ class Piranha_Plant extends Monster {
        projectile = sprite.get(i);
      }
   }
-  sRF = sight / 3;
+  sRF = sight/3;
   phase = "aoksdpok";
   cooldown = 0;
   }
   void attack(Thing target, float num) {
-    projectiles.add(0, new Projectile(x_pos, y_pos, 50, 50, num, 5, 60, projectile, (Player)target));
+    projectiles.add(0, new Projectile(x_pos, y_pos, 35, 35, num, 5, 60, projectile, (Player)target));
   }
   void move(float direction) {
       imageMode(CENTER);
@@ -49,9 +49,12 @@ class Piranha_Plant extends Monster {
         if (!safe) {
           currentDirection = (float)Math.toDegrees(Math.atan2((double)(p.y_pos - y_pos), (double)(p.x_pos - x_pos))) - 180;
         }
-        else currentDirection = (float)Math.toDegrees(Math.atan2((double)(p.y_pos - y_pos), (double)(p.x_pos - x_pos)));
+        else {
+          currentDirection = (float)Math.toDegrees(Math.atan2((double)(p.y_pos - y_pos), (double)(p.x_pos - x_pos)));
+        }
     }
     else {
+      cooldown = 0;
       if (pathTimer <= pathTime && pathTimer > pathTime/2) currentSpeed = speed;
       else if (pathTimer <= 0 && pathTimer > -pathTime/2) {
         currentSpeed = speed;

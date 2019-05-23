@@ -59,8 +59,6 @@ abstract class Monster extends Thing implements Damageable, Movable{
   boolean isMoving() {
     return currentSpeed > 0;
   }
-  abstract void move(float direction);
-  
   
   boolean updateImageDir() {
     String temp = currentDir;
@@ -86,4 +84,6 @@ abstract class Monster extends Thing implements Damageable, Movable{
     updateInvul();
     updateBehavior(p);
   }
+  abstract void attack(Thing other, float num);
+  abstract void move(float direction);
 }
