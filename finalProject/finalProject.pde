@@ -3,6 +3,7 @@ import java.util.*;
 Player p;
 Slime s, s2;
 Piranha_Plant d, d2;
+HUD h;
 String[] spriteNames, hudNames;
 String[] assetNames;
 ArrayList<Monster> m = new ArrayList<Monster>();
@@ -18,7 +19,10 @@ void setup() {
   for (String str : spriteNames) {
      sprite.add(loadImage("data/sprites/" + str + ".png"));
   }
-  
+  hudNames = loadStrings("data/hudNames.txt");
+  for (String str : hudNames) {
+     hud.add(loadImage("data/hud/" + str + ".png"));
+  }
   d = new Piranha_Plant(500, 800, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false);
   d2 = new Piranha_Plant(500, 200, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false);
   s = new Slime(width/2, height/2, 50, 50, 1, 200.0, 1, 4, 120, iT, .5, false);
@@ -37,6 +41,7 @@ void setup() {
   }
   //4 stands for # of sprites for each PHASE. Not the number of sprites in total. 
   p = new Player(70,70,300,300,4,assets);
+  h = new HUD(p.m_health, 20, 20, 50);
 }
 
 void draw() {
@@ -65,6 +70,8 @@ void draw() {
   p.update();
   p.move();
   p.display();
+  h.update(p.c_health);
+  h.display();
 }
 
 void keyPressed() {
