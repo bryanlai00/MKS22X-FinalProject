@@ -1,4 +1,3 @@
 heart_empty
 heart_full
 heart_half
-
