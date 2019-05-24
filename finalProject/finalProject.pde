@@ -3,6 +3,7 @@ import java.util.*;
 Player p;
 Slime s, s2;
 Piranha_Plant d;
+OverworldObject tile;
 String[] spriteNames;
 String[] playerNames;
 String[] objectNames;
@@ -10,6 +11,7 @@ ArrayList<OverworldObject> roomSprites = new ArrayList<OverworldObject>();
 ArrayList<Monster> m = new ArrayList<Monster>();
 ArrayList<PImage> sprite = new ArrayList<PImage>();
 ArrayList<PImage> assets = new ArrayList<PImage>();
+ArrayList<PImage> room_assets = new ArrayList<PImage>();
 ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 int iT = 60;
 void setup() {
@@ -37,6 +39,11 @@ void setup() {
   
   //Room assets:
   objectNames = loadStrings("data/room_sprites.txt");
+  for(int w = 0; w < 1000; w += 50) {
+    for(int l = 0; l < 1000; l += 50) {
+      roomSprites.add(new OverworldObject(w, l,50,50,loadImage("data/room_player_assets/wall_hole_1.png"), false));
+    }
+  }
   //
 }
 
@@ -47,6 +54,9 @@ void draw() {
   text(p.c_health + "", 50, 50);
   text(projectiles.toString(), 100, 100);
   fill(0, 102, 153);
+  for (OverworldObject o : roomSprites) {
+    o.display();
+  }
   for (Monster mons : m) {
     mons.update(p);
     mons.move(mons.currentDirection);
