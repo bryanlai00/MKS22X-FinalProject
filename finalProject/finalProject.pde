@@ -5,6 +5,7 @@ Slime s, s2;
 Piranha_Plant d;
 String[] spriteNames;
 String[] playerNames;
+String[] objectNames;
 ArrayList<OverworldObject> roomSprites = new ArrayList<OverworldObject>();
 ArrayList<Monster> m = new ArrayList<Monster>();
 ArrayList<PImage> sprite = new ArrayList<PImage>();
@@ -27,14 +28,16 @@ void setup() {
   //m.add(s2);
   
   //Player assets:
-  playerNames = loadStrings("player_assets/player_sprites.txt");
+  playerNames = loadStrings("data/player_sprites.txt");
   for (String s : playerNames) {
-    assets.add(loadImage("player_assets/" + s + ".png"));
+    assets.add(loadImage("data/room_player_assets/" + s + ".png"));
   }
   //4 stands for # of sprites for each PHASE. Not the number of sprites in total. The value changes in differnet cases.
   p = new Player(40,40,300,300,iT,4,assets);
   
   //Room assets:
+  objectNames = loadStrings("data/room_sprites.txt");
+  //
 }
 
 void draw() {

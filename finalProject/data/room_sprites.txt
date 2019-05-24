@@ -1,0 +1,1 @@
+wall_hole_1.png 30
