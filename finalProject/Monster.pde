@@ -77,13 +77,18 @@ abstract class Monster extends Thing implements Damageable, Movable{
     return false;
   }
   void updateInvul() {
-    if (invulTimer < invulTime) invulTimer++;
+    if (invulTimer < invulTime) {
+      invulTimer++;
+      if (invulTimer % 10 < 5) tint(255, 0, 0);
+      else noTint();
+    }
+    else noTint();
   }
   abstract void updateBehavior(Player p);
+  abstract void attack(Thing other, float num);
+  abstract void move(float direction);
   void update(Player p) {
     updateInvul();
     updateBehavior(p);
   }
-  abstract void attack(Thing other, float num);
-  abstract void move(float direction);
 }

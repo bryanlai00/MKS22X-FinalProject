@@ -1,7 +1,7 @@
 class Player extends Thing implements Damageable, Collideable {
   int m_health, damage, gaugeValue, num_sprites, sprite_index, delay = 0, frame = 0, invulTimer, invulTime;
   String lastDirection = "right";
-  float x_pos, y_pos, x_size, y_size, c_health, directionAngle;
+  float x_pos, y_pos, x_size, y_size, directionAngle, c_health;
   boolean isMoving, isRunning;
   boolean isLeft, isRight, isUp, isDown;
   int[] abilities;
@@ -13,8 +13,9 @@ class Player extends Thing implements Damageable, Collideable {
   float getY_size() {return y_size;}
   
   //Takes in size then pos.
+
   //Player(int x_size, int y_size, int x_pos, int y_pos, int iT, PImage s) {
-  Player(int x_size, int y_size, int x_pos, int y_pos, int num_sprites, ArrayList<PImage> ls) {
+  Player(int x_size, int y_size, int x_pos, int y_pos, int iT, int num_sprites, ArrayList<PImage> ls) {
     super(x_size,y_size);
     this.x_size = x_size;
     this.y_size = y_size;
@@ -77,9 +78,6 @@ class Player extends Thing implements Damageable, Collideable {
     return dist(getX(), getY() , other.getX(), other.getY()) < x_size;
   }
   
-  void update() {
-    if (invulTimer < invulTime) invulTimer++;
-  }
   void attack(Thing enemy, float num) {
     float range = 100;
     float coneSliceAngle = degrees(PI/4);
@@ -90,21 +88,32 @@ class Player extends Thing implements Damageable, Collideable {
       return;
     }
     else {
-      float anglePosition = degrees((float)Math.atan2(enemy.y_pos - y_pos, enemy.x_pos - x_pos));
+      float anglePosition = degrees((float)Math.atan2(enemy.getY() - y_pos, enemy.getX() - x_pos));
       textSize(13);
-      text("Angle between monster and player: " + anglePosition, 100, 130);      
-      float dif = Math.abs(directionAngle - anglePosition);
-      if(dif > 180) {
-        dif = Math.abs(dif-360);
+      text("Angle between monster and player: " + anglePosition, 100, 130);    
+      //If angle is less than 0:
+      float rightConstraint = directionAngle + coneSliceAngle;
+      float leftConstraint = directionAngle - coneSliceAngle;
+      /*
+      print("\n left constraint: " + leftConstraint);
+      print("\n right constraint: " + rightConstraint);
+      */
+      if(anglePosition < rightConstraint && anglePosition > leftConstraint) {
+        ((Monster)enemy).loseHealth(num);
       }
-      if(dif > Math.abs(directionAngle - coneSliceAngle) && dif < Math.abs(directionAngle + coneSliceAngle)) {
-        print("enemy lost health");
-      }
-      print("dif angle: " + dif);
+      print("\n anglePosition: " + anglePosition);  
       //See if the difference angle is applicable for the coneSliceAngle:
       
     }
-   
+  }
+  
+  void update() {
+    if (invulTimer < invulTime) {
+      invulTimer++;
+      if (invulTimer % 10 < 5) tint(255, 0, 0);
+      else noTint();
+    }
+    else noTint();
   }
   
   void move() {
@@ -113,7 +122,7 @@ class Player extends Thing implements Damageable, Collideable {
     double s = Math.pow(y_size, 2);
     float r = (float)Math.sqrt(f + s); 
     /*Speed for movement 4 for running, 2 for normal*/
-    float speed;
+       float speed;
     if(isRunning) {
       speed = 4;
     }
@@ -137,23 +146,23 @@ class Player extends Thing implements Damageable, Collideable {
           directionAngle = 180;
         }
         else if(isDown) {
-          directionAngle = 270;
+          directionAngle = 90;
         }
         else if(isUp) {
-          directionAngle = 90;
+          directionAngle = -90;
         }
     //For combined directionAngles:
         if(isRight && isUp) {
-          directionAngle = 45;
+          directionAngle = -45;
         }
         else if(isRight && isDown) {
-          directionAngle = 315;
+          directionAngle = 45;
         }
         else if(isLeft && isUp) {
-          directionAngle = 135;
+          directionAngle = -135;
         }
         else if(isLeft && isDown) {
-          directionAngle = 225;
+          directionAngle = 135;
         }
         
     //See if moving.
@@ -168,7 +177,7 @@ class Player extends Thing implements Damageable, Collideable {
     }
   }
   
-  boolean setMove(int k, boolean b) {
+  boolean setMove(int k, boolean b, ArrayList<Monster> m) {
     //Create switch/case to set the boolean variables for up, down, left and right.
     switch (k) {
     case UP:
@@ -194,8 +203,10 @@ class Player extends Thing implements Damageable, Collideable {
       return isRunning;
       
     case 'Z':
-      arc(x_pos, y_pos, 80, 80, radians(directionAngle), PI/2 + radians(directionAngle));
-      noFill();
+      for(Monster mons : m) {
+        p.attack(mons, 1);
+        arc(x_pos, y_pos, 80, 80, radians(directionAngle) - PI/5, PI/5 + radians(directionAngle));
+      }
  
     default:
     return b;

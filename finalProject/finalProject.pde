@@ -4,14 +4,14 @@ Player p;
 Slime s, s2;
 Piranha_Plant d, d2;
 HUD h;
-String[] spriteNames, hudNames;
-String[] assetNames;
+String[] spriteNames, hudNames, assetNames, playerNames;
 ArrayList<Monster> m = new ArrayList<Monster>();
+ArrayList<OverworldObject> roomSprites = new ArrayList<OverworldObject>();
 ArrayList<PImage> sprite = new ArrayList<PImage>();
+ArrayList<PImage> assets = new ArrayList<PImage>();
 ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 ArrayList<PImage> hud = new ArrayList<PImage>();
 int iT = 60;
-ArrayList<PImage> assets = new ArrayList<PImage>();
 
 void setup() {
   size(1000,1000);
@@ -31,31 +31,34 @@ void setup() {
   m.add(s2);
   m.add(d);
   m.add(d2);
-  //p = new Player(60,60,300,300,iT,loadImage("hollow_knight.jpg"));
-  //m.add(s2);
-  
-  //Player and room assets:
-  assetNames = loadStrings("player_room_assets/player_sprites.txt");
-  for (String s : assetNames) {
-    assets.add(loadImage("player_room_assets/" + s + ".png"));
+  //Player assets:
+  playerNames = loadStrings("player_assets/player_sprites.txt");
+  for (String s : playerNames) {
+    assets.add(loadImage("player_assets/" + s + ".png"));
   }
-  //4 stands for # of sprites for each PHASE. Not the number of sprites in total. 
-  p = new Player(70,70,300,300,4,assets);
+  //4 stands for # of sprites for each PHASE. Not the number of sprites in total. The value changes in differnet cases.
+  p = new Player(40,40,300,300,iT,4,assets);
   h = new HUD(p.m_health, 20, 20, 50);
+  //Room assets:
+
 }
 
 void draw() {
   background(255);
-  text(p.c_health + "", 50, 50);
-  text(projectiles.toString(), 100, 100);
-  textSize(32);
-  text(p.x_pos + " " + p.y_pos, 50, 50);
+  //text(p.c_health + "", 50, 50);
+  //text(projectiles.toString(), 100, 100);
+  //textSize(32);
+  //text(p.x_pos + " " + p.y_pos, 50, 50);
+  //textSize(32);
+  //text(p.x_pos + " " + p.y_pos, 50, 50);
+  //text(p.c_health + "", 50, 50);
+  //text(projectiles.toString(), 100, 100);
   fill(0, 102, 153);
   for (Monster mons : m) {
     mons.update(p);
     mons.move(mons.currentDirection);
     mons.display();
-    p.attack(mons, 1);
+    text("Monster health: " + mons.cHealth, 500, 50);
   }
   for (int i = projectiles.size() - 1; i >= 0; i--) {
     projectiles.get(i).move();
@@ -75,9 +78,9 @@ void draw() {
 }
 
 void keyPressed() {
-  p.setMove(keyCode, true);
+  p.setMove(keyCode, true, m);
 }
 
 void keyReleased() {
-  p.setMove(keyCode, false);
+  p.setMove(keyCode, false, m);
 }
