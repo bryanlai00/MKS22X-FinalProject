@@ -33,11 +33,19 @@ _________________________
 * added basic attack for slime (isTouching => loseHealth)
 * added invulnerability timers for Player and Monster when they are attacked
 * filled out all present methods for Monster class
-* Added sprites and worked on movement for the player.
+* added sprites and worked on movement for the player
 ##### 5/21/19
 * start of piranha_plant class (name w.i.p.)
 * added sprites for piranha plant
 * added unique movement behavior for pirnha plant
 * started piranha plant attack function
-* Begin researching on attacking algorithm for player
-* Worked on player sprites and successfully solved movement issues,
+* began research on attacking algorithm for player
+* worked on player sprites and successfully solved movement issues
+##### 5/22/19
+* added Projectile class
+* made working projectiles for Piranha Plant, fixing projectile storage and registering damage
+* implemented image for Piranha Plant projectile, called fireball
+##### 5/23/19
+* started work on the HUD
+* added heart sprites to the file
+* HUD now displays player's current health in increments of half a heart
