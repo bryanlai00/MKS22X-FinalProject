@@ -107,8 +107,9 @@ class Player extends Thing implements Damageable, Collideable {
     }
   }
   
-  void update() {
+  void update(HUD h) {
     if (invulTimer < invulTime) {
+      h.flashTimer = invulTimer;
       invulTimer++;
       if (invulTimer % 10 < 5) tint(255, 0, 0);
       else noTint();

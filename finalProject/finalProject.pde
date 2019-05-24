@@ -70,7 +70,7 @@ void draw() {
   //System.out.print(p.y_pos);
   //System.out.print(" " + s.x_pos + ",");
   //System.out.print(s.y_pos);
-  p.update();
+  p.update(h);
   p.move();
   p.display();
   h.update(p.c_health);
