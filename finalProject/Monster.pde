@@ -1,6 +1,6 @@
 abstract class Monster extends Thing implements Damageable, Movable{
-  int num_sprites, delay = 0, frame = 0, pathTimer, pathTime, index, invulTimer, invulTime;
-  float x_pos, y_pos, spawnX, spawnY, currentDirection, speed, currentSpeed, sightDistance, damage, cHealth, mHealth;
+  int num_sprites, delay = 0, frame = 0, pathTimer, pathTime, index, invulTimer, invulTime, healthTimer;
+  float x_pos, y_pos, spawnX, spawnY, healthBarSize, currentDirection, speed, currentSpeed, sightDistance, damage, cHealth, mHealth;
   ArrayList<PImage> localSprite = new ArrayList<PImage>();
   ArrayList<String> localSpriteName = new ArrayList<String>();
   boolean isBoss, playerInRange;
@@ -12,6 +12,7 @@ abstract class Monster extends Thing implements Damageable, Movable{
   float getY_size() {return y_size;}
   Monster(float xcor, float ycor, float x_si, float y_si, float spe, float sight, float mH, int numSprites, int pT, int iT, float dam, boolean boss) {
     super(x_si, y_si);
+    healthBarSize = x_size;
     x_pos = xcor;
     y_pos = ycor;
     spawnX = xcor;
@@ -42,11 +43,24 @@ abstract class Monster extends Thing implements Damageable, Movable{
       if (frame + 1 < num_sprites) frame ++;
       else frame = 0;
     }
+    hBarDisplay();
+  }
+  void hBarDisplay() {
+    if (healthTimer > 0) {
+      healthTimer--;
+      noStroke();
+      fill(0,255,0);
+      rect(x_pos - .5 * x_size, y_pos - y_size / 2, healthBarSize * (cHealth / mHealth), 10);
+      stroke(0,0,0);
+      noFill();
+      rect(x_pos - .5 * x_size, y_pos - y_size / 2, healthBarSize, 10);
+    }
   }
   void loseHealth(float num) {
     if (invulTimer == invulTime) {
       cHealth -= num;
       invulTimer = 0;
+      healthTimer = 240;
     }
   }
   void checkForPlayer(Player p) {
@@ -84,11 +98,11 @@ abstract class Monster extends Thing implements Damageable, Movable{
     }
     else noTint();
   }
-  abstract void updateBehavior(Player p);
-  abstract void attack(Thing other, float num);
-  abstract void move(float direction);
   void update(Player p) {
     updateInvul();
     updateBehavior(p);
   }
+  abstract void updateBehavior(Player p);
+  abstract void attack(Thing other, float num);
+  abstract void move(float direction);
 }

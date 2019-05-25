@@ -25,12 +25,13 @@ void setup() {
   }
   d = new Piranha_Plant(500, 800, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false);
   d2 = new Piranha_Plant(500, 200, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false);
-  s = new Slime(width/2, height/2, 50, 50, 1, 200.0, 1, 4, 120, iT, .5, false);
+  s = new Slime(width/2, height/2, 50, 50, 1, 200.0, 4, 4, 120, iT, .5, false);
   s2 = new Slime(200, 600, 50, 50, 1, 200.0, 1, 4, 120, iT, .5, false);
   m.add(s);
   m.add(s2);
   m.add(d);
   m.add(d2);
+
   //Player assets:
   playerNames = loadStrings("player_assets/player_sprites.txt");
   for (String s : playerNames) {
@@ -54,11 +55,13 @@ void draw() {
   //text(p.c_health + "", 50, 50);
   //text(projectiles.toString(), 100, 100);
   fill(0, 102, 153);
-  for (Monster mons : m) {
-    mons.update(p);
-    mons.move(mons.currentDirection);
-    mons.display();
-    text("Monster health: " + mons.cHealth, 500, 50);
+  for (int mons = m.size() - 1; mons >= 0; mons--) {
+    m.get(mons).update(p);
+    m.get(mons).move(m.get(mons).currentDirection);
+    m.get(mons).display();
+    for (int i = m.size() - 1; i >= 0; i--) {
+      if (m.get(i).cHealth <= 0) m.remove(i);
+    }
   }
   for (int i = projectiles.size() - 1; i >= 0; i--) {
     projectiles.get(i).move();

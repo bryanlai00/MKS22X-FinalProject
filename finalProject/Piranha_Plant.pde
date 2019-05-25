@@ -114,5 +114,6 @@ class Piranha_Plant extends Monster {
       if (frame + 1 < num_sprites) frame ++;
       else frame = 0;
     }
+    hBarDisplay();
   }
 }
