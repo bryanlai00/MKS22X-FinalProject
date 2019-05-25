@@ -49,3 +49,7 @@ _________________________
 * started work on the HUD
 * added heart sprites to the file
 * HUD now displays player's current health in increments of half a heart
+##### 5/24/19
+* added flashing red for sprites when they are damaged respectively
+* added and simple health bars => displayed over monsters' head when damaged and linger for some time
+* implemented death animations for the existing monsters (Slime and Piranha Plant)
