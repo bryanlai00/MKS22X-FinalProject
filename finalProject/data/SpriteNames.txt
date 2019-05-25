@@ -14,6 +14,14 @@ slime_right_0
 slime_right_1
 slime_right_2
 slime_right_3
+slime_death_0
+slime_death_1
+slime_death_2
+slime_death_3
+slime_death_4
+slime_death_5
+slime_death_6
+slime_death_7
 dragon_idle_0
 dragon_idle_1
 dragon_idle_2

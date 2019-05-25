@@ -60,8 +60,9 @@ void draw() {
     m.get(mons).move(m.get(mons).currentDirection);
     m.get(mons).display();
     for (int i = m.size() - 1; i >= 0; i--) {
-      if (m.get(i).cHealth <= 0) m.remove(i);
+      if (m.get(i).cHealth <= 0 && m.get(i).getDeathTimer() == 0) m.remove(i);
     }
+  print(s2.num_sprites);
   }
   for (int i = projectiles.size() - 1; i >= 0; i--) {
     projectiles.get(i).move();

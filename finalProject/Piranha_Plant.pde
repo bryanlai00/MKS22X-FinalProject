@@ -67,13 +67,14 @@ class Piranha_Plant extends Monster {
       }
       pathTimer--;
     }
+    if (cHealth <= 0) currentSpeed = 0;
   }
   boolean updateImageDir() {
     String temp = phase;
-    if (playerInRange) {
+    if (cHealth <= 0) {phase = "death"; deathTimer--;}
+    else if (playerInRange) {
       phase = "attack";
     }
-    else if (cHealth <= 0) phase = "death";
     else phase = "idle";
     if (!temp.equals(phase)) {
       for (int i = 0; i < localSpriteName.size(); i++) {
