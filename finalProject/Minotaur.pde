@@ -5,7 +5,7 @@ class Minotaur extends Monster {
   boolean reachable = false;
   Minotaur(float xcor, float ycor, float x_size, float y_size, float spe, float sight, float mH, int numSprites, int pT, int iT, float dam, boolean boss, float rea) {
      super(xcor, ycor, x_size, y_size, spe, sight, mH, numSprites, pT, iT, dam, boss);
-     reach = rea;
+     reach = rea * 1.5;
      for (int i = 0; i < spriteNames.length; i++) {
        if (spriteNames[i].contains("minotaur")) {
          localSprite.add(sprite.get(i));
@@ -13,9 +13,9 @@ class Minotaur extends Monster {
        }
      }
      phase = "aoksdpok";
-     cooldown = 120;
+     cooldown = 90;
      attackPhase = 0;
-     deathTimer *= 2;
+     deathTimer = 45;
   }
   void attack(Thing target, float num) {
     float coneSliceAngle = degrees(PI/2);
@@ -67,7 +67,7 @@ class Minotaur extends Monster {
       }
       else image(localSprite.get(frame + index), x_pos, y_pos);
     }
-    if (delay <= 10) delay ++;
+    if (delay <= 5) delay ++;
     else {
       delay = 0;
       if (frame + 1 < num_sprites) frame ++;
@@ -90,18 +90,19 @@ class Minotaur extends Monster {
   }
   boolean updateImageDir() {
     String temp = phase;
-    if (cHealth <= 0) {phase = "death"; deathTimer--; num_sprites = 9;}
+    if (cHealth <= 0) {phase = "death"; num_sprites = 9; deathTimer--;}
     else if (attackPhase == 0) {
       if (playerInRange) {
-        if (reachable && playerGenDir < 0 && cooldown == 0) {phase = "upswing"; num_sprites = 9; attackPhase = 90;}
-        else if (reachable && playerGenDir >= 0 && cooldown == 0) {phase = "downswing"; attackPhase = 90;}
+        if (reachable && playerGenDir < 0 && cooldown < 40) {phase = "upswing"; num_sprites = 9; attackPhase = 45;}
+        else if (reachable && playerGenDir >= 0 && cooldown < 40) {phase = "downswing"; num_sprites = 12; attackPhase = 45;}
         else if (reachable) {phase = "idle"; num_sprites = 5;}
-        else {phase = "move"; num_sprites = 13;}
+        else {phase = "move"; num_sprites = 8;}
       }
-      else if (isMoving()) {phase = "move"; num_sprites = 13;}
+      else if (isMoving()) {phase = "move"; num_sprites = 8;}
       else {phase = "idle"; num_sprites = 5;}
     }
-    if (attackPhase > 0) attackPhase--;
+    else attackPhase--;
+    
     if (!temp.equals(phase)) {
       for (int i = 0; i < localSpriteName.size(); i++) {
         if (localSpriteName.get(i).contains(phase)) {
@@ -120,7 +121,7 @@ class Minotaur extends Monster {
       if (playerInRange) {
         if (reachable){
           currentSpeed = 0;
-          if (cooldown == 0) {attack(p, damage); cooldown = 120; attackDelay = 30;}
+          if (cooldown == 0) {cooldown = 120; attackDelay = 10;}
           else cooldown--;
           if (attackDelay == 0) attack(p, damage);
         }
@@ -130,6 +131,7 @@ class Minotaur extends Monster {
         }
       }
       else {
+        cooldown = 180;
         if (pathTimer <= pathTime && pathTimer > pathTime/2) currentSpeed = speed;
         else if (pathTimer <= 0 && pathTimer > -pathTime/2) {
           currentSpeed = speed;

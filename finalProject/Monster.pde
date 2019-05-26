@@ -36,18 +36,6 @@ abstract class Monster extends Thing implements Damageable, Movable{
     index = 0;
     deathTimer = 10 * numSprites;
   }
-  void display() {
-    imageMode(CENTER);
-    if (updateImageDir()) frame = 0;
-    image(localSprite.get(frame + index), x_pos, y_pos, x_size, y_size);
-    if (delay <= 10) delay ++;
-    else {
-      delay = 0;
-      if (frame + 1 < num_sprites) frame ++;
-      else frame = 0;
-    }
-    hBarDisplay();
-  }
   void hBarDisplay() {
     if (healthTimer > 0) {
       healthTimer--;
@@ -88,6 +76,7 @@ abstract class Monster extends Thing implements Damageable, Movable{
     updateInvul();
     updateBehavior(p);
   }
+  abstract void display();
   abstract boolean updateImageDir();
   abstract void updateBehavior(Player p);
   abstract void attack(Thing other, float num);

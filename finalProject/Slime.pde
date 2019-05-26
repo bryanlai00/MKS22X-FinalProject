@@ -9,6 +9,18 @@ class Slime extends Monster {
      }
      deathTimer *= 2;
   }
+  void display() {
+    imageMode(CENTER);
+    if (updateImageDir()) frame = 0;
+    image(localSprite.get(frame + index), x_pos, y_pos, x_size, y_size);
+    if (delay <= 10) delay ++;
+    else {
+      delay = 0;
+      if (frame + 1 < num_sprites) frame ++;
+      else frame = 0;
+    }
+    hBarDisplay();
+  }
   void attack(Thing target, float num) {
     if (cHealth > 0) ((Player)target).loseHealth(num);
   }

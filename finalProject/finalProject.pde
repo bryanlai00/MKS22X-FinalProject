@@ -29,10 +29,10 @@ void setup() {
   s = new Slime(width/2, height/2, 50, 50, 1, 200.0, 4, 4, 120, iT, .5, false);
   s2 = new Slime(200, 600, 50, 50, 1, 200.0, 1, 4, 120, iT, .5, false);
   min = new Minotaur(300, 600, 150, 150, 1.5, 400.0, 5, 4, 120, iT, .5, false, 150);
-  //m.add(s);
-  //m.add(s2);
-  //m.add(d);
-  //m.add(d2);
+  m.add(s);
+  m.add(s2);
+  m.add(d);
+  m.add(d2);
   m.add(min);
 
   //Player assets:

@@ -66,11 +66,6 @@ minotaur_move_4
 minotaur_move_5
 minotaur_move_6
 minotaur_move_7
-minotaur_move_8
-minotaur_move_9
-minotaur_move_10
-minotaur_move_11
-minotaur_move_12
 minotaur_upswing_0
 minotaur_upswing_1
 minotaur_upswing_2
