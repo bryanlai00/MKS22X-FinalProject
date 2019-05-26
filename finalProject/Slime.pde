@@ -10,17 +10,31 @@ class Slime extends Monster {
      deathTimer *= 2;
   }
   void attack(Thing target, float num) {
-    ((Player)target).loseHealth(num);
+    if (cHealth > 0) ((Player)target).loseHealth(num);
   }
   void move(float direction) {
       x_pos += currentSpeed * Math.cos(radians(direction));
       y_pos += currentSpeed * Math.sin(radians(direction));
   }
-  void updateBehavior(Player p) {
-    if (cHealth <= 0) {
-      currentSpeed = 0;
-      num_sprites = 8;
+  boolean updateImageDir() {
+    String temp = currentDir;
+    if (cHealth <= 0) {currentDir = "death"; currentSpeed = 0; deathTimer--; num_sprites = 8;}
+    else if (currentDirection <= 45 && currentDirection > -45) currentDir = "right";
+    else if (currentDirection <= 135 && currentDirection > 45) currentDir = "down";
+    else if (currentDirection <= -135 || currentDirection > 135) currentDir = "left";
+    else if (currentDirection <= -45 && currentDirection > -135)currentDir = "up";
+    if (!temp.equals(currentDir)) {
+      for (int i = 0; i < localSpriteName.size(); i++) {
+        if (localSpriteName.get(i).contains(currentDir)) {
+          index = i;
+          return true;
+        }
+      }
     }
+    return false;
+  }
+  void updateBehavior(Player p) {
+    if (cHealth <= 0) currentSpeed = 0;
     else {
       checkForPlayer(p);
       if (playerInRange) {

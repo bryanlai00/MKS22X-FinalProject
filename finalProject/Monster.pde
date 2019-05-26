@@ -76,30 +76,6 @@ abstract class Monster extends Thing implements Damageable, Movable{
   boolean isMoving() {
     return currentSpeed > 0;
   }
-  //void initiateDeath() {
-  //  int count = 0;
-  //  for (int i = 0; i < localSpriteName.size(); i++) {
-  //   if (localSpriteName.get(i).contains("death")) count++;
-  //  }
-    
-  //}
-  boolean updateImageDir() {
-    String temp = currentDir;
-    if (cHealth <= 0) {currentDir = "death"; currentSpeed = 0; deathTimer--;}
-    else if (currentDirection <= 45 && currentDirection > -45) currentDir = "right";
-    else if (currentDirection <= 135 && currentDirection > 45) currentDir = "down";
-    else if (currentDirection <= -135 || currentDirection > 135) currentDir = "left";
-    else if (currentDirection <= -45 && currentDirection > -135)currentDir = "up";
-    if (!temp.equals(currentDir)) {
-      for (int i = 0; i < localSpriteName.size(); i++) {
-        if (localSpriteName.get(i).contains(currentDir)) {
-          index = i;
-          return true;
-        }
-      }
-    }
-    return false;
-  }
   void updateInvul() {
     if (invulTimer < invulTime) {
       invulTimer++;
@@ -112,6 +88,7 @@ abstract class Monster extends Thing implements Damageable, Movable{
     updateInvul();
     updateBehavior(p);
   }
+  abstract boolean updateImageDir();
   abstract void updateBehavior(Player p);
   abstract void attack(Thing other, float num);
   abstract void move(float direction);

@@ -3,6 +3,7 @@ import java.util.*;
 Player p;
 Slime s, s2;
 Piranha_Plant d, d2;
+Minotaur min;
 HUD h;
 String[] spriteNames, hudNames, assetNames, playerNames;
 ArrayList<Monster> m = new ArrayList<Monster>();
@@ -27,10 +28,12 @@ void setup() {
   d2 = new Piranha_Plant(500, 200, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false);
   s = new Slime(width/2, height/2, 50, 50, 1, 200.0, 4, 4, 120, iT, .5, false);
   s2 = new Slime(200, 600, 50, 50, 1, 200.0, 1, 4, 120, iT, .5, false);
-  m.add(s);
-  m.add(s2);
-  m.add(d);
-  m.add(d2);
+  min = new Minotaur(300, 600, 150, 150, 1.5, 400.0, 5, 4, 120, iT, .5, false, 150);
+  //m.add(s);
+  //m.add(s2);
+  //m.add(d);
+  //m.add(d2);
+  m.add(min);
 
   //Player assets:
   playerNames = loadStrings("player_assets/player_sprites.txt");
@@ -45,7 +48,7 @@ void setup() {
 }
 
 void draw() {
-  background(255);
+  background(0,205,255);
   //text(p.c_health + "", 50, 50);
   //text(projectiles.toString(), 100, 100);
   //textSize(32);
