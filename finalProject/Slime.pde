@@ -7,13 +7,13 @@ class Slime extends Monster {
          localSpriteName.add(spriteNames[i]);
        }
      }
-     deathTimer *= 2;
+     deathTimer = 40;
   }
   void display() {
     imageMode(CENTER);
     if (updateImageDir()) frame = 0;
     image(localSprite.get(frame + index), x_pos, y_pos, x_size, y_size);
-    if (delay <= 10) delay ++;
+    if (delay <= 5) delay ++;
     else {
       delay = 0;
       if (frame + 1 < num_sprites) frame ++;

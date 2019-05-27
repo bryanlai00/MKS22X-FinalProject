@@ -90,7 +90,7 @@ class Piranha_Plant extends Monster {
     imageMode(CENTER);
     if (updateImageDir()) frame = 0;
     if (playerInRange) {
-      if (playerGenDir > 45 || playerGenDir < -45) {
+      if (playerGenDir >= 90 || playerGenDir < -90) {
         pushMatrix();
         translate(x_pos, y_pos);
         scale(-1.0, 1.0);

@@ -48,7 +48,7 @@ class Minotaur extends Monster {
     imageMode(CENTER);
     if (updateImageDir()) frame = 0;
     if (playerInRange) {
-      if (playerGenDir > 45 || playerGenDir < -45) {
+      if (playerGenDir >= 90 || playerGenDir < -90) {
         pushMatrix();
         translate(x_pos, y_pos);
         scale(-1.0, 1.0);
@@ -123,6 +123,7 @@ class Minotaur extends Monster {
           currentSpeed = 0;
           if (cooldown == 0) {cooldown = 120; attackDelay = 10;}
           else cooldown--;
+          
           if (attackDelay == 0) attack(p, damage);
         }
         else {

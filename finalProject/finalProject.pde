@@ -4,6 +4,7 @@ Player p;
 Slime s, s2;
 Piranha_Plant d, d2;
 Minotaur min;
+Boar b;
 HUD h;
 String[] spriteNames, hudNames, assetNames, playerNames;
 ArrayList<Monster> m = new ArrayList<Monster>();
@@ -29,11 +30,13 @@ void setup() {
   s = new Slime(width/2, height/2, 50, 50, 1, 200.0, 4, 4, 120, iT, .5, false);
   s2 = new Slime(200, 600, 50, 50, 1, 200.0, 1, 4, 120, iT, .5, false);
   min = new Minotaur(300, 600, 150, 150, 1.5, 400.0, 5, 4, 120, iT, .5, false, 150);
+  b = new Boar(200, 600, 50, 50, 2, 300.0, 1, 8, 120, iT, .5, false);
   m.add(s);
   m.add(s2);
   m.add(d);
   m.add(d2);
   m.add(min);
+  m.add(b);
 
   //Player assets:
   playerNames = loadStrings("player_assets/player_sprites.txt");
@@ -65,7 +68,6 @@ void draw() {
     for (int i = m.size() - 1; i >= 0; i--) {
       if (m.get(i).cHealth <= 0 && m.get(i).getDeathTimer() == 0) m.remove(i);
     }
-  print(s2.num_sprites);
   }
   for (int i = projectiles.size() - 1; i >= 0; i--) {
     projectiles.get(i).move();
