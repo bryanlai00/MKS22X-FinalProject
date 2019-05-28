@@ -5,6 +5,7 @@ Slime s, s2;
 Piranha_Plant d, d2;
 Minotaur min;
 Boar b;
+Spirit sp;
 HUD h;
 String[] spriteNames, hudNames, assetNames, playerNames;
 ArrayList<Monster> m = new ArrayList<Monster>();
@@ -31,12 +32,14 @@ void setup() {
   s2 = new Slime(200, 600, 50, 50, 1, 200.0, 1, 4, 120, iT, .5, false);
   min = new Minotaur(300, 600, 150, 150, 1.5, 400.0, 5, 4, 120, iT, .5, false, 150);
   b = new Boar(200, 600, 50, 50, 2, 300.0, 1, 8, 120, iT, .5, false);
+  sp = new Spirit(600, 200, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false);
   m.add(s);
   m.add(s2);
   m.add(d);
   m.add(d2);
   m.add(min);
   m.add(b);
+  m.add(sp);
 
   //Player assets:
   playerNames = loadStrings("player_assets/player_sprites.txt");

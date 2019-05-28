@@ -18,6 +18,18 @@ class Projectile extends Thing {
     sprite = i;
     direction = (float)Math.toDegrees(Math.atan2((double)(endY - y_pos), (double)(endX - x_pos)));
   }
+  Projectile(float xcor, float ycor, float xSize, float ySize, float dam, float spe, int d, PImage i, Player p, float directionalDiff) {
+    super(xSize,ySize);
+    endX = p.getX();
+    endY = p.getY();
+    x_pos = xcor;
+    y_pos = ycor;
+    damage = dam;
+    speed = spe;
+    duration = d;
+    sprite = i;
+    direction = (float)Math.toDegrees(Math.atan2((double)(endY - y_pos), (double)(endX - x_pos))) + directionalDiff;
+  }
   void update(Player p) {
     if (isTouching(p)) {
       p.loseHealth(damage);

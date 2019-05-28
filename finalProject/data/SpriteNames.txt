@@ -187,3 +187,4 @@ spirit_death_7
 spirit_death_8
 spirit_death_9
 spirit_death_10
+shadowball
