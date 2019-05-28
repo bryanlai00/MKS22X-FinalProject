@@ -39,12 +39,30 @@ void setup() {
   
   //Room assets:
   objectNames = loadStrings("data/room_sprites.txt");
-  for(int w = 0; w < 1000; w += 50) {
-    for(int l = 0; l < 1000; l += 50) {
-      roomSprites.add(new OverworldObject(w, l,50,50,loadImage("data/room_player_assets/wall_hole_1.png"), false));
+  //0 and 1 are holes.
+  //2 and 3 is left.
+  //4 and 5 is right.
+  //6+ is just for aesthetics.
+  for(int w = 0; w < 2000; w += 30) {
+    for(int l = 0; l < 2000; l += 30) {
+      int tileNo;
+      String tileName;
+      if(l == 30) {
+        tileNo = ((int) (Math.random() * 5)) + 6;
+        tileName = objectNames[tileNo];
+      }
+      else if(w == 0) {
+        tileNo = ((int) (Math.random() * 2)) + 2;
+        tileName = objectNames[tileNo];
+      }
+      else if(w >= p.x_pos + 1000)
+        tileNo = ((int) (Math.random() * 2)) + 4;
+        tileName = objectNames[tileNo]
+        roomSprites.add(new OverworldObject(w, l, 30, 30,loadImage("data/room_player_assets/" + tileName + ".png"), false));
+
     }
-  }
   //
+  }
 }
 
 void draw() {
