@@ -53,3 +53,14 @@ _________________________
 * added flashing red for sprites when they are damaged respectively
 * added and simple health bars => displayed over monsters' head when damaged and linger for some time
 * implemented death animations for the existing monsters (Slime and Piranha Plant)
+##### 5/25/19
+* tweaked health bars and added death animations for existing monsters
+* added files for next monster Minotaur and started work on Minotaur class
+##### 5/26/19
+* tweaked Minotaur behavior
+* added files for next monster Boar
+* implemented a Boar class
+##### 5/27/19
+* continued tweaking Minotaur
+* lowered Slime animation delay
+* added files for next monster Spirit
