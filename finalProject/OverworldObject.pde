@@ -13,13 +13,11 @@ class OverworldObject extends Thing implements Collideable {
     this.x_size = x_size;
     this.y_size = y_size;
     this.sprite = sprite;
+    sprite.resize((int) x_size, (int) y_size);
   }
   
   void display() {
-      if(displayed != true) {
-      image(sprite, x_pos, y_pos, x_size, y_size);
-      }
-      displayed = true;
+      image(sprite, x_pos, y_pos);
       //problem occurs because the background overrites it.
   }
   
