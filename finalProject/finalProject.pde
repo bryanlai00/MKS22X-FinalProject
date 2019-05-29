@@ -8,6 +8,7 @@ String[] spriteNames;
 String[] playerNames;
 String[] objects;
 ArrayList<OverworldObject> roomObjects = new ArrayList<OverworldObject>();
+ArrayList<OverworldObject> collideableRoomObjects = new ArrayList<OverworldObject>();
 ArrayList<Monster> m = new ArrayList<Monster>();
 ArrayList<PImage> sprite = new ArrayList<PImage>();
 ArrayList<PImage> assets = new ArrayList<PImage>();
@@ -35,7 +36,7 @@ void setup() {
     assets.add(loadImage("data/room_player_assets/" + s + ".png"));
   }
   //4 stands for # of sprites for each PHASE. Not the number of sprites in total. The value changes in differnet cases.
-  p = new Player(40,40,300,300,iT,4,assets);
+  p = new Player(40,40,width/2 + 100,height/2 + 100,iT,4,assets);
   
   //Room assets:
   objects = loadStrings("data/rooms.txt");
@@ -47,7 +48,9 @@ void setup() {
       for(int copies = 0; copies < Float.valueOf(params[5]); copies++) {
         for(int yCopies = 0; yCopies < Float.valueOf(params[6]); yCopies++) {
           roomObjects.add(new OverworldObject(Float.valueOf(params[1]) + copies * Float.valueOf(params[3]), Float.valueOf(params[2]) + yCopies * Float.valueOf(params[4]) , Float.valueOf(params[3]), Float.valueOf(params[4]), loadImage("data/room_player_assets/" + params[0] + ".png"), Boolean.valueOf(params[7])));
-          print(copies + " added!");  
+          if(Boolean.valueOf(params[7])) {
+            collideableRoomObjects.add(new OverworldObject(Float.valueOf(params[1]) + copies * Float.valueOf(params[3]), Float.valueOf(params[2]) + yCopies * Float.valueOf(params[4]) , Float.valueOf(params[3]), Float.valueOf(params[4]), loadImage("data/room_player_assets/" + params[0] + ".png"), Boolean.valueOf(params[7])));
+          }
         }
       }
     }

@@ -14,6 +14,7 @@ class OverworldObject extends Thing implements Collideable {
     this.y_size = y_size;
     this.sprite = sprite;
     sprite.resize((int) x_size, (int) y_size);
+    this.blocking = blocking;
   }
   
   void display() {
@@ -21,15 +22,13 @@ class OverworldObject extends Thing implements Collideable {
       //problem occurs because the background overrites it.
   }
   
+  //Has boolean isTouching from abstract Thing class.
   boolean isTouching(Thing other) {
     //If the object/sprite is supposed to act as a boundary: blocking = true. if not, blocking = false (like a tile).
     if(blocking) {
-      if(dist(other.getX(), other.getY(), x_pos, y_pos) == 0) {
-        return true;
-      }
+      super.isTouching(other);
     }
     //Return false if it is not blocking and it solely acts like a tile.
     return false;
   }
-  
 }

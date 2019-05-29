@@ -70,11 +70,12 @@ class Player extends Thing implements Damageable, Collideable {
     }
   }
   
-  boolean isTouching(Thing other) {
+  //Has isTouching method from Thing.
+  /*boolean isTouching(Thing other) {
     //System.out.print(getX() + ", " + getY() + "   ");
     //System.out.print(dist(getX(), getY() , other.getX(), other.getY()) + "   ");
     return dist(getX(), getY() , other.getX(), other.getY()) < x_size;
-  }
+  }*/
   
   void attack(Thing enemy, float num) {
     float range = 100;
@@ -168,10 +169,17 @@ class Player extends Thing implements Damageable, Collideable {
           directionAngle = 135;
         }
         
-    //See if moving.
-    
+
+    //If the player encounters a "collideableRoomObject, make xChange and yChange == 0
+    for(OverworldObject o : collideableRoomObjects) {
+      if(isTouching(o)) {
+        print("touching!");
+      }
+    }
     x_pos = constrain(x_pos + xChange, r, width  - r);
     y_pos = constrain(y_pos + yChange, r, height - r);
+    
+    //Checks if the player is moving.
     if(x_prev_pos != x_pos || y_prev_pos != y_pos) {
       isMoving = true;
     }
