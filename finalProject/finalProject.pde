@@ -16,11 +16,11 @@ ArrayList<PImage> assets = new ArrayList<PImage>();
 ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 ArrayList<PImage> hud = new ArrayList<PImage>();
 ArrayList<PImage> screenImages = new ArrayList<PImage>();
-ArrayList<Screen> screens;
+ArrayList<Screen> screens = new ArrayList<Screen>();
 int iT = 60;
 
 void setup() {
-  size(1000,1000);
+  size(1440,810);
   spriteNames = loadStrings("data/SpriteNames.txt");
   for (String str : spriteNames) {
      sprite.add(loadImage("data/sprites/" + str + ".png"));
@@ -31,9 +31,9 @@ void setup() {
   }
   screenNames = loadStrings("data/screenNames.txt");
   for (String str : screenNames) {
-     screenImages.add(loadImage("data/screen/" + str + ".png"));
+     screenImages.add(loadImage("data/screens/" + str + ".png"));
   }
-  scr = new Screen(screenImages.get(0), screenImages.get(1), 50, 50, 50, 50);
+  scr = new Screen(screenImages.get(0), screenImages.get(1), width/2 - 175, height/2 + 85, width/2, 50, 50, "start");
   screens.add(scr);
   d = new Piranha_Plant(500, 800, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false);
   d2 = new Piranha_Plant(500, 200, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false);
@@ -89,7 +89,8 @@ void draw() {
 }
 
 void keyPressed() {
-  p.setMove(keyCode, true, m);
+  if (screens.size() > 0) screens.get(0).select();
+  else p.setMove(keyCode, true, m);
 }
 
 void keyReleased() {
