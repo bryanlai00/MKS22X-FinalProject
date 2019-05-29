@@ -1,5 +1,6 @@
 import java.util.*;
 
+Screen scr;
 Player p;
 Slime s, s2;
 Piranha_Plant d, d2;
@@ -7,13 +8,15 @@ Minotaur min;
 Boar b;
 Spirit sp;
 HUD h;
-String[] spriteNames, hudNames, assetNames, playerNames;
+String[] spriteNames, hudNames, assetNames, playerNames, screenNames;
 ArrayList<Monster> m = new ArrayList<Monster>();
 ArrayList<OverworldObject> roomSprites = new ArrayList<OverworldObject>();
 ArrayList<PImage> sprite = new ArrayList<PImage>();
 ArrayList<PImage> assets = new ArrayList<PImage>();
 ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 ArrayList<PImage> hud = new ArrayList<PImage>();
+ArrayList<PImage> screenImages = new ArrayList<PImage>();
+ArrayList<Screen> screens;
 int iT = 60;
 
 void setup() {
@@ -26,6 +29,12 @@ void setup() {
   for (String str : hudNames) {
      hud.add(loadImage("data/hud/" + str + ".png"));
   }
+  screenNames = loadStrings("data/screenNames.txt");
+  for (String str : screenNames) {
+     screenImages.add(loadImage("data/screen/" + str + ".png"));
+  }
+  scr = new Screen(screenImages.get(0), screenImages.get(1), 50, 50, 50, 50);
+  screens.add(scr);
   d = new Piranha_Plant(500, 800, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false);
   d2 = new Piranha_Plant(500, 200, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false);
   s = new Slime(width/2, height/2, 50, 50, 1, 200.0, 4, 4, 120, iT, .5, false);
@@ -54,39 +63,29 @@ void setup() {
 }
 
 void draw() {
-  background(0,205,255);
-  //text(p.c_health + "", 50, 50);
-  //text(projectiles.toString(), 100, 100);
-  //textSize(32);
-  //text(p.x_pos + " " + p.y_pos, 50, 50);
-  //textSize(32);
-  //text(p.x_pos + " " + p.y_pos, 50, 50);
-  //text(p.c_health + "", 50, 50);
-  //text(projectiles.toString(), 100, 100);
-  fill(0, 102, 153);
-  for (int mons = m.size() - 1; mons >= 0; mons--) {
-    m.get(mons).update(p);
-    m.get(mons).move(m.get(mons).currentDirection);
-    m.get(mons).display();
-    for (int i = m.size() - 1; i >= 0; i--) {
-      if (m.get(i).cHealth <= 0 && m.get(i).getDeathTimer() == 0) m.remove(i);
+  if (screens.size() > 0) screens.get(0).display();
+  else {
+    background(0,205,255);
+    fill(0, 102, 153);
+    for (int mons = m.size() - 1; mons >= 0; mons--) {
+      m.get(mons).update(p);
+      m.get(mons).move(m.get(mons).currentDirection);
+      m.get(mons).display();
+      for (int i = m.size() - 1; i >= 0; i--) {
+        if (m.get(i).cHealth <= 0 && m.get(i).getDeathTimer() == 0) m.remove(i);
+      }
     }
+    for (int i = projectiles.size() - 1; i >= 0; i--) {
+      projectiles.get(i).move();
+      projectiles.get(i).display();
+      projectiles.get(i).update(p);
+    }
+    p.update(h);
+    p.move();
+    p.display();
+    h.update(p.c_health);
+    h.display();
   }
-  for (int i = projectiles.size() - 1; i >= 0; i--) {
-    projectiles.get(i).move();
-    projectiles.get(i).display();
-    projectiles.get(i).update(p);
-  }
-  //if(p.isTouching(s)) System.out.print("hi");
-  //System.out.print(p.x_pos + ",");
-  //System.out.print(p.y_pos);
-  //System.out.print(" " + s.x_pos + ",");
-  //System.out.print(s.y_pos);
-  p.update(h);
-  p.move();
-  p.display();
-  h.update(p.c_health);
-  h.display();
 }
 
 void keyPressed() {
