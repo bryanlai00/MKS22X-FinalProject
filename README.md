@@ -106,3 +106,8 @@ Calvin Chu:
 * continued tweaking Minotaur
 * lowered Slime animation delay
 * added files for next monster Spirit
+##### 5/28/19
+Bryan Lai:
+* Fixed lagging error with the tiles by changing methods with loadImage.
+* Add sprites/parameters a specific txt file to draw onto the screen. 
+* Create simplistic way to generate tiles (once the map is ideally made) from a text file. (Easier than hardcoding each tile.)
