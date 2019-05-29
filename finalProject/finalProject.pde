@@ -6,8 +6,8 @@ Piranha_Plant d;
 OverworldObject tile;
 String[] spriteNames;
 String[] playerNames;
-String[] objectNames;
-ArrayList<OverworldObject> roomSprites = new ArrayList<OverworldObject>();
+String[] objects;
+ArrayList<OverworldObject> roomObjects = new ArrayList<OverworldObject>();
 ArrayList<Monster> m = new ArrayList<Monster>();
 ArrayList<PImage> sprite = new ArrayList<PImage>();
 ArrayList<PImage> assets = new ArrayList<PImage>();
@@ -15,7 +15,7 @@ ArrayList<PImage> room_assets = new ArrayList<PImage>();
 ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 int iT = 60;
 void setup() {
-  size(500,500);
+  size(1000,1000);
   spriteNames = loadStrings("data/SpriteNames.txt");
   for (String str : spriteNames) {
      sprite.add(loadImage("data/sprites/" + str + ".png"));
@@ -38,41 +38,25 @@ void setup() {
   p = new Player(40,40,300,300,iT,4,assets);
   
   //Room assets:
-  objectNames = loadStrings("data/room_sprites.txt");
-  //0 and 1 are holes.
-  //2 and 3 is left.
-  //4 and 5 is right.
-  //6+ is just for aesthetics.
-  for(int w = 0; w < 2000; w += 30) {
-    for(int l = 0; l < 2000; l += 30) {
-      int tileNo;
-      if(l == 30) {
-        tileNo = ((int) (Math.random() * 5)) + 6;
+  objects = loadStrings("data/rooms.txt");
+  for(int i = 0; i < objects.length; i++) {
+    //If the line/string does not contain Room...
+    if(!objects[i].contains("Room")) {
+      String[] params = objects[i].split(" ");
+      //print(Arrays.toString(params)) Using these parameters, add to room sprites.
+      for(int copies = 0; copies < Float.valueOf(params[5]); copies++) {
+        for(int yCopies = 0; yCopies < Float.valueOf(params[6]); yCopies++) {
+          roomObjects.add(new OverworldObject(Float.valueOf(params[1]) + copies * Float.valueOf(params[3]), Float.valueOf(params[2]) + yCopies * Float.valueOf(params[4]) , Float.valueOf(params[3]), Float.valueOf(params[4]), loadImage("data/room_player_assets/" + params[0] + ".png"), Boolean.valueOf(params[7])));
+          print(copies + " added!");  
+        }
       }
-      else if(w == 0) {
-        tileNo = 2;
-      }
-      else if(w >= p.x_pos + 1000) {
-        tileNo = ((int) (Math.random() * 2)) + 4;
-      }
-      else {
-        tileNo = ((int) (Math.random( )* 2)) + 1;
-      }
-  
-      roomSprites.add(new OverworldObject(w, l, 30, 30,loadImage("data/room_player_assets/" + objectNames[tileNo] + ".png"), false));
     }
-  //}
   }
 }
 
 void draw() {
   background(255);
-  textSize(32);
-  text(p.x_pos + " " + p.y_pos, 50, 50);
-  text(p.c_health + "", 50, 50);
-  text(projectiles.toString(), 100, 100);
-  fill(0, 102, 153);
-  for (OverworldObject o : roomSprites) {
+  for (OverworldObject o : roomObjects) {
     o.display();
   }
   for (Monster mons : m) {

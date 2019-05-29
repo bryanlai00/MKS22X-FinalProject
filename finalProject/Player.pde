@@ -87,8 +87,6 @@ class Player extends Thing implements Damageable, Collideable {
     }
     else {
       float anglePosition = degrees((float)Math.atan2(enemy.getY() - y_pos, enemy.getX() - x_pos));
-      textSize(13);
-      text("Angle between monster and player: " + anglePosition, 100, 130);    
       //If angle is less than 0:
       float rightConstraint = directionAngle + coneSliceAngle;
       float leftConstraint = directionAngle - coneSliceAngle;
@@ -99,7 +97,7 @@ class Player extends Thing implements Damageable, Collideable {
       if(anglePosition < rightConstraint && anglePosition > leftConstraint) {
         ((Monster)enemy).cHealth--;
       }
-      print("\n anglePosition: " + anglePosition);  
+      //print("\n anglePosition: " + anglePosition);  
       //See if the difference angle is applicable for the coneSliceAngle:
       
     }
@@ -115,7 +113,7 @@ class Player extends Thing implements Damageable, Collideable {
     double s = Math.pow(y_size, 2);
     float r = (float)Math.sqrt(f + s); 
     /*Speed for movement 4 for running, 2 for normal*/
-       float speed;
+    float speed;
     if(isRunning) {
       speed = 4;
     }
@@ -127,17 +125,23 @@ class Player extends Thing implements Damageable, Collideable {
     //Used to see if the position changes to determine if something moves.
     float x_prev_pos = x_pos;
     float y_prev_pos = y_pos;
-    float xChange = speed*(int(isRight) - int(isLeft));
-    float yChange = speed*(int(isDown) - int(isUp));
-    print(xChange + " " + yChange);
+    float xChange = speed * (int(isRight) - int(isLeft));
+    float yChange = speed * (int(isDown) - int(isUp));
+    //print(x_pos + " " + y_pos);
     //Move all other entities by moving the map.
-    for(int i = 0; i < roomSprites.size(); i++) {
-      roomSprites.get(i).x_pos += -xChange;
-      roomSprites.get(i).y_pos += -yChange;
+    if(x_pos < 940 && x_pos > 57 && y_pos < 940 && y_pos > 57) {
+      for(int i = 0; i < roomObjects.size(); i++) {
+        roomObjects.get(i).x_pos += -xChange;
+        roomObjects.get(i).y_pos += -yChange;
+      }
+      for(int i = 0; i < m.size(); i++) {
+        m.get(i).x_pos += -xChange;
+        m.get(i).y_pos += -yChange;
+      }
     }
     //List of x-statements to find angleDirection:
     //For basical cardinal directions:
-        print("direction angle" + directionAngle + "\n");
+        //print("direction angle" + directionAngle + "\n");
         if(isRight) {
           directionAngle = 0;
         }
@@ -166,8 +170,8 @@ class Player extends Thing implements Damageable, Collideable {
         
     //See if moving.
     
-    x_pos = constrain(xChange, r, width  - r);
-    y_pos = constrain(yChange, r, height - r);
+    x_pos = constrain(x_pos + xChange, r, width  - r);
+    y_pos = constrain(y_pos + yChange, r, height - r);
     if(x_prev_pos != x_pos || y_prev_pos != y_pos) {
       isMoving = true;
     }

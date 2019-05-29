@@ -1,0 +1,2 @@
+Room1: Parameters (sprite_name, starting x_pos, y_pos, xSize, ySize, xquantity, yQuantity, blockingValue)
+wall_hole_1 0 0 70 70 50 50 true
