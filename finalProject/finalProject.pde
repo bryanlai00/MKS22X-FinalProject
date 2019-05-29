@@ -15,7 +15,7 @@ ArrayList<PImage> room_assets = new ArrayList<PImage>();
 ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 int iT = 60;
 void setup() {
-  size(1000,1000);
+  size(500,500);
   spriteNames = loadStrings("data/SpriteNames.txt");
   for (String str : spriteNames) {
      sprite.add(loadImage("data/sprites/" + str + ".png"));
@@ -46,22 +46,22 @@ void setup() {
   for(int w = 0; w < 2000; w += 30) {
     for(int l = 0; l < 2000; l += 30) {
       int tileNo;
-      String tileName;
       if(l == 30) {
         tileNo = ((int) (Math.random() * 5)) + 6;
-        tileName = objectNames[tileNo];
       }
       else if(w == 0) {
-        tileNo = ((int) (Math.random() * 2)) + 2;
-        tileName = objectNames[tileNo];
+        tileNo = 2;
       }
-      else if(w >= p.x_pos + 1000)
+      else if(w >= p.x_pos + 1000) {
         tileNo = ((int) (Math.random() * 2)) + 4;
-        tileName = objectNames[tileNo]
-        roomSprites.add(new OverworldObject(w, l, 30, 30,loadImage("data/room_player_assets/" + tileName + ".png"), false));
-
+      }
+      else {
+        tileNo = ((int) (Math.random( )* 2)) + 1;
+      }
+  
+      roomSprites.add(new OverworldObject(w, l, 30, 30,loadImage("data/room_player_assets/" + objectNames[tileNo] + ".png"), false));
     }
-  //
+  //}
   }
 }
 

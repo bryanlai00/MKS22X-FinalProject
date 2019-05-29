@@ -127,8 +127,14 @@ class Player extends Thing implements Damageable, Collideable {
     //Used to see if the position changes to determine if something moves.
     float x_prev_pos = x_pos;
     float y_prev_pos = y_pos;
-    float xChange = x_pos + speed*(int(isRight) - int(isLeft));
-    float yChange = y_pos + speed*(int(isDown) - int(isUp));
+    float xChange = speed*(int(isRight) - int(isLeft));
+    float yChange = speed*(int(isDown) - int(isUp));
+    print(xChange + " " + yChange);
+    //Move all other entities by moving the map.
+    for(int i = 0; i < roomSprites.size(); i++) {
+      roomSprites.get(i).x_pos += -xChange;
+      roomSprites.get(i).y_pos += -yChange;
+    }
     //List of x-statements to find angleDirection:
     //For basical cardinal directions:
         print("direction angle" + directionAngle + "\n");
