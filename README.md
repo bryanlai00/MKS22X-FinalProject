@@ -76,11 +76,11 @@ Calvin Chu:
 * made working projectiles for Piranha Plant, fixing projectile storage and registering damage
 * implemented image for Piranha Plant projectile, called fireball
 ##### 5/23/19
-Bryan Lai:
+###### Bryan Lai:
 * Realize that 90 and 270 degrees were inverted.
 * Get attack to finally work properly.
 * Display monster hp changes. (This doesn't compare to Calvin's HUD and invulnerability time.)
-Calvin Chu:
+###### Calvin Chu:
 * started work on the HUD
 * added heart sprites to the file
 * HUD now displays player's current health in increments of half a heart
