@@ -105,12 +105,6 @@ class Player extends Thing implements Damageable, Collideable {
     }
   }
   
-<<<<<<< HEAD
-  void update() {
-    if (invulTimer < invulTime) invulTimer++;
-    text(x_pos + " " + y_pos, 0, 0);
-    fill(255,5,0);
-=======
   void update(HUD h) {
     if (invulTimer < invulTime) {
       h.flashTime = invulTimer;
@@ -119,7 +113,6 @@ class Player extends Thing implements Damageable, Collideable {
       else noTint();
     }
     else noTint();
->>>>>>> origin/monster
   }
   
   void move() {
@@ -191,7 +184,6 @@ class Player extends Thing implements Damageable, Collideable {
     
     
     //Check boundaries and move other entities based on xChange and yChange.
-    if(x_pos < 940 && x_pos > 57 && y_pos < 940 && y_pos > 57) {
       for(int i = 0; i < roomObjects.size(); i++) {
         roomObjects.get(i).x_pos += -xChange;
         roomObjects.get(i).y_pos += -yChange;
@@ -204,7 +196,6 @@ class Player extends Thing implements Damageable, Collideable {
         m.get(i).x_pos += -xChange;
         m.get(i).y_pos += -yChange;
       }
-    }
     //Checks if the player is moving.
     if(x_prev_pos != x_pos || y_prev_pos != y_pos) {
       isMoving = true;

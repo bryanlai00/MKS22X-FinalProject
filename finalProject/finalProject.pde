@@ -3,28 +3,18 @@ import java.util.*;
 Screen scr;
 Player p;
 Slime s, s2;
-<<<<<<< HEAD
-Piranha_Plant d;
-OverworldObject tile;
-String[] spriteNames;
-String[] playerNames;
-String[] objects;
-ArrayList<OverworldObject> roomObjects = new ArrayList<OverworldObject>();
-ArrayList<OverworldObject> collideableRoomObjects = new ArrayList<OverworldObject>();
-=======
 Piranha_Plant d, d2;
 Minotaur min;
 Boar b;
 Spirit sp;
 Griffin g;
 HUD h;
-String[] spriteNames, hudNames, assetNames, playerNames, screenNames;
->>>>>>> origin/monster
+ArrayList<OverworldObject> roomObjects = new ArrayList<OverworldObject>();
+ArrayList<OverworldObject> collideableRoomObjects = new ArrayList<OverworldObject>();
+String[] objects, spriteNames, hudNames, assetNames, playerNames, screenNames;
 ArrayList<Monster> m = new ArrayList<Monster>();
-ArrayList<OverworldObject> roomSprites = new ArrayList<OverworldObject>();
 ArrayList<PImage> sprite = new ArrayList<PImage>();
 ArrayList<PImage> assets = new ArrayList<PImage>();
-ArrayList<PImage> room_assets = new ArrayList<PImage>();
 ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 ArrayList<PImage> hud = new ArrayList<PImage>();
 ArrayList<PImage> screenImages = new ArrayList<PImage>();
@@ -70,7 +60,6 @@ void setup() {
     assets.add(loadImage("data/room_player_assets/" + s + ".png"));
   }
   //4 stands for # of sprites for each PHASE. Not the number of sprites in total. The value changes in differnet cases.
-<<<<<<< HEAD
   p = new Player(50,50,width/2 + 100,height/2 + 100,iT,4,assets);
   
   //Room assets:
@@ -92,33 +81,17 @@ void setup() {
   }
 }
 
+
 void draw() {
-  background(51);
-  for (OverworldObject o : roomObjects) {
-    o.display();
-  }
-  for (Monster mons : m) {
-    mons.update(p);
-    mons.move(mons.currentDirection);
-    mons.display();
-    text("Monster health: " + mons.cHealth, 500, 50);
-  }
-  for (int i = projectiles.size() - 1; i >= 0; i--) {
-    projectiles.get(i).move();
-    projectiles.get(i).display();
-    projectiles.get(i).update();
-=======
-  p = new Player(40,40,300,300,iT,4,assets);
   h = new HUD(p.m_health, 20, 20, 50);
   //Room assets:
-
-}
-
-void draw() {
   if (screens.size() > 0) screens.get(0).display();
   else {
-    background(0,205,255);
+    background(51);
     fill(0, 102, 153);
+    for (OverworldObject o : roomObjects) {
+      o.display();
+    }
     for (int mons = m.size() - 1; mons >= 0; mons--) {
       m.get(mons).update(p);
       m.get(mons).move(m.get(mons).currentDirection);
@@ -137,7 +110,6 @@ void draw() {
     p.display();
     h.update(p.c_health);
     h.display();
->>>>>>> origin/monster
   }
 }
 
