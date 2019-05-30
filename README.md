@@ -15,39 +15,39 @@ Bryan Lai along with Calvin Chu (Day the prototype was discussed.)
 * created project repo, processing folder, and main pde file
 * added abstract class Thing 
 ##### 5/17/19
-Bryan Lai:
+###### Bryan Lai:
 * added Monster, OverWorldObject, and Player classes
 * added damageable, collideable, and movable interfaces
-Calvin Chu:
+###### Calvin Chu:
 * started basic monster functions - started a Slime class
 * created an experimentation folder
 * started different branches
 ##### 5/18/19
-Bryan Lai:
+###### Bryan Lai:
 * Start researching/work on basic movement for player.
 * Add more instance variables for the Player Class, OverworldObject, etc.
-Calvin Chu:
+###### Calvin Chu:
 * created a function implementing basic passive movement for a monster
 * implemeted file reading to obtain sprite images to animate a slime
 * added basic player tracking for monster
 ##### 5/19/19
-Bryan Lai:
+###### Bryan Lai:
 * Add x_pos and y_pos to abstract class Thing. 
 * Also added interface methods that needed to be implemented in Monster, Player, etc.
 * Added player movement with the use of 4 boolean variables. (isRight, isLeft, isUp, isDown)
-Calvin Chu:
+###### Calvin Chu:
 * fixed and refined basic player tracking for monster - implemented monster update behavior regarding proximity to player
 * fixed isTouching() method
 * added experimental directional animation
 * changed implementaion of loading sprites
 ##### 5/20/19
-Bryan Lai:
+###### Bryan Lai:
 * Remove extra player that was created due to a bug.
 * Add another sprite and create different forms of movement by toggling x and c. 
   * X --> Run (Speed changes to 4)
   * C --> Walk (Speed changes to 2)
 * Work on angle detection from player.
-Calvin Chu:
+###### Calvin Chu:
 * modified attack method to take in Thing target
 * added basic attack for slime (isTouching => loseHealth)
 * added invulnerability timers for Player and Monster when they are attacked
@@ -68,10 +68,10 @@ Calvin Chu:
 * began research on attacking algorithm for player
 * worked on player sprites and successfully solved movement issues
 ##### 5/22/19
-Bryan Lai:
+###### Bryan Lai:
 * Create arc for attack and show coordinates/values on screen for testing.
 * Work on angle of the player relative to the monster to complete attack() method of player.
-Calvin Chu:
+###### Calvin Chu:
 * added Projectile class
 * made working projectiles for Piranha Plant, fixing projectile storage and registering damage
 * implemented image for Piranha Plant projectile, called fireball
@@ -85,29 +85,29 @@ Calvin Chu:
 * added heart sprites to the file
 * HUD now displays player's current health in increments of half a heart
 ##### 5/24/19
-Bryan Lai:
+###### Bryan Lai:
 * Added tiles for room development.
 * Relocate sprites and images and semi-complete OverworldObject class.
-Calvin Chu:
+###### Calvin Chu:
 * added flashing red for sprites when they are damaged respectively
 * added and simple health bars => displayed over monsters' head when damaged and linger for some time
 * implemented death animations for the existing monsters (Slime and Piranha Plant)
 ##### 5/25/19
-Calvin Chu:
+###### Calvin Chu:
 * tweaked health bars and added death animations for existing monsters
 * added files for next monster Minotaur and started work on Minotaur class
 ##### 5/26/19
-Calvin Chu:
+###### Calvin Chu:
 * tweaked Minotaur behavior
 * added files for next monster Boar
 * implemented a Boar class
 ##### 5/27/19
-Calvin Chu:
+###### Calvin Chu:
 * continued tweaking Minotaur
 * lowered Slime animation delay
 * added files for next monster Spirit
 ##### 5/28/19
-Bryan Lai:
+###### Bryan Lai:
 * Fixed lagging error with the tiles by changing methods with loadImage.
 * Add sprites/parameters a specific txt file to draw onto the screen. 
 * Create simplistic way to generate tiles (once the map is ideally made) from a text file. (Easier than hardcoding each tile.)
