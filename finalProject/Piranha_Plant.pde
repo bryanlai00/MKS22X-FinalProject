@@ -15,13 +15,12 @@ class Piranha_Plant extends Monster {
        projectile = sprite.get(i);
      }
   }
-  sRF = sight / 3;
+  sRF = sight/3;
   phase = "aoksdpok";
   cooldown = 0;
   }
   void attack(Thing target, float num) {
-    Projectile p = new Projectile(x_pos, y_pos, 50, 50, num, 10, 15, projectile, (Player)target);
-    projectiles.add(projectiles.size(), p);
+    projectiles.add(0, new Projectile(x_pos, y_pos, 35, 35, num, 5, 60, projectile, (Player)target));
   }
   void move(float direction) {
       imageMode(CENTER);
@@ -45,14 +44,17 @@ class Piranha_Plant extends Monster {
     playerGenDir = (float)Math.toDegrees(Math.atan2((double)(p.y_pos - y_pos), (double)(p.x_pos - x_pos)));
     currentSpeed = speed;
     if (playerInRange) {
-        if (cooldown == 0) {attack(p, damage); cooldown = 60;}
+        if (cooldown == 0) {attack(p, damage); cooldown = 120;}
         else cooldown--;
         if (!safe) {
-          currentDirection = 180 - (float)Math.toDegrees(Math.atan2((double)(p.y_pos - y_pos), (double)(p.x_pos - x_pos)));
+          currentDirection = (float)Math.toDegrees(Math.atan2((double)(p.y_pos - y_pos), (double)(p.x_pos - x_pos))) - 180;
         }
-        else currentDirection = (float)Math.toDegrees(Math.atan2((double)(p.y_pos - y_pos), (double)(p.x_pos - x_pos)));
+        else {
+          currentDirection = (float)Math.toDegrees(Math.atan2((double)(p.y_pos - y_pos), (double)(p.x_pos - x_pos)));
+        }
     }
     else {
+      cooldown = 0;
       if (pathTimer <= pathTime && pathTimer > pathTime/2) currentSpeed = speed;
       else if (pathTimer <= 0 && pathTimer > -pathTime/2) {
         currentSpeed = speed;
@@ -65,13 +67,14 @@ class Piranha_Plant extends Monster {
       }
       pathTimer--;
     }
+    if (cHealth <= 0) currentSpeed = 0;
   }
   boolean updateImageDir() {
     String temp = phase;
-    if (playerInRange) {
+    if (cHealth <= 0) {phase = "death"; deathTimer--;}
+    else if (playerInRange) {
       phase = "attack";
     }
-    else if (cHealth <= 0) phase = "death";
     else phase = "idle";
     if (!temp.equals(phase)) {
       for (int i = 0; i < localSpriteName.size(); i++) {
@@ -87,7 +90,7 @@ class Piranha_Plant extends Monster {
     imageMode(CENTER);
     if (updateImageDir()) frame = 0;
     if (playerInRange) {
-      if (playerGenDir > 45 || playerGenDir < -45) {
+      if (playerGenDir >= 90 || playerGenDir < -90) {
         pushMatrix();
         translate(x_pos, y_pos);
         scale(-1.0, 1.0);
@@ -112,5 +115,6 @@ class Piranha_Plant extends Monster {
       if (frame + 1 < num_sprites) frame ++;
       else frame = 0;
     }
+    hBarDisplay();
   }
 }

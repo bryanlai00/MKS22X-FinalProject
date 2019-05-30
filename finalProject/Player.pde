@@ -13,6 +13,8 @@ class Player extends Thing implements Damageable, Collideable {
   float getY_size() {return y_size;}
   
   //Takes in size then pos.
+
+  //Player(int x_size, int y_size, int x_pos, int y_pos, int iT, PImage s) {
   Player(int x_size, int y_size, int x_pos, int y_pos, int iT, int num_sprites, ArrayList<PImage> ls) {
     super(x_size,y_size);
     this.x_size = x_size;
@@ -95,7 +97,7 @@ class Player extends Thing implements Damageable, Collideable {
       print("\n right constraint: " + rightConstraint);
       */
       if(anglePosition < rightConstraint && anglePosition > leftConstraint) {
-        ((Monster)enemy).cHealth--;
+        ((Monster)enemy).loseHealth(num);
       }
       //print("\n anglePosition: " + anglePosition);  
       //See if the difference angle is applicable for the coneSliceAngle:
@@ -103,10 +105,21 @@ class Player extends Thing implements Damageable, Collideable {
     }
   }
   
+<<<<<<< HEAD
   void update() {
     if (invulTimer < invulTime) invulTimer++;
     text(x_pos + " " + y_pos, 0, 0);
     fill(255,5,0);
+=======
+  void update(HUD h) {
+    if (invulTimer < invulTime) {
+      h.flashTime = invulTimer;
+      invulTimer++;
+      if (invulTimer % 10 < 5) tint(255, 0, 0);
+      else noTint();
+    }
+    else noTint();
+>>>>>>> origin/monster
   }
   
   void move() {
