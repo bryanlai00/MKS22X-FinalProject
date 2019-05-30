@@ -7,6 +7,7 @@ Piranha_Plant d, d2;
 Minotaur min;
 Boar b;
 Spirit sp;
+Griffin g;
 HUD h;
 String[] spriteNames, hudNames, assetNames, playerNames, screenNames;
 ArrayList<Monster> m = new ArrayList<Monster>();
@@ -35,6 +36,7 @@ void setup() {
   }
   scr = new Screen(screenImages.get(0), screenImages.get(1), width/2 - 175, height/2 + 85, width/2, 50, 50, "start");
   screens.add(scr);
+  g = new Griffin(300, 600, 150, 150, 1.5, 400.0, 5, 10, 120, iT, .5, false, 150);
   d = new Piranha_Plant(500, 800, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false);
   d2 = new Piranha_Plant(500, 200, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false);
   s = new Slime(width/2, height/2, 50, 50, 1, 200.0, 4, 4, 120, iT, .5, false);
@@ -49,6 +51,7 @@ void setup() {
   m.add(min);
   m.add(b);
   m.add(sp);
+  m.add(g);
 
   //Player assets:
   playerNames = loadStrings("player_assets/player_sprites.txt");
