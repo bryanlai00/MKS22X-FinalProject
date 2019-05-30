@@ -4,7 +4,8 @@ class OverworldObject extends Thing implements Collideable {
   float getX_size() {return x_size;}
   float getY_size() {return y_size;}
   PImage sprite;
-  boolean blocking, displayed = false;
+  //Value to see if the overworldObject is an item.
+  boolean blocking;
   
   OverworldObject(float x_pos, float y_pos, float x_size, float y_size, PImage sprite, boolean blocking) {
     super(x_pos,y_pos);
@@ -18,6 +19,7 @@ class OverworldObject extends Thing implements Collideable {
   }
   
   void display() {
+      noTint();
       image(sprite, x_pos, y_pos);
       //problem occurs because the background overrites it.
   }
@@ -25,7 +27,7 @@ class OverworldObject extends Thing implements Collideable {
   //Has boolean isTouching from abstract Thing class.
   boolean isTouching(Thing other) {
     //If the object/sprite is supposed to act as a boundary: blocking = true. if not, blocking = false (like a tile).
-    return true;
+    return super.isTouching(other);
     //Return false if it is not blocking and it solely acts like a tile.
   }
 }
