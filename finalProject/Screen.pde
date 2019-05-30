@@ -25,6 +25,15 @@ public class Screen {
       textAlign(CENTER);
       text("press any button", width / 2, 3 * height / 4);
     }
+    if(codename.equals("gameover")) {
+      background(255);
+      image(s,x_pos,y_pos,width,height);
+      pushMatrix();
+      translate(mx_pos, my_pos);
+      scale(-1.0, 1.0);
+      textAlign(CENTER);
+      popMatrix();
+    }
   }
   void select() {
     if (codename.equals("start")) screens.clear();
