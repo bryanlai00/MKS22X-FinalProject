@@ -163,7 +163,6 @@ class Player extends Thing implements Damageable, Collideable {
 
     //If the player encounters a "collideableRoomObject, make xChange and yChange == 0
     for(OverworldObject o : collideableRoomObjects) {
-      print("Player x_pos: " + x_pos + " Player y_pos: " + y_pos + "\n");
       if(isTouching(o)) {
         //If you have a distance that is closer (less) than the previous distance between the object and player, don't move it in that direction.
         //Instead, just don't allow it.

@@ -58,7 +58,7 @@ void setup() {
 }
 
 void draw() {
-  background(255);
+  background(51);
   for (OverworldObject o : roomObjects) {
     o.display();
   }
