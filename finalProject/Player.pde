@@ -71,11 +71,10 @@ class Player extends Thing implements Damageable, Collideable {
   }
   
   //Has isTouching method from Thing.
-  /*boolean isTouching(Thing other) {
-    //System.out.print(getX() + ", " + getY() + "   ");
-    //System.out.print(dist(getX(), getY() , other.getX(), other.getY()) + "   ");
-    return dist(getX(), getY() , other.getX(), other.getY()) < x_size;
-  }*/
+  boolean isTouching(Thing other) {
+    //Add statement to deal with OverworldObjects, bottom is used for monster.
+    return super.isTouching(other);
+  }
   
   void attack(Thing enemy, float num) {
     float range = 100;
@@ -106,6 +105,8 @@ class Player extends Thing implements Damageable, Collideable {
   
   void update() {
     if (invulTimer < invulTime) invulTimer++;
+    text(x_pos + " " + y_pos, 0, 0);
+    fill(255,5,0);
   }
   
   void move() {
@@ -130,16 +131,6 @@ class Player extends Thing implements Damageable, Collideable {
     float yChange = speed * (int(isDown) - int(isUp));
     //print(x_pos + " " + y_pos);
     //Move all other entities by moving the map.
-    if(x_pos < 940 && x_pos > 57 && y_pos < 940 && y_pos > 57) {
-      for(int i = 0; i < roomObjects.size(); i++) {
-        roomObjects.get(i).x_pos += -xChange;
-        roomObjects.get(i).y_pos += -yChange;
-      }
-      for(int i = 0; i < m.size(); i++) {
-        m.get(i).x_pos += -xChange;
-        m.get(i).y_pos += -yChange;
-      }
-    }
     //List of x-statements to find angleDirection:
     //For basical cardinal directions:
         //print("direction angle" + directionAngle + "\n");
@@ -172,13 +163,36 @@ class Player extends Thing implements Damageable, Collideable {
 
     //If the player encounters a "collideableRoomObject, make xChange and yChange == 0
     for(OverworldObject o : collideableRoomObjects) {
+      print("Player x_pos: " + x_pos + " Player y_pos: " + y_pos + "\n");
       if(isTouching(o)) {
-        print("touching!");
+        //If you have a distance that is closer (less) than the previous distance between the object and player, don't move it in that direction.
+        //Instead, just don't allow it.
+         if(dist(x_pos + xChange, y_pos + yChange, o.getX(), o.getY()) < dist(x_pos, y_pos, o.getX(), o.getY())) {
+           xChange = 0;
+           yChange = 0;
+         }
       }
     }
+    
     x_pos = constrain(x_pos + xChange, r, width  - r);
     y_pos = constrain(y_pos + yChange, r, height - r);
     
+    
+    //Check boundaries and move other entities based on xChange and yChange.
+    if(x_pos < 940 && x_pos > 57 && y_pos < 940 && y_pos > 57) {
+      for(int i = 0; i < roomObjects.size(); i++) {
+        roomObjects.get(i).x_pos += -xChange;
+        roomObjects.get(i).y_pos += -yChange;
+      }
+      for(int i = 0; i < collideableRoomObjects.size(); i++ ) {
+        collideableRoomObjects.get(i).x_pos += -xChange;
+        collideableRoomObjects.get(i).y_pos += -yChange;
+      }
+      for(int i = 0; i < m.size(); i++) {
+        m.get(i).x_pos += -xChange;
+        m.get(i).y_pos += -yChange;
+      }
+    }
     //Checks if the player is moving.
     if(x_prev_pos != x_pos || y_prev_pos != y_pos) {
       isMoving = true;

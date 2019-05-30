@@ -1,3 +1,6 @@
 Room1: Parameters (sprite_name, starting x_pos, y_pos, xSize, ySize, xquantity, yQuantity, blockingValue)
-floor_1 70 70 70 70 50 50 false 
-wall_hole_1 0 0 70 70 1 50 true
+floor_1 50 50 50 50 50 50 false 
+wall_hole_1 0 0 50 50 1 50 true
+wall_hole_1 2500 0 50 50 1 50 true
+wall_hole_1 0 0 50 50 50 1 true
+wall_hole_1 0 2500 50 50 50 1 true

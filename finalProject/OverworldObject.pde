@@ -25,10 +25,7 @@ class OverworldObject extends Thing implements Collideable {
   //Has boolean isTouching from abstract Thing class.
   boolean isTouching(Thing other) {
     //If the object/sprite is supposed to act as a boundary: blocking = true. if not, blocking = false (like a tile).
-    if(blocking) {
-      super.isTouching(other);
-    }
+    return true;
     //Return false if it is not blocking and it solely acts like a tile.
-    return false;
   }
 }
