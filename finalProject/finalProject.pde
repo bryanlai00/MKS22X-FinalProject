@@ -74,14 +74,28 @@ void setup() {
       //print(Arrays.toString(params)) Using these parameters, add to room sprites.
       for(int copies = 0; copies < Float.valueOf(params[5]); copies++) {
         for(int yCopies = 0; yCopies < Float.valueOf(params[6]); yCopies++) {
-          roomObjects.add(new OverworldObject(Float.valueOf(params[1]) + copies * Float.valueOf(params[3]), Float.valueOf(params[2]) + yCopies * Float.valueOf(params[4]) , Float.valueOf(params[3]), Float.valueOf(params[4]), loadImage("data/room_assets/" + params[0] + ".png"), Boolean.valueOf(params[7])));
-          if(Boolean.valueOf(params[7])) {
-            collideableRoomObjects.add(new OverworldObject(Float.valueOf(params[1]) + copies * Float.valueOf(params[3]), Float.valueOf(params[2]) + yCopies * Float.valueOf(params[4]) , Float.valueOf(params[3]), Float.valueOf(params[4]), loadImage("data/room_assets/" + params[0] + ".png"), Boolean.valueOf(params[7])));
+          //If the overworldobject is not animated (length == 8):
+          if(objects.length == 8) {
+            roomObjects.add(new OverworldObject(Float.valueOf(params[1]) + copies * Float.valueOf(params[3]), Float.valueOf(params[2]) + yCopies * Float.valueOf(params[4]) , Float.valueOf(params[3]), Float.valueOf(params[4]), loadImage("data/room_assets/" + params[0] + ".png"), Boolean.valueOf(params[7])));
+            if(Boolean.valueOf(params[7])) {
+              collideableRoomObjects.add(new OverworldObject(Float.valueOf(params[1]) + copies * Float.valueOf(params[3]), Float.valueOf(params[2]) + yCopies * Float.valueOf(params[4]) , Float.valueOf(params[3]), Float.valueOf(params[4]), loadImage("data/room_assets/" + params[0] + ".png"), Boolean.valueOf(params[7])));
+            }
           }
+          else {
+            ArrayList<PImage> more_sprites = new ArrayList<PImage>();
+            float spriteAmt = Float.valueOf(params[8]);
+            for(int i = 0; i < spriteAmt; i++) {
+              more_sprites.add(loadImage("data/room_assets/" + params[0] + "_" + i + ".png"));
+            }
+            roomObjects.add(new OverworldObject(Float.valueOf(params[1]) + copies * Float.valueOf(params[3]), Float.valueOf(params[2]) + yCopies * Float.valueOf(params[4]) , Float.valueOf(params[3]), Float.valueOf(params[4]), more_sprites, Boolean.valueOf(params[7]), Float.valueOf(params[8])));
+            if(Boolean.valueOf(params[7])) {
+              collideableRoomObjects.add(new OverworldObject(Float.valueOf(params[1]) + copies * Float.valueOf(params[3]), Float.valueOf(params[2]) + yCopies * Float.valueOf(params[4]) , Float.valueOf(params[3]), Float.valueOf(params[4]), more_sprites, Boolean.valueOf(params[7]), Float.valueOf(params[8])));
+            }
         }
       }
     }
   }
+}
 }
 
 

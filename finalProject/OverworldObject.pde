@@ -20,27 +20,34 @@ class OverworldObject extends Thing implements Collideable {
     this.blocking = blocking;
   }
   
-    OverworldObject(float x_pos, float y_pos, float x_size, float y_size, ArrayList<PImage> sprites, boolean blocking) {
+    OverworldObject(float x_pos, float y_pos, float x_size, float y_size, ArrayList<PImage> sprites, boolean blocking, int num_sprites) {
     super(x_pos,y_pos);
     this.x_pos = x_pos;
     this.y_pos = y_pos;
     this.x_size = x_size;
     this.y_size = y_size;
     this.sprites = sprites;
-    sprite.resize((int) x_size, (int) y_size);
+    for(int i = 0; i < sprites.size(); i++) {
+      sprites.get(i).resize((int) x_size, (int) y_size);
+    }
     this.blocking = blocking;
+    this.num_sprites = num_sprites;
   }
   
   void display() {
       noTint();
-      image(sprites.get(frame + sprite_index), x_pos, y_pos, x_size, y_size);
-      if (delay <= 10) delay ++;
+      if(num_sprites != 0) {
+        image(sprites.get(frame + sprite_index), x_pos, y_pos, x_size, y_size);
+        if (delay <= 10) delay ++;
+        else {
+          delay = 0;
+        if (frame + 1 < num_sprites) frame ++;
+        else frame = 0;
+        }
+      }
       else {
-        delay = 0;
-      if (frame + 1 < sprites.size()) frame ++;
-      else frame = 0;
-    }
       image(sprite, x_pos, y_pos);
+      }
       //problem occurs because the background overrites it.
   }
   
