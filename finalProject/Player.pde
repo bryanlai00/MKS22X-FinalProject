@@ -1,5 +1,5 @@
 class Player extends Thing implements Damageable, Collideable {
-  int m_health, damage, gaugeValue, num_sprites, sprite_index, delay = 0, frame = 0, invulTimer, invulTime;
+  int m_health, damage, gaugeValue, num_sprites, sprite_index, delay = 0, frame = 0, invulTimer, invulTime, score = 0;
   String lastDirection = "right";
   float x_pos, y_pos, x_size, y_size, directionAngle, c_health;
   boolean isMoving, isRunning;

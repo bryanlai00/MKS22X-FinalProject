@@ -40,9 +40,21 @@ void setup() {
   screens.add(scr);
   
   g = new Griffin(300, 600, 150, 150, 1.5, 400.0, 5, 10, 120, iT, .5, false, 150);
-
+  d = new Piranha_Plant(500, 800, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false);
+  d2 = new Piranha_Plant(500, 200, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false);
+  s = new Slime(width/2, height/2, 50, 50, 1, 200.0, 4, 4, 120, iT, .5, false);
+  s2 = new Slime(200, 600, 50, 50, 1, 200.0, 1, 4, 120, iT, .5, false);
+  min = new Minotaur(300, 600, 150, 150, 1.5, 400.0, 5, 4, 120, iT, .5, false, 150);
+  b = new Boar(200, 600, 50, 50, 2, 300.0, 1, 8, 120, iT, .5, false);
+  sp = new Spirit(600, 200, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false);
+  m.add(s);
+  m.add(s2);
+  m.add(d);
+  m.add(d2);
+  m.add(min);
+  m.add(b);
+  m.add(sp);
   m.add(g);
-  
 
   //Player assets:
   playerNames = loadStrings("data/player_sprites.txt");
@@ -101,9 +113,7 @@ void draw() {
         m.get(mons).move(m.get(mons).currentDirection);
         m.get(mons).display();
         for (int i = m.size() - 1; i >= 0; i--) {
-          if (m.get(i).cHealth <= 0 && m.get(i).getDeathTimer() == 0) {
-            p.score += 50;
-            m.remove(i);
+          if (m.get(i).cHealth <= 0 && m.get(i).getDeathTimer() == 0) m.remove(i);
         }
       }
       for (int i = projectiles.size() - 1; i >= 0; i--) {
@@ -112,7 +122,7 @@ void draw() {
         projectiles.get(i).update(p);
       }
       p.update(h);
-      p.move();
+      p.move();  
       p.display();
       h.update(p.c_health);
       h.display();
