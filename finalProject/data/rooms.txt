@@ -1,6 +1,13 @@
-Room1: Parameters (sprite_name, starting x_pos, y_pos, xSize, ySize, xquantity, yQuantity, blockingValue)
-floor_1 50 50 50 50 50 50 false
-wall_hole_1 0 0 50 50 1 50 true
-wall_hole_1 2500 0 50 50 1 50 true
-wall_hole_1 0 0 50 50 50 1 true
-wall_hole_1 0 2500 50 50 50 1 true
+Room Parameters (sprite_name, starting x_pos, y_pos, xSize, ySize, xquantity, yQuantity, blockingValue)
+Room1: Dimensions (1050 x 1050)  Top Left Vertice --> Bottom Right Vertice: (400, 0) --> (1250, 500)
+tile 450 50 50 50 10 9 false
+left_corner_wall 400 0 50 50 1 1 true
+right_corner_wall 950 0 50 50 1 1 true
+topwall 450 0 50 50 10 1 true
+left_wall 400 50 50 50 1 10 true
+right_wall 950 50 50 50 1 10 true
+left_bottom_corner 400 500 50 50 1 1 true
+right_bottom_corner 950 500 50 50 1 1 true
+bottomwall 450 500 50 50 4 1 true
+bottomwall 750 500 50 50 4 1 true
+doors 650 500 100 50 1 1 false

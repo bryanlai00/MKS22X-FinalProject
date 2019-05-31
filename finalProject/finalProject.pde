@@ -38,6 +38,7 @@ void setup() {
   }
   scr = new Screen(screenImages.get(0), screenImages.get(1), width/2 - 175, height/2 + 85, width/2, 50, 50, "start");
   screens.add(scr);
+  /*
   g = new Griffin(300, 600, 150, 150, 1.5, 400.0, 5, 10, 120, iT, .5, false, 150);
   d = new Piranha_Plant(500, 800, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false);
   d2 = new Piranha_Plant(500, 200, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false);
@@ -54,14 +55,15 @@ void setup() {
   m.add(b);
   m.add(sp);
   m.add(g);
+  */
 
   //Player assets:
   playerNames = loadStrings("data/player_sprites.txt");
   for (String s : playerNames) {
-    assets.add(loadImage("data/room_player_assets/" + s + ".png"));
+    assets.add(loadImage("data/player_assets/" + s + ".png"));
   }
   //4 stands for # of sprites for each PHASE. Not the number of sprites in total. The value changes in differnet cases.
-  p = new Player(50,50,width/2 + 100,height/2 + 100,iT,4,assets);
+  p = new Player(50,50,width/2 ,height/2,iT,4,assets);
   
   //Room assets:
   objects = loadStrings("data/rooms.txt");
@@ -72,9 +74,9 @@ void setup() {
       //print(Arrays.toString(params)) Using these parameters, add to room sprites.
       for(int copies = 0; copies < Float.valueOf(params[5]); copies++) {
         for(int yCopies = 0; yCopies < Float.valueOf(params[6]); yCopies++) {
-          roomObjects.add(new OverworldObject(Float.valueOf(params[1]) + copies * Float.valueOf(params[3]), Float.valueOf(params[2]) + yCopies * Float.valueOf(params[4]) , Float.valueOf(params[3]), Float.valueOf(params[4]), loadImage("data/room_player_assets/" + params[0] + ".png"), Boolean.valueOf(params[7])));
+          roomObjects.add(new OverworldObject(Float.valueOf(params[1]) + copies * Float.valueOf(params[3]), Float.valueOf(params[2]) + yCopies * Float.valueOf(params[4]) , Float.valueOf(params[3]), Float.valueOf(params[4]), loadImage("data/room_assets/" + params[0] + ".png"), Boolean.valueOf(params[7])));
           if(Boolean.valueOf(params[7])) {
-            collideableRoomObjects.add(new OverworldObject(Float.valueOf(params[1]) + copies * Float.valueOf(params[3]), Float.valueOf(params[2]) + yCopies * Float.valueOf(params[4]) , Float.valueOf(params[3]), Float.valueOf(params[4]), loadImage("data/room_player_assets/" + params[0] + ".png"), Boolean.valueOf(params[7])));
+            collideableRoomObjects.add(new OverworldObject(Float.valueOf(params[1]) + copies * Float.valueOf(params[3]), Float.valueOf(params[2]) + yCopies * Float.valueOf(params[4]) , Float.valueOf(params[3]), Float.valueOf(params[4]), loadImage("data/room_assets/" + params[0] + ".png"), Boolean.valueOf(params[7])));
           }
         }
       }
@@ -88,7 +90,7 @@ void draw() {
     //Room assets:
     if (screens.size() > 0) screens.get(0).display();
     else if(running){
-      background(51);
+      background(37,19,26);
       fill(0, 102, 153);
       for (OverworldObject o : roomObjects) {
         o.display();
