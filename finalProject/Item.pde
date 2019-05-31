@@ -6,7 +6,7 @@ class Item extends Thing {
   int itemValue;
   PImage sprite;
   
-  public Item(float x_pos, float y_pos, float x_size, float y_size, PImage sprite, int itemValue){
+  public Item(float x_pos, float y_pos, float x_size, float y_size, PImage sprite, float itemValue){
     super(x_pos, y_pos);
     this.x_pos = x_pos;
     this.y_pos = x_pos;
@@ -14,6 +14,7 @@ class Item extends Thing {
     this.y_size = y_size;
     this.sprite = sprite;
     sprite.resize((int) x_size, (int) y_size);
+    this.itemValue = (int) itemValue;
   }
   
   void display() {

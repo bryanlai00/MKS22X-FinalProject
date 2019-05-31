@@ -24,7 +24,7 @@ class OverworldObject extends Thing implements Collideable {
     super(x_pos,y_pos);
     this.x_pos = x_pos;
     this.y_pos = y_pos;
-    this.x_size = x_size;
+    this.x_size = x_size;  
     this.y_size = y_size;
     this.sprites = sprites;
     for(int i = 0; i < num_sprites; i++) {

@@ -192,6 +192,10 @@ class Player extends Thing implements Damageable, Collideable {
         collideableRoomObjects.get(i).x_pos += -xChange;
         collideableRoomObjects.get(i).y_pos += -yChange;
       }
+      for(int i = 0; i < allItems.size(); i++) {
+        allItems.get(i).x_pos += -xChange;
+        allItems.get(i).y_pos += -yChange;
+      }
       for(int i = 0; i < m.size(); i++) {
         m.get(i).x_pos += -xChange;
         m.get(i).y_pos += -yChange;

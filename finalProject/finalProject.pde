@@ -13,7 +13,8 @@ HUD h;
 boolean running = true;
 ArrayList<OverworldObject> roomObjects = new ArrayList<OverworldObject>();
 ArrayList<OverworldObject> collideableRoomObjects = new ArrayList<OverworldObject>();
-String[] objects, spriteNames, hudNames, assetNames, playerNames, screenNames;
+ArrayList<Item> allItems = new ArrayList<Item>();
+String[] objects, spriteNames, hudNames, assetNames, playerNames, screenNames, itemNames;
 ArrayList<Monster> m = new ArrayList<Monster>();
 ArrayList<PImage> sprite = new ArrayList<PImage>();
 ArrayList<PImage> assets = new ArrayList<PImage>();
@@ -36,6 +37,12 @@ void setup() {
   screenNames = loadStrings("data/screenNames.txt");
   for (String str : screenNames) {
      screenImages.add(loadImage("data/screens/" + str + ".png"));
+  }
+  //Going through items.txt:
+  itemNames = loadStrings("data/itemNames.txt");
+  for(int i = 0; i < itemNames.length; i++) {
+    String[] params = itemNames[i].split(",");
+    allItems.add(new Item(Float.valueOf(params[0]), Float.valueOf(params[1]), Float.valueOf(params[2]), Float.valueOf(params[3]), loadImage("data/items/" + params[4] + ".png"), Float.valueOf(params[5])));
   }
   scr = new Screen(width/2 - 190, height - 115, width/2, 75, 75, "title");
   screens.add(scr);
@@ -65,6 +72,7 @@ void setup() {
   }
   //4 stands for # of sprites for each PHASE. Not the number of sprites in total. The value changes in differnet cases.
   p = new Player(50,50,width/2 ,height/2,iT,4,assets);
+  
   
   //Room assets:
   objects = loadStrings("data/rooms.txt");
@@ -107,6 +115,9 @@ void draw() {
     else if(running){
       background(37,19,26);
       fill(0, 102, 153);
+      for(Item i : allItems) {
+        i.display();
+      }
       for (OverworldObject o : roomObjects) {
         o.display();
       }
