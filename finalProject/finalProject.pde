@@ -122,7 +122,7 @@ void draw() {
 
 //Clears everything on the screen when reaching gameOver.
 void clear() {
-  if(p.c_health <= 0) screens.add(new Screen(screenImages.get(2), screenImages.get(1), width/2, height/2, width/2, 50, 50, "gameover"));
+  if(p.c_health <= 0) screens.add(new Screen(width/2, height/2, width/2, 50, 50, "gameover"));
 }
 
 void keyPressed() {

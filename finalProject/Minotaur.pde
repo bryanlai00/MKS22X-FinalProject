@@ -84,8 +84,6 @@ class Minotaur extends Monster {
     }
     else {playerInRange = false; reachable = false;}
   }
-<<<<<<< HEAD
-=======
   void move(float direction) {
     for(OverworldObject o : collideableRoomObjects) {
       if(isTouching(o)) {
@@ -99,7 +97,6 @@ class Minotaur extends Monster {
       x_pos += currentSpeed * Math.cos(radians(direction));
       y_pos += currentSpeed * Math.sin(radians(direction));
   }
->>>>>>> 3097c015cad945b18157b1e88567602f2e05799d
   boolean updateImageDir() {
     String temp = phase;
     if (cHealth <= 0) {phase = "death"; num_sprites = 9; deathTimer--;}

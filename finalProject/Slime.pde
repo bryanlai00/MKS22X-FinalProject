@@ -24,8 +24,6 @@ class Slime extends Monster {
   void attack(Thing target, float num) {
     if (cHealth > 0) ((Player)target).loseHealth(num);
   }
-<<<<<<< HEAD
-=======
   void move(float direction) {
     for(OverworldObject o : collideableRoomObjects) {
       if(isTouching(o)) {
@@ -39,7 +37,6 @@ class Slime extends Monster {
       x_pos += currentSpeed * Math.cos(radians(direction));
       y_pos += currentSpeed * Math.sin(radians(direction));
   }
->>>>>>> 3097c015cad945b18157b1e88567602f2e05799d
   boolean updateImageDir() {
     String temp = currentDir;
     if (cHealth <= 0) {currentDir = "death"; currentSpeed = 0; deathTimer--; num_sprites = 8;}
