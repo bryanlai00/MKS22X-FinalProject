@@ -104,6 +104,7 @@ void draw() {
           if (m.get(i).cHealth <= 0 && m.get(i).getDeathTimer() == 0) {
             p.score += 50;
             m.remove(i);
+          }
         }
       }
       for (int i = projectiles.size() - 1; i >= 0; i--) {
