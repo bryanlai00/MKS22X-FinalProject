@@ -55,10 +55,6 @@ class Boar extends Monster {
     }
     else {playerInRange = false;}
   }
-  void move(float direction) {
-      x_pos += currentSpeed * Math.cos(radians(direction));
-      y_pos += currentSpeed * Math.sin(radians(direction));
-  }
   boolean updateImageDir() {
     String temp = phase;
     if (cHealth <= 0) {phase = "death"; deathTimer--;}

@@ -1,13 +1,13 @@
-class Piranha_Plant extends Monster {
+class Baby extends Monster {
   boolean safe;
   PImage projectile;
   String phase;
   float sRF, playerGenDir;
   int cooldown;
-  Piranha_Plant(float xcor, float ycor, float x_size, float y_size, float spe, float sight, float mH, int numSprites, int pT, int iT, float dam, boolean boss) {
+  Baby(float xcor, float ycor, float x_size, float y_size, float spe, float sight, float mH, int numSprites, int pT, int iT, float dam, boolean boss) {
      super(xcor, ycor, x_size, y_size, spe, sight, mH, numSprites, pT, iT, dam, boss);
   for (int i = 0; i < spriteNames.length; i++) {
-     if (spriteNames[i].contains("dragon")) {
+     if (spriteNames[i].contains("baby")) {
        localSprite.add(sprite.get(i));
        localSpriteName.add(spriteNames[i]);
      }
@@ -21,11 +21,6 @@ class Piranha_Plant extends Monster {
   }
   void attack(Thing target, float num) {
     projectiles.add(0, new Projectile(x_pos, y_pos, 35, 35, num, 5, 60, projectile, (Player)target));
-  }
-  void move(float direction) {
-      imageMode(CENTER);
-      x_pos += currentSpeed * Math.cos(radians(direction));
-      y_pos += currentSpeed * Math.sin(radians(direction));
   }
   void checkForPlayer(Player p, float safeRadiusDiff) {
     if (dist(p.x_pos,p.y_pos,x_pos,y_pos) < sightDistance) {

@@ -24,10 +24,6 @@ class Slime extends Monster {
   void attack(Thing target, float num) {
     if (cHealth > 0) ((Player)target).loseHealth(num);
   }
-  void move(float direction) {
-      x_pos += currentSpeed * Math.cos(radians(direction));
-      y_pos += currentSpeed * Math.sin(radians(direction));
-  }
   boolean updateImageDir() {
     String temp = currentDir;
     if (cHealth <= 0) {currentDir = "death"; currentSpeed = 0; deathTimer--; num_sprites = 8;}

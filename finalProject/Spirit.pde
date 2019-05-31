@@ -25,11 +25,6 @@ class Spirit extends Monster {
     projectiles.add(0, new Projectile(x_pos, y_pos, 35, 35, num, 5, 60, projectile, (Player)target, 45));
     projectiles.add(0, new Projectile(x_pos, y_pos, 35, 35, num, 5, 60, projectile, (Player)target, -45));
   }
-  void move(float direction) {
-      imageMode(CENTER);
-      x_pos += currentSpeed * Math.cos(radians(direction));
-      y_pos += currentSpeed * Math.sin(radians(direction));
-  }
   void checkForPlayer(Player p, float safeRadiusDiff) {
     if (dist(p.x_pos,p.y_pos,x_pos,y_pos) < sightDistance) {
       playerInRange = true;
