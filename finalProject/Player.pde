@@ -72,25 +72,21 @@ class Player extends Thing implements Damageable, Collideable {
     }
   }
   
+  //Has isTouching method from Thing.
   boolean isTouching(Thing other) {
-    //System.out.print(getX() + ", " + getY() + "   ");
-    //System.out.print(dist(getX(), getY() , other.getX(), other.getY()) + "   ");
-    return dist(getX(), getY() , other.getX(), other.getY()) < x_size;
+    //Add statement to deal with OverworldObjects, bottom is used for monster.
+    return super.isTouching(other);
   }
   
   void attack(Thing enemy, float num) {
     float range = 100;
     float coneSliceAngle = degrees(PI/4);
-    textSize(13);
-    text(dist(x_pos, y_pos, enemy.getX(), enemy.getY()), 100, 100);
     //If the distance is greater than the range, return and iterate with the next monster.
     if(dist(x_pos, y_pos, enemy.getX(), enemy.getY()) > range) {
       return;
     }
     else {
       float anglePosition = degrees((float)Math.atan2(enemy.getY() - y_pos, enemy.getX() - x_pos));
-      textSize(13);
-      text("Angle between monster and player: " + anglePosition, 100, 130);    
       //If angle is less than 0:
       float rightConstraint = directionAngle + coneSliceAngle;
       float leftConstraint = directionAngle - coneSliceAngle;
@@ -101,13 +97,15 @@ class Player extends Thing implements Damageable, Collideable {
       if(anglePosition < rightConstraint && anglePosition > leftConstraint) {
         ((Monster)enemy).loseHealth(num);
       }
-      print("\n anglePosition: " + anglePosition);  
+      //print("\n anglePosition: " + anglePosition);  
       //See if the difference angle is applicable for the coneSliceAngle:
       
     }
   }
   
   void update(HUD h) {
+    //If health reaches 0... set game running to false, to call clear().
+    if(c_health <= 0) running = false;
     if (invulTimer < invulTime) {
       h.flashTime = invulTimer;
       invulTimer++;
@@ -123,7 +121,7 @@ class Player extends Thing implements Damageable, Collideable {
     double s = Math.pow(y_size, 2);
     float r = (float)Math.sqrt(f + s); 
     /*Speed for movement 4 for running, 2 for normal*/
-       float speed;
+    float speed;
     if(isRunning) {
       speed = 4;
     }
@@ -135,11 +133,13 @@ class Player extends Thing implements Damageable, Collideable {
     //Used to see if the position changes to determine if something moves.
     float x_prev_pos = x_pos;
     float y_prev_pos = y_pos;
-    float xChange = x_pos + speed*(int(isRight) - int(isLeft));
-    float yChange = y_pos + speed*(int(isDown) - int(isUp));
+    float xChange = speed * (int(isRight) - int(isLeft));
+    float yChange = speed * (int(isDown) - int(isUp));
+    //print(x_pos + " " + y_pos);
+    //Move all other entities by moving the map.
     //List of x-statements to find angleDirection:
     //For basical cardinal directions:
-        print("direction angle" + directionAngle + "\n");
+        //print("direction angle" + directionAngle + "\n");
         if(isRight) {
           directionAngle = 0;
         }
@@ -166,10 +166,37 @@ class Player extends Thing implements Damageable, Collideable {
           directionAngle = 135;
         }
         
-    //See if moving.
+
+    //If the player encounters a "collideableRoomObject, make xChange and yChange == 0
+    for(OverworldObject o : collideableRoomObjects) {
+      if(isTouching(o)) {
+        //If you have a distance that is closer (less) than the previous distance between the object and player, don't move it in that direction.
+        //Instead, just don't allow it.
+         if(dist(x_pos + xChange, y_pos + yChange, o.getX(), o.getY()) < dist(x_pos, y_pos, o.getX(), o.getY())) {
+           xChange = 0;
+           yChange = 0;
+         }
+      }
+    }
     
-    x_pos = constrain(xChange, r, width  - r);
-    y_pos = constrain(yChange, r, height - r);
+    x_pos = constrain(x_pos + xChange, r, width  - r);
+    y_pos = constrain(y_pos + yChange, r, height - r);
+    
+    
+    //Check boundaries and move other entities based on xChange and yChange.
+      for(int i = 0; i < roomObjects.size(); i++) {
+        roomObjects.get(i).x_pos += -xChange;
+        roomObjects.get(i).y_pos += -yChange;
+      }
+      for(int i = 0; i < collideableRoomObjects.size(); i++ ) {
+        collideableRoomObjects.get(i).x_pos += -xChange;
+        collideableRoomObjects.get(i).y_pos += -yChange;
+      }
+      for(int i = 0; i < m.size(); i++) {
+        m.get(i).x_pos += -xChange;
+        m.get(i).y_pos += -yChange;
+      }
+    //Checks if the player is moving.
     if(x_prev_pos != x_pos || y_prev_pos != y_pos) {
       isMoving = true;
     }
@@ -206,7 +233,6 @@ class Player extends Thing implements Damageable, Collideable {
     case 'Z':
       for(Monster mons : m) {
         p.attack(mons, 1);
-        arc(x_pos, y_pos, 80, 80, radians(directionAngle) - PI/5, PI/5 + radians(directionAngle));
       }
  
     default:

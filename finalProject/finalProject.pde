@@ -10,9 +10,11 @@ Spirit sp;
 Griffin g;
 Dragon dr;
 HUD h;
-String[] spriteNames, hudNames, assetNames, playerNames, screenNames;
+boolean running = true;
+ArrayList<OverworldObject> roomObjects = new ArrayList<OverworldObject>();
+ArrayList<OverworldObject> collideableRoomObjects = new ArrayList<OverworldObject>();
+String[] objects, spriteNames, hudNames, assetNames, playerNames, screenNames;
 ArrayList<Monster> m = new ArrayList<Monster>();
-ArrayList<OverworldObject> roomSprites = new ArrayList<OverworldObject>();
 ArrayList<PImage> sprite = new ArrayList<PImage>();
 ArrayList<PImage> assets = new ArrayList<PImage>();
 ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
@@ -57,46 +59,75 @@ void setup() {
   m.add(dr);
 
   //Player assets:
-  playerNames = loadStrings("player_assets/player_sprites.txt");
+  playerNames = loadStrings("data/player_sprites.txt");
   for (String s : playerNames) {
-    assets.add(loadImage("player_assets/" + s + ".png"));
+    assets.add(loadImage("data/room_player_assets/" + s + ".png"));
   }
   //4 stands for # of sprites for each PHASE. Not the number of sprites in total. The value changes in differnet cases.
-  p = new Player(40,40,300,300,iT,4,assets);
-  h = new HUD(p.m_health, 20, 20, 50);
+  p = new Player(50,50,width/2 + 100,height/2 + 100,iT,4,assets);
+  
   //Room assets:
-
-}
-
-void draw() {
-  if (screens.size() > 0) screens.get(0).display();
-  else {
-    background(0,205,255);
-    fill(0, 102, 153);
-    for (int mons = m.size() - 1; mons >= 0; mons--) {
-      m.get(mons).update(p);
-      m.get(mons).move(m.get(mons).currentDirection);
-      m.get(mons).display();
-      for (int i = m.size() - 1; i >= 0; i--) {
-        if (m.get(i).cHealth <= 0 && m.get(i).getDeathTimer() == 0) m.remove(i);
+  objects = loadStrings("data/rooms.txt");
+  for(int i = 0; i < objects.length; i++) {
+    //If the line/string does not contain Room...
+    if(!objects[i].contains("Room")) {
+      String[] params = objects[i].split(" ");
+      //print(Arrays.toString(params)) Using these parameters, add to room sprites.
+      for(int copies = 0; copies < Float.valueOf(params[5]); copies++) {
+        for(int yCopies = 0; yCopies < Float.valueOf(params[6]); yCopies++) {
+          roomObjects.add(new OverworldObject(Float.valueOf(params[1]) + copies * Float.valueOf(params[3]), Float.valueOf(params[2]) + yCopies * Float.valueOf(params[4]) , Float.valueOf(params[3]), Float.valueOf(params[4]), loadImage("data/room_player_assets/" + params[0] + ".png"), Boolean.valueOf(params[7])));
+          if(Boolean.valueOf(params[7])) {
+            collideableRoomObjects.add(new OverworldObject(Float.valueOf(params[1]) + copies * Float.valueOf(params[3]), Float.valueOf(params[2]) + yCopies * Float.valueOf(params[4]) , Float.valueOf(params[3]), Float.valueOf(params[4]), loadImage("data/room_player_assets/" + params[0] + ".png"), Boolean.valueOf(params[7])));
+          }
+        }
       }
     }
-    for (int i = projectiles.size() - 1; i >= 0; i--) {
-      projectiles.get(i).move();
-      projectiles.get(i).display();
-      projectiles.get(i).update(p);
-    }
-    p.update(h);
-    p.move();
-    p.display();
-    h.update(p.c_health);
-    h.display();
   }
+}
+
+
+void draw() {
+    h = new HUD(p.m_health, 20, 20, 50);
+    //Room assets:
+    if (screens.size() > 0) screens.get(0).display();
+    else if(running){
+      background(51);
+      fill(0, 102, 153);
+      for (OverworldObject o : roomObjects) {
+        o.display();
+      }
+      for (int mons = m.size() - 1; mons >= 0; mons--) {
+        m.get(mons).update(p);
+        m.get(mons).move(m.get(mons).currentDirection);
+        m.get(mons).display();
+        for (int i = m.size() - 1; i >= 0; i--) {
+          if (m.get(i).cHealth <= 0 && m.get(i).getDeathTimer() == 0) m.remove(i);
+        }
+      }
+      for (int i = projectiles.size() - 1; i >= 0; i--) {
+        projectiles.get(i).move();
+        projectiles.get(i).display();
+        projectiles.get(i).update(p);
+      }
+      p.update(h);
+      p.move();
+      p.display();
+      h.update(p.c_health);
+      h.display();
+    }
+    else {
+      clear();
+    }
+}
+
+//Clears everything on the screen when reaching gameOver.
+void clear() {
+  if(p.c_health <= 0) screens.add(new Screen(screenImages.get(2), screenImages.get(1), width/2, height/2, width/2, 50, 50, "gameover"));
 }
 
 void keyPressed() {
   if (screens.size() > 0) screens.get(0).select();
-  else p.setMove(keyCode, true, m);
+  else if(running) p.setMove(keyCode, true, m);
 }
 
 void keyReleased() {

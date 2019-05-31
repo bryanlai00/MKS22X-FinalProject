@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 cursor
 title_0
 title_1
@@ -15,3 +16,8 @@ title_12
 title_13
 title_14
 title_15
+=======
+start
+cursor
+gameover
+>>>>>>> 3097c015cad945b18157b1e88567602f2e05799d

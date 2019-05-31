@@ -33,8 +33,20 @@ public class Screen {
       textAlign(CENTER);
       text("Press Any Key", width / 2, 31 * height / 32);
     }
+<<<<<<< HEAD
     if (frame < localFrames.size() - 1) frame++;
     else frame = 0;
+=======
+    if(codename.equals("gameover")) {
+      background(255);
+      image(s,x_pos,y_pos,width,height);
+      pushMatrix();
+      translate(mx_pos, my_pos);
+      scale(-1.0, 1.0);
+      textAlign(CENTER);
+      popMatrix();
+    }
+>>>>>>> 3097c015cad945b18157b1e88567602f2e05799d
   }
   void select() {
     if (codename.equals("title")) screens.clear();
