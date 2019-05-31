@@ -20,18 +20,18 @@ class OverworldObject extends Thing implements Collideable {
     this.blocking = blocking;
   }
   
-    OverworldObject(float x_pos, float y_pos, float x_size, float y_size, ArrayList<PImage> sprites, boolean blocking, int num_sprites) {
+    OverworldObject(float x_pos, float y_pos, float x_size, float y_size, ArrayList<PImage> sprites, boolean blocking, float num_sprites) {
     super(x_pos,y_pos);
     this.x_pos = x_pos;
     this.y_pos = y_pos;
     this.x_size = x_size;
     this.y_size = y_size;
     this.sprites = sprites;
-    for(int i = 0; i < sprites.size(); i++) {
+    for(int i = 0; i < num_sprites; i++) {
       sprites.get(i).resize((int) x_size, (int) y_size);
     }
     this.blocking = blocking;
-    this.num_sprites = num_sprites;
+    this.num_sprites = (int)num_sprites;
   }
   
   void display() {
