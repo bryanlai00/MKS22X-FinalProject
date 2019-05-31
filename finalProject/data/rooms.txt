@@ -26,7 +26,9 @@ right_corner_wall 1050 750 50 50 1 1 true
 left_bottom_corner 50 1800 50 50 1 1 true
 right_bottom_corner 1050 1800 50 50 1 1 true
 left_wall 50 800 50 50 1 20 true
+side_torch 75 800 50 50 1 20 false 4
 right_wall 1050 800 50 50 1 20 true
+side_torch_left 1020 800 50 50 1 20 false 4
 topwall 100 750 50 50 11 1 true
 topwall 750 750 50 50 6 1 true
 bottomwall 100 1800 50 50 20 1 true
