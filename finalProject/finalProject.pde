@@ -47,7 +47,7 @@ void setup() {
   min = new Minotaur(300, 600, 150, 150, 1.5, 400.0, 5, 4, 120, iT, .5, false, 150);
   b = new Boar(200, 600, 50, 50, 2, 300.0, 1, 8, 120, iT, .5, false);
   sp = new Spirit(600, 200, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false);
-  dr = new Dragon(500, 200, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false);
+  dr = new Dragon(500, 200, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, true);
   m.add(s);
   m.add(s2);
   m.add(d);

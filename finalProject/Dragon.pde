@@ -18,6 +18,14 @@ class Dragon extends Monster {
      phase = "aoksdpok";
      attackPhase = 0;
      deathTimer = 65;
+     bossModifier();
+  }
+  void bossModifier() {
+    if (isBoss) {
+      for (int i = 0; i < localSprite.size(); i++) {
+        localSprite.get(i).resize(localSprite.get(i).width * 2, localSprite.get(i).height * 2);
+      }
+    }
   }
   void attack(Thing target, float num) {
     attack(target, num, reachable);
