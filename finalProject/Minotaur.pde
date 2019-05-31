@@ -1,6 +1,6 @@
 class Minotaur extends Monster {
   String phase;
-  float playerGenDir, reach, range = 100;;
+  float playerGenDir, reach, range = 100;
   int cooldown, attackPhase, attackDelay = -1;
   boolean reachable = false;
   Minotaur(float xcor, float ycor, float x_size, float y_size, float spe, float sight, float mH, int numSprites, int pT, int iT, float dam, boolean boss, float rea) {

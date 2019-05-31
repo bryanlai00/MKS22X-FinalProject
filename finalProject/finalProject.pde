@@ -3,11 +3,12 @@ import java.util.*;
 Screen scr;
 Player p;
 Slime s, s2;
-Piranha_Plant d, d2;
+Baby d, d2;
 Minotaur min;
 Boar b;
 Spirit sp;
 Griffin g;
+Dragon dr;
 HUD h;
 boolean running = true;
 ArrayList<OverworldObject> roomObjects = new ArrayList<OverworldObject>();
@@ -36,14 +37,27 @@ void setup() {
   for (String str : screenNames) {
      screenImages.add(loadImage("data/screens/" + str + ".png"));
   }
-  scr = new Screen(screenImages.get(0), screenImages.get(1), width/2 - 175, height/2 + 85, width/2, 50, 50, "start");
+  scr = new Screen(width/2 - 190, height - 115, width/2, 75, 75, "title");
   screens.add(scr);
   
   g = new Griffin(300, 600, 150, 150, 1.5, 400.0, 5, 10, 120, iT, .5, false, 150);
-
+  d = new Baby(500, 800, 75, 75, 1.5, 300.0, 3, 10, 120, iT, 1, false);
+  d2 = new Baby(500, 200, 75, 75, 1.5, 300.0, 3, 10, 120, iT, 1, false);
+  s = new Slime(width/2, height/2, 50, 50, 1, 200.0, 4, 4, 120, iT, .5, false);
+  s2 = new Slime(200, 600, 50, 50, 1, 200.0, 1, 4, 120, iT, .5, false);
+  min = new Minotaur(300, 600, 150, 150, 1.5, 400.0, 5, 4, 120, iT, .5, false, 150);
+  b = new Boar(200, 600, 50, 50, 2, 300.0, 1, 8, 120, iT, .5, false);
+  sp = new Spirit(600, 200, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false);
+  dr = new Dragon(500, 200, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false);
+  m.add(s);
+  m.add(s2);
+  m.add(d);
+  m.add(d2);
+  m.add(min);
+  m.add(b);
+  m.add(sp);
   m.add(g);
-  
-
+  m.add(dr);
   //Player assets:
   playerNames = loadStrings("data/player_sprites.txt");
   for (String s : playerNames) {
@@ -125,7 +139,7 @@ void draw() {
 
 //Clears everything on the screen when reaching gameOver.
 void clear() {
-  if(p.c_health <= 0) screens.add(new Screen(screenImages.get(2), screenImages.get(1), width/2, height/2, width/2, 50, 50, "gameover"));
+  if(p.c_health <= 0) screens.add(new Screen(width/2, height/2, width/2, 50, 50, "gameover"));
 }
 
 void keyPressed() {

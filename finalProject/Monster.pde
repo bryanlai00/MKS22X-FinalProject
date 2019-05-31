@@ -76,9 +76,13 @@ abstract class Monster extends Thing implements Damageable, Movable{
     updateInvul();
     updateBehavior(p);
   }
+  void move(float direction) {
+      imageMode(CENTER);
+      x_pos += currentSpeed * Math.cos(radians(direction));
+      y_pos += currentSpeed * Math.sin(radians(direction));
+  }
   abstract void display();
   abstract boolean updateImageDir();
   abstract void updateBehavior(Player p);
   abstract void attack(Thing other, float num);
-  abstract void move(float direction);
 }
