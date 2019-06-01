@@ -1,6 +1,6 @@
 class Griffin extends Monster {
   String phase;
-  float playerGenDir, reach, range = 80;
+  float playerGenDir, reach, range = 100;
   int cooldown, attackPhase, attackDelay = -1;
   boolean reachable = false;
   Griffin(float xcor, float ycor, float x_size, float y_size, float spe, float sight, float mH, int numSprites, int pT, int iT, float dam, boolean boss, float rea) {
@@ -16,6 +16,7 @@ class Griffin extends Monster {
      cooldown = 90;
      attackPhase = 0;
      deathTimer = 50;
+     if (isBoss) reach *= 1.5;
   }
   void attack(Thing target, float num) {
     float coneSliceAngle = degrees(PI/2);
@@ -47,25 +48,28 @@ class Griffin extends Monster {
   void display() {
     imageMode(CENTER);
     if (updateImageDir()) frame = 0;
+    x_size = localSprite.get(frame + index).width;
+    y_size = localSprite.get(frame + index).height;
+    if (isBoss) {x_size *= 1.5; y_size *= 1.5;}
     if (playerInRange) {
       if (playerGenDir >= 90 || playerGenDir < -90) {
         pushMatrix();
         translate(x_pos, y_pos);
         scale(-1.0, 1.0);
-        image(localSprite.get(frame + index), 0,0);
+        image(localSprite.get(frame + index), 0, 0, x_size, y_size);
         popMatrix();
       }
-      else image(localSprite.get(frame + index), x_pos, y_pos);
+      else image(localSprite.get(frame + index), x_pos, y_pos, x_size, y_size);
     }
     else {
       if (currentDirection >= 90 || currentDirection < -90 || (currentDirection >= 90 && currentDirection < 270)) {
         pushMatrix();
         translate(x_pos, y_pos);
         scale(-1.0, 1.0);
-        image(localSprite.get(frame + index), 0,0);
+        image(localSprite.get(frame + index), 0, 0, x_size, y_size);
         popMatrix();
       }
-      else image(localSprite.get(frame + index), x_pos, y_pos);
+      else image(localSprite.get(frame + index), x_pos, y_pos, x_size, y_size);
     }
     if (delay <= 5) delay ++;
     else {
@@ -79,23 +83,10 @@ class Griffin extends Monster {
     if (dist(p.x_pos,p.y_pos,x_pos,y_pos) < sightDistance) {
       playerInRange = true;
       currentDirection = (float)Math.toDegrees(Math.atan2((double)(p.y_pos - y_pos), (double)(p.x_pos - x_pos)));
-      if (Math.abs(p.x_pos - x_pos) < range && Math.abs(p.y_pos - y_pos) < y_size / 4) reachable = true;
+      if (Math.abs(p.x_pos - x_pos) < range && Math.abs(p.y_pos - y_pos) < y_size / 2) reachable = true;
       else reachable = false;
     }
     else {playerInRange = false; reachable = false;}
-  }
-  void move(float direction) {
-      for(OverworldObject o : collideableRoomObjects) {
-      if(isTouching(o)) {
-        if(dist(x_pos + currentSpeed * (float) Math.cos(radians(direction)), y_pos + currentSpeed * (float) Math.sin(radians(direction)), o.getX(), o.getY())
-        < dist(x_pos, y_pos, o.getX(), o.getY())) {
-           currentSpeed = 0;
-           currentSpeed = 0;
-         }
-        }
-      }  
-      x_pos += currentSpeed * Math.cos(radians(direction));
-      y_pos += currentSpeed * Math.sin(radians(direction));
   }
   boolean updateImageDir() {
     String temp = phase;

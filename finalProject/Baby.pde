@@ -18,23 +18,10 @@ class Baby extends Monster {
   sRF = sight/3;
   phase = "aoksdpok";
   cooldown = 0;
+  deathTimer = 50;
   }
   void attack(Thing target, float num) {
     projectiles.add(0, new Projectile(x_pos, y_pos, 35, 35, num, 5, 60, projectile, (Player)target));
-  }
-  void move(float direction) {
-      imageMode(CENTER);
-      for(OverworldObject o : collideableRoomObjects) {
-      if(isTouching(o)) {
-        if(dist(x_pos + currentSpeed * (float) Math.cos(radians(direction)), y_pos + currentSpeed * (float) Math.sin(radians(direction)), o.getX(), o.getY())
-        < dist(x_pos, y_pos, o.getX(), o.getY())) {
-           currentSpeed = 0;
-           currentSpeed = 0;
-         }
-        }
-      }  
-      x_pos += currentSpeed * Math.cos(radians(direction));
-      y_pos += currentSpeed * Math.sin(radians(direction));
   }
   void checkForPlayer(Player p, float safeRadiusDiff) {
     if (dist(p.x_pos,p.y_pos,x_pos,y_pos) < sightDistance) {
@@ -118,7 +105,7 @@ class Baby extends Monster {
       }
       else image(localSprite.get(frame + index), x_pos, y_pos, x_size, y_size);
     }
-    if (delay <= 10) delay ++;
+    if (delay <= 5) delay ++;
     else {
       delay = 0;
       if (frame + 1 < num_sprites) frame ++;

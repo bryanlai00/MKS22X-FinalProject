@@ -232,7 +232,7 @@ class Player extends Thing implements Damageable, Collideable {
       
     case 'Z':
       for(Monster mons : m) {
-        p.attack(mons, 1);
+        p.attack(mons, damage);
       }
  
     default:

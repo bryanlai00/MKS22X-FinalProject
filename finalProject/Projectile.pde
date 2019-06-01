@@ -40,12 +40,21 @@ class Projectile extends Thing {
     }
     else duration--;
   }
-  void move() {
-    x_pos += speed * Math.cos(radians(direction));
-    y_pos += speed * Math.sin(radians(direction));
-  }
+  void move() {  
+      for(OverworldObject o : collideableRoomObjects) {
+          if(isTouching(o)) {
+            if(dist(x_pos + speed * (float) Math.cos(radians(direction)), y_pos + speed * (float) Math.sin(radians(direction)), o.getX(), o.getY()) < dist(x_pos, y_pos, o.getX(), o.getY())) {
+               sprite = createImage(0, 0, RGB);
+               damage = 0;
+             }
+          }
+        }
+        x_pos += speed * Math.cos(radians(direction));
+        y_pos += speed * Math.sin(radians(direction));
+    }
   void display() {
     imageMode(CENTER);
+    noTint();
     image(sprite, x_pos, y_pos, getX_size(), getY_size());
   }
 }

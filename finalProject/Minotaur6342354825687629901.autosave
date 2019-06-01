@@ -8,15 +8,15 @@ class Minotaur extends Monster {
      reach = rea * 1.5;
      for (int i = 0; i < spriteNames.length; i++) {
        if (spriteNames[i].contains("minotaur")) {
-         localSprite.add(sprite.get(i));
-         localSpriteName.add(spriteNames[i]);
+         this.localSprite.add(sprite.get(i));
+         this.localSpriteName.add(spriteNames[i]);
        }
      }
      phase = "aoksdpok";
      cooldown = 90;
      attackPhase = 0;
      deathTimer = 45;
-     if (isBoss) reach *= 1.5;
+     bossModifier();
   }
   void attack(Thing target, float num) {
     float coneSliceAngle = degrees(PI/2);
@@ -48,28 +48,25 @@ class Minotaur extends Monster {
   void display() {
     imageMode(CENTER);
     if (updateImageDir()) frame = 0;
-    x_size = localSprite.get(frame + index).width;
-    y_size = localSprite.get(frame + index).height;
-    if (isBoss) {x_size *= 1.5; y_size *= 1.5;}
     if (playerInRange) {
       if (playerGenDir >= 90 || playerGenDir < -90) {
         pushMatrix();
         translate(x_pos, y_pos);
         scale(-1.0, 1.0);
-        image(localSprite.get(frame + index), 0, 0, x_size, y_size);
+        image(localSprite.get(frame + index), 0,0);
         popMatrix();
       }
-      else image(localSprite.get(frame + index), x_pos, y_pos, x_size, y_size);
+      else image(localSprite.get(frame + index), x_pos, y_pos);
     }
     else {
       if (currentDirection >= 90 || currentDirection < -90 || (currentDirection >= 90 && currentDirection < 270)) {
         pushMatrix();
         translate(x_pos, y_pos);
         scale(-1.0, 1.0);
-        image(localSprite.get(frame + index), 0, 0, x_size, y_size);
+        image(localSprite.get(frame + index), 0,0);
         popMatrix();
       }
-      else image(localSprite.get(frame + index), x_pos, y_pos, x_size, y_size);
+      else image(localSprite.get(frame + index), x_pos, y_pos);
     }
     if (delay <= 5) delay ++;
     else {

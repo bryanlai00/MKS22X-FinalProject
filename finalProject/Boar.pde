@@ -1,6 +1,6 @@
 class Boar extends Monster {
   String phase;
-  float playerGenDir, reach, range = 100;;
+  float playerGenDir, reach = 50, range = 100;
   int cooldown, chargeTimer = 0, stopTimer = 0;
   Boar(float xcor, float ycor, float x_size, float y_size, float spe, float sight, float mH, int numSprites, int pT, int iT, float dam, boolean boss) {
      super(xcor, ycor, x_size, y_size, spe, sight, mH, numSprites, pT, iT, dam, boss);
@@ -14,6 +14,7 @@ class Boar extends Monster {
      chargeTimer = 45;
      stopTimer = -1;
      deathTimer = 40;
+     if (isBoss) reach *= 1.5;
   }
   void attack(Thing target, float num) {
     if (cHealth > 0) ((Player)target).loseHealth(num);
@@ -21,25 +22,28 @@ class Boar extends Monster {
   void display() {
     imageMode(CENTER);
     if (updateImageDir()) frame = 0;
+    x_size = localSprite.get(frame + index).width;
+    y_size = localSprite.get(frame + index).height;
+    if (isBoss) {x_size *= 1.5; y_size *= 1.5;}
     if (playerInRange) {
       if (playerGenDir > 90 || playerGenDir < -90) {
         pushMatrix();
         translate(x_pos, y_pos);
         scale(-1.0, 1.0);
-        image(localSprite.get(frame + index), 0,0);
+        image(localSprite.get(frame + index), 0, 0, x_size, y_size);
         popMatrix();
       }
-      else image(localSprite.get(frame + index), x_pos, y_pos);
+      else image(localSprite.get(frame + index), x_pos, y_pos, x_size, y_size);
     }
     else {
       if (currentDirection >= 90 || currentDirection < -90 || (currentDirection >= 90 && currentDirection < 270)) {
         pushMatrix();
         translate(x_pos, y_pos);
         scale(-1.0, 1.0);
-        image(localSprite.get(frame + index), 0,0);
+        image(localSprite.get(frame + index), 0, 0, x_size, y_size);
         popMatrix();
       }
-      else image(localSprite.get(frame + index), x_pos, y_pos);
+      else image(localSprite.get(frame + index), x_pos, y_pos, x_size, y_size);
     }
     if (delay <= 5) delay ++;
     else {
@@ -54,19 +58,6 @@ class Boar extends Monster {
       playerInRange = true;
     }
     else {playerInRange = false;}
-  }
-  void move(float direction) {
-     for(OverworldObject o : collideableRoomObjects) {
-      if(isTouching(o)) {
-        if(dist(x_pos + currentSpeed * (float) Math.cos(radians(direction)), y_pos + currentSpeed * (float) Math.sin(radians(direction)), o.getX(), o.getY())
-        < dist(x_pos, y_pos, o.getX(), o.getY())) {
-           currentSpeed = 0;
-           currentSpeed = 0;
-         }
-        }
-      }  
-      x_pos += currentSpeed * Math.cos(radians(direction));
-      y_pos += currentSpeed * Math.sin(radians(direction));
   }
   boolean updateImageDir() {
     String temp = phase;
@@ -101,7 +92,7 @@ class Boar extends Monster {
       if (playerInRange) {
         if (chargeTimer > 0){
           currentSpeed = speed * 2;
-          if (isTouching(p)) attack(p, damage);
+          if (dist(x_pos, y_pos, p.getX(), p.getY()) < reach) attack(p, damage);
         }
         else if (stopTimer > 0) currentSpeed = .5 * speed;
         else currentSpeed = 0;
