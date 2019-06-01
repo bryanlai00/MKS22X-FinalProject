@@ -11,7 +11,7 @@ _________________________
 ### Development Log
 
 ##### 5/16/19 (Start of Project)
-Bryan Lai along with Calvin Chu (Day the prototype was discussed.)
+###### Bryan Lai along with Calvin Chu (Day the prototype was discussed.)
 * created project repo, processing folder, and main pde file
 * added abstract class Thing 
 ##### 5/17/19
@@ -54,13 +54,13 @@ Bryan Lai along with Calvin Chu (Day the prototype was discussed.)
 * filled out all present methods for Monster class
 * added sprites and worked on movement for the player
 ##### 5/21/19
-Bryan Lai:
+###### Bryan Lai:
 * Added more sprites and changed attack() method implementation by including another parameter for target.
 * Added new sprites and reuse frame/sprite implementation from Monster.
 * Edit player_sprites.txt and add reversed pngs.
 * Worked on running animations.
 * Added the lastDirection constant to manage sprite changes.
-Calvin Chu:
+###### Calvin Chu:
 * start of piranha_plant class (name w.i.p.)
 * added sprites for piranha plant
 * added unique movement behavior for pirnha plant
@@ -111,3 +111,23 @@ Calvin Chu:
 * Fixed lagging error with the tiles by changing methods with loadImage.
 * Add sprites/parameters a specific txt file to draw onto the screen. 
 * Create simplistic way to generate tiles (once the map is ideally made) from a text file. (Easier than hardcoding each tile.)
+###### Calvin Chu:
+* added and implemented Spirit class
+* added sprite for Spirit's projectile
+* added files for next monster Griffin
+##### 5/29/19
+###### Calvin Chu:
+* started a Screens class to display different interfaces in the game
+* worked on a basic title screen and implemented it
+* implemented Griffin class
+* resized Boar sprites
+##### 5/30/19
+###### Calvin Chu:
+* added new Dragon class for next monster
+* remade title screen
+* changes to Screen class => added frame storage for animated screens, modified constructor
+* renamed Piranha Plant to Baby (as in baby dragon)
+##### 5/31/19
+###### Calvin Chu:
+* worked on boss modifiers (now making use of isBoss boolean) for Monster class
+* implemented unique boss modifiers to monsters with sprites of varying dimensions to fix resizing
