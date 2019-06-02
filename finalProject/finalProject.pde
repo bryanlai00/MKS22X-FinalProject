@@ -39,20 +39,20 @@ void setup() {
   }
   scr = new Screen(width/2 - 190, height - 115, width/2, 75, 75, "title");
   screens.add(scr);
-  s = new Slime(width/2, height/2, 50, 50, 1, 200.0, 4, 4, 120, iT, .5, false);
-  s2 = new Slime(200, 600, 50, 50, 1, 200.0, 1, 4, 120, iT, .5, true);
-  d = new Baby(500, 800, 90, 90, 1.5, 300.0, 3, 10, 120, iT, 1, false);
-  d2 = new Baby(500, 200, 90, 90, 1.5, 300.0, 3, 10, 120, iT, 1, true);
-  min = new Minotaur(300, 600, 150, 150, 1.5, 400.0, 5, 4, 120, iT, .5, false, 150);
-  min2 = new Minotaur(300, 600, 150, 150, 1.5, 400.0, 5, 4, 120, iT, .5, true, 150);
-  b = new Boar(200, 600, 50, 50, 2, 300.0, 1, 8, 120, iT, .5, false);
-  b2 = new Boar(200, 600, 50, 50, 2, 300.0, 1, 8, 120, iT, .5, true);
-  sp = new Spirit(600, 200, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false);
-  sp2 = new Spirit(600, 200, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, true);
-  g = new Griffin(300, 600, 150, 150, 1.5, 400.0, 5, 10, 120, iT, .5, false, 150);
-  g2 = new Griffin(300, 600, 150, 150, 1.5, 400.0, 5, 10, 120, iT, .5, true, 150);
-  dr = new Dragon(500, 200, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false);
-  dr2 = new Dragon(500, 200, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, true);
+  s = new Slime(width/2, height/2, 50, 50, 1, 200.0, 4, 4, 120, iT, .5, false, 50);
+  s2 = new Slime(200, 600, 50, 50, 1, 200.0, 1, 4, 120, iT, .5, true, 50);
+  d = new Baby(500, 800, 90, 90, 1.5, 300.0, 3, 10, 120, iT, 1, false, 100);
+  d2 = new Baby(500, 200, 90, 90, 1.5, 300.0, 3, 10, 120, iT, 1, true, 100);
+  min = new Minotaur(300, 600, 150, 150, 1.5, 400.0, 5, 4, 120, iT, .5, false, 150, 250);
+  min2 = new Minotaur(300, 600, 150, 150, 1.5, 400.0, 5, 4, 120, iT, .5, true, 150, 250);
+  b = new Boar(200, 600, 50, 50, 2, 300.0, 1, 8, 120, iT, .5, false, 150);
+  b2 = new Boar(200, 600, 50, 50, 2, 300.0, 1, 8, 120, iT, .5, true, 150);
+  sp = new Spirit(600, 200, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false, 200);
+  sp2 = new Spirit(600, 200, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, true, 200);
+  g = new Griffin(300, 600, 150, 150, 1.5, 400.0, 5, 10, 120, iT, .5, false, 150, 250);
+  g2 = new Griffin(300, 600, 150, 150, 1.5, 400.0, 5, 10, 120, iT, .5, true, 150, 250);
+  dr = new Dragon(500, 200, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false, 300);
+  dr2 = new Dragon(500, 200, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, true, 300);
   m.add(s);
   m.add(s2);
   m.add(d);
@@ -67,7 +67,6 @@ void setup() {
   m.add(g2);
   m.add(dr);
   m.add(dr2);
-
   //Player assets:
   playerNames = loadStrings("data/player_sprites.txt");
   for (String s : playerNames) {
@@ -75,7 +74,7 @@ void setup() {
   }
   //4 stands for # of sprites for each PHASE. Not the number of sprites in total. The value changes in differnet cases.
   p = new Player(50,50,width/2 + 100,height/2 + 100,iT,4,assets);
-  
+  h = new HUD(p.m_health, 20, 20, 50);
   //Room assets:
   objects = loadStrings("data/rooms.txt");
   for(int i = 0; i < objects.length; i++) {
@@ -97,7 +96,6 @@ void setup() {
 
 
 void draw() {
-    h = new HUD(p.m_health, 20, 20, 50);
     //Room assets:
     if (screens.size() > 0) screens.get(0).display();
     else if(running){
@@ -111,7 +109,7 @@ void draw() {
         m.get(mons).move(m.get(mons).currentDirection);
         m.get(mons).display();
         for (int i = m.size() - 1; i >= 0; i--) {
-          if (m.get(i).cHealth <= 0 && m.get(i).getDeathTimer() == 0) m.remove(i);
+          if (m.get(i).cHealth <= 0 && m.get(i).getDeathTimer() == 0) {h.increaseScore(m.get(i).score); m.remove(i);}
         }
       }
       for (int i = projectiles.size() - 1; i >= 0; i--) {

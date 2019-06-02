@@ -3,8 +3,8 @@ class Griffin extends Monster {
   float playerGenDir, reach, range = 100;
   int cooldown, attackPhase, attackDelay = -1;
   boolean reachable = false;
-  Griffin(float xcor, float ycor, float x_size, float y_size, float spe, float sight, float mH, int numSprites, int pT, int iT, float dam, boolean boss, float rea) {
-     super(xcor, ycor, x_size, y_size, spe, sight, mH, numSprites, pT, iT, dam, boss);
+  Griffin(float xcor, float ycor, float x_size, float y_size, float spe, float sight, float mH, int numSprites, int pT, int iT, float dam, boolean boss, float rea, int sco) {
+     super(xcor, ycor, x_size, y_size, spe, sight, mH, numSprites, pT, iT, dam, boss, sco);
      reach = rea * 1.5;
      for (int i = 0; i < spriteNames.length; i++) {
        if (spriteNames[i].contains("griffin")) {

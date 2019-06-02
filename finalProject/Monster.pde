@@ -1,5 +1,5 @@
 abstract class Monster extends Thing implements Damageable, Movable{
-  int num_sprites, delay = 0, frame = 0, pathTimer, pathTime, index, invulTimer, invulTime, healthTimer, deathTimer;
+  int num_sprites, delay = 0, frame = 0, pathTimer, pathTime, index, invulTimer, invulTime, healthTimer, deathTimer, score = 100;
   float x_pos, y_pos, spawnX, spawnY, healthBarSize, currentDirection, speed, currentSpeed, sightDistance, damage, cHealth, mHealth;
   ArrayList<PImage> localSprite = new ArrayList<PImage>();
   ArrayList<String> localSpriteName = new ArrayList<String>();
@@ -12,7 +12,7 @@ abstract class Monster extends Thing implements Damageable, Movable{
   float getY_size() {return y_size;}
   int getDeathTimer() {return deathTimer;}
   
-  Monster(float xcor, float ycor, float x_si, float y_si, float spe, float sight, float mH, int numSprites, int pT, int iT, float dam, boolean boss) {
+  Monster(float xcor, float ycor, float x_si, float y_si, float spe, float sight, float mH, int numSprites, int pT, int iT, float dam, boolean boss, int sco) {
     super(x_si, y_si);
     if (boss) {x_si *= 1.5; y_si *= 1.5; spe *= .75; sight *= 1.25; mH *= 2.5; dam *= 2;}
     x_size = x_si;
@@ -38,6 +38,7 @@ abstract class Monster extends Thing implements Damageable, Movable{
     currentDir = "aosndoipanf";
     index = 0;
     deathTimer = 10 * numSprites;
+    score = sco;
   }
   void hBarDisplay() {
     if (healthTimer > 0) {

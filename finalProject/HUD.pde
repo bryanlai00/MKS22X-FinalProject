@@ -1,9 +1,12 @@
 class HUD {
+  int score;
+  PFont font = createFont("Arial Bold", 18);
   float x_pos, y_pos, mHealth, separation;
   ArrayList<PImage> hearts = new ArrayList<PImage>();
   PImage full, half, empty;
   int heartCount, flashTime = 0;
   HUD(float p_mHealth, float xcor, float ycor, float sep) {
+    score = 0;
     mHealth = p_mHealth;
     x_pos = xcor;
     y_pos = ycor;
@@ -29,11 +32,17 @@ class HUD {
     }
     else noTint();
   }
+  void increaseScore(int sco) {score += sco;}
   void display() {
     float sepTrack = x_pos;
     for (int i = 0; i < hearts.size(); i++) {
       image(hearts.get(i), sepTrack, y_pos);
       sepTrack += separation;
     }
+    textFont(font);
+    textSize(32);
+    fill(255);
+    text("Score: " + score, width - (100 + 5 * (score + "").length()), 50);
+    noFill();
   }
 }
