@@ -71,7 +71,7 @@ void setup() {
     assets.add(loadImage("data/player_assets/" + s + ".png"));
   }
   //4 stands for # of sprites for each PHASE. Not the number of sprites in total. The value changes in differnet cases.
-  p = new Player(50,50, 700, 50,iT,4,assets);
+  p = new Player(50,50, 700, 0,iT,4,assets);
   
   
   //Room assets:

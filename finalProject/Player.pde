@@ -68,8 +68,8 @@ class Player extends Thing implements Damageable, Collideable {
         nepo = -1;
       }
         
-      indexItem.x_pos = x_pos + 20 * nepo + 10 * (int(isRight) - int(isLeft));
-      indexItem.y_pos = y_pos + 10 * (int(isDown) - int(isUp));
+      indexItem.x_pos = x_pos + 20 * nepo;
+      indexItem.y_pos = y_pos;
       if(indexItem.itemValue == 1) {
         indexItem.display();
       }
@@ -100,6 +100,13 @@ class Player extends Thing implements Damageable, Collideable {
     float range = 100;
     float coneSliceAngle = degrees(PI/4);
     //If the distance is greater than the range, return and iterate with the next monster.
+    //Display attack animation of sword:
+    for(int i = 0; i < itemsAcquired.size(); i++) {
+      Item indexItem = itemsAcquired.get(i);
+      if(indexItem.itemValue == 1) {
+        
+      }
+    }
     if(dist(x_pos, y_pos, enemy.getX(), enemy.getY()) > range) {
       return;
     }
@@ -140,12 +147,7 @@ class Player extends Thing implements Damageable, Collideable {
     float r = (float)Math.sqrt(f + s); 
     /*Speed for movement 4 for running, 2 for normal*/
     float speed;
-    if(isRunning) {
-      speed = 4;
-    }
-    else {
-      speed = 2;
-    }
+    speed = 2.25;
     
     //Makes sure that the position does not go out.
     //Used to see if the position changes to determine if something moves.
