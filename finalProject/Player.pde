@@ -3,7 +3,7 @@ class Player extends Thing implements Damageable, Collideable {
   String lastDirection = "right";
   float x_pos, y_pos, x_size, y_size, directionAngle, c_health;
   boolean isMoving, isRunning;
-  boolean isLeft, isRight, isUp, isDown;
+  boolean isLeft, isRight, isUp, isDown, isDashing;
   int[] abilities;
   ArrayList<Item> itemsAcquired = new ArrayList<Item>();
   ArrayList<PImage> localSprites = new ArrayList<PImage>();
@@ -15,7 +15,7 @@ class Player extends Thing implements Damageable, Collideable {
   
   //Takes in size then pos.
 
-  //Player(int x_size, int y_size, int x_pos, int y_pos, int iT, PImage s) {
+    //Player(int x_size, int y_size, int x_pos, int y_pos, int iT, PImage s) {
   Player(int x_size, int y_size, int x_pos, int y_pos, int iT, int num_sprites, ArrayList<PImage> ls) {
     super(x_size,y_size);
     this.x_size = x_size;
@@ -57,7 +57,7 @@ class Player extends Thing implements Damageable, Collideable {
         sprite_index = 0;
       }
     }
-            //Display items and created itemsAcquired array for player.
+    //Display items and created itemsAcquired array for player.
     for(int i = 0; i < itemsAcquired.size(); i++) {
       Item indexItem = itemsAcquired.get(i);
       int nepo = 1; 
@@ -67,10 +67,14 @@ class Player extends Thing implements Damageable, Collideable {
       else if(lastDirection.equals("left")) {
         nepo = -1;
       }
-        
-      indexItem.x_pos = x_pos + 20 * nepo;
-      indexItem.y_pos = y_pos;
       if(indexItem.itemValue == 1) {
+        indexItem.x_pos = x_pos + 20 * nepo;
+        indexItem.y_pos = y_pos;
+        indexItem.display();
+      }
+      if(indexItem.itemValue == 2 && isDashing) {
+        indexItem.x_pos = x_pos - 20 * nepo;
+        indexItem.y_pos = y_pos;
         indexItem.display();
       }
     }
@@ -103,9 +107,7 @@ class Player extends Thing implements Damageable, Collideable {
     //Display attack animation of sword:
     for(int i = 0; i < itemsAcquired.size(); i++) {
       Item indexItem = itemsAcquired.get(i);
-      if(indexItem.itemValue == 1) {
-        
-      }
+      //Insert later code to make image rotate.
     }
     if(dist(x_pos, y_pos, enemy.getX(), enemy.getY()) > range) {
       return;
@@ -130,6 +132,7 @@ class Player extends Thing implements Damageable, Collideable {
   
   void update(HUD h) {
     //If health reaches 0... set game running to false, to call clear().
+    //Reset isDashing:
     if(c_health <= 0) running = false;
     if (invulTimer < invulTime) {
       h.flashTime = invulTimer;
@@ -203,7 +206,6 @@ class Player extends Thing implements Damageable, Collideable {
       Item cur = allItems.get(i);
       if(isTouching(cur)) {
         cur.addAbilityToPlayer(this);
-        print(p.abilities[0]);
         itemsAcquired.add(allItems.remove(i));
       }
     }
@@ -240,6 +242,25 @@ class Player extends Thing implements Damageable, Collideable {
     }
   }
   
+  void dash() {
+    float speed = 0.5;
+    //If the player encounters a wall while dashing, stop movement.
+    outerloop:
+    for(int i = 0; i < 100; i++) {
+      for(OverworldObject o : collideableRoomObjects) {
+        if(isTouching(o)) {
+          break outerloop;
+        }
+      }
+      float xDir;
+      float yDir;
+      x_pos += speed * (int(isRight) - int(isLeft));
+      y_pos += speed * (int(isDown) - int(isUp));
+      speed -= 0.001;
+    }
+    invulTimer = 2;
+  }
+  
   boolean setMove(int k, boolean b, ArrayList<Monster> m) {
     //Create switch/case to set the boolean variables for up, down, left and right.
     switch (k) {
@@ -258,8 +279,10 @@ class Player extends Thing implements Damageable, Collideable {
       return isRight = b;
      
     case 'X':
-      isRunning = true;
-      return isRunning;
+      if(p.abilities[1] == 2) {
+        isDashing = true;
+        p.dash();
+      }
       
     case 'C':
       isRunning = false;
