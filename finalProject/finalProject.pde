@@ -107,6 +107,14 @@ void setup() {
 }
 }
 
+void keyPressed() {
+  if (screens.size() > 0) screens.get(0).select();
+  else if(running) p.setMove(keyCode, true, m);
+}
+
+void keyReleased() {
+  p.setMove(keyCode, false, m);
+}
 
 void draw() {
     h = new HUD(p.m_health, 20, 20, 50);
@@ -118,6 +126,8 @@ void draw() {
       for (OverworldObject o : roomObjects) {
         o.display();
       }
+
+      Monster target = null;
       for (int mons = m.size() - 1; mons >= 0; mons--) {
         m.get(mons).update(p);
         m.get(mons).move(m.get(mons).currentDirection);
@@ -128,11 +138,28 @@ void draw() {
             m.remove(i);
           }
         }
-      }
+        //finds closest monster:
+        if(target != null) {
+          if(dist(p.x_pos, p.y_pos, target.getX(), target.getY()) > dist(p.x_pos, p.y_pos, m.get(mons).getX(), m.get(mons).getY())) {
+            target = m.get(mons);
+          }
+          else {
+            target =m.get(mons);
+          }
+        }
+    }
       for (int i = projectiles.size() - 1; i >= 0; i--) {
-        projectiles.get(i).move();
-        projectiles.get(i).display();
-        projectiles.get(i).update(p);
+        Projectile p = projectiles.get(i);
+        p.move();
+        p.display();
+        if(p.target.equals("player") {
+          p.update(p);
+        }
+        if(p.target.equals("monster") {
+          if(target != null) {
+            p.update(target);
+          }
+        }
       }
       for(Item i : allItems) {
         i.display();
@@ -151,13 +178,4 @@ void draw() {
 //Clears everything on the screen when reaching gameOver.
 void clear() {
   if(p.c_health <= 0) screens.add(new Screen(width/2, height/2, width/2, 50, 50, "gameover"));
-}
-
-void keyPressed() {
-  if (screens.size() > 0) screens.get(0).select();
-  else if(running) p.setMove(keyCode, true, m);
-}
-
-void keyReleased() {
-  p.setMove(keyCode, false, m);
 }
