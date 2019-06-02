@@ -5,6 +5,7 @@ class Player extends Thing implements Damageable, Collideable {
   boolean isMoving, isRunning;
   boolean isLeft, isRight, isUp, isDown;
   int[] abilities;
+  ArrayList<Item> itemsAcquired = new ArrayList<Item>();
   ArrayList<PImage> localSprites = new ArrayList<PImage>();
   
   float getX() {return x_pos;}
@@ -54,6 +55,23 @@ class Player extends Thing implements Damageable, Collideable {
       }
       else if(lastDirection.equals("right")){
         sprite_index = 0;
+      }
+    }
+            //Display items and created itemsAcquired array for player.
+    for(int i = 0; i < itemsAcquired.size(); i++) {
+      Item indexItem = itemsAcquired.get(i);
+      int nepo = 1; 
+      if(lastDirection.equals("right")) {
+        nepo = 1;
+      }
+      else if(lastDirection.equals("left")) {
+        nepo = -1;
+      }
+        
+      indexItem.x_pos = x_pos + 20 * nepo + 10 * (int(isRight) - int(isLeft));
+      indexItem.y_pos = y_pos + 10 * (int(isDown) - int(isUp));
+      if(indexItem.itemValue == 1) {
+        indexItem.display();
       }
     }
     image(localSprites.get(frame + sprite_index), x_pos, y_pos, x_size, y_size);
@@ -184,7 +202,7 @@ class Player extends Thing implements Damageable, Collideable {
       if(isTouching(cur)) {
         cur.addAbilityToPlayer(this);
         print(p.abilities[0]);
-        allItems.remove(i);
+        itemsAcquired.add(allItems.remove(i));
       }
     }
     
