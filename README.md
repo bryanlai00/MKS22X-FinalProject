@@ -131,3 +131,7 @@ _________________________
 ###### Calvin Chu:
 * worked on boss modifiers (now making use of isBoss boolean) for Monster class
 * implemented unique boss modifiers to monsters with sprites of varying dimensions to fix resizing
+##### 6/1/19
+###### Calvin Chu:
+* added score value to monster constructor and int score for each monster
+* implemented score tracker and displayer in HUD that shows current score in top right corner and accomodates for increasing number of digits in the score
