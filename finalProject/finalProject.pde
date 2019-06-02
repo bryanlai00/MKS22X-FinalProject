@@ -56,22 +56,22 @@ void setup() {
   b = new Boar(200, 600, 50, 50, 2, 300.0, 1, 8, 120, iT, .5, false);
   sp = new Spirit(600, 200, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false);
   dr = new Dragon(500, 200, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false);
-  m.add(s);
-  m.add(s2);
+  //m.add(s);
+  //m.add(s2);
   m.add(d);
-  m.add(d2);
-  m.add(min);
-  m.add(b);
-  m.add(sp);
-  m.add(g);
-  m.add(dr);
+  //m.add(d2);
+  //m.add(min);
+  //m.add(b);
+  //m.add(sp);
+  //m.add(g);
+  //m.add(dr);
   //Player assets:
   playerNames = loadStrings("data/player_sprites.txt");
   for (String s : playerNames) {
     assets.add(loadImage("data/player_assets/" + s + ".png"));
   }
   //4 stands for # of sprites for each PHASE. Not the number of sprites in total. The value changes in differnet cases.
-  p = new Player(50,50,width/2 ,height/2,iT,4,assets);
+  p = new Player(50,50, 700, 50,iT,4,assets);
   
   
   //Room assets:
@@ -115,9 +115,6 @@ void draw() {
     else if(running){
       background(37,19,26);
       fill(0, 102, 153);
-      for(Item i : allItems) {
-        i.display();
-      }
       for (OverworldObject o : roomObjects) {
         o.display();
       }
@@ -136,6 +133,9 @@ void draw() {
         projectiles.get(i).move();
         projectiles.get(i).display();
         projectiles.get(i).update(p);
+      }
+      for(Item i : allItems) {
+        i.display();
       }
       p.update(h);
       p.move();

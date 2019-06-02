@@ -179,6 +179,17 @@ class Player extends Thing implements Damageable, Collideable {
       }
     }
     
+    for(int i = allItems.size() - 1; i > -1; i--) {
+      Item cur = allItems.get(i);
+      if(isTouching(cur)) {
+        cur.addAbilityToPlayer(this);
+        print(p.abilities[0]);
+        allItems.remove(i);
+      }
+    }
+    
+    //If the player touches the item, have the item disappear, add the ability to the array, etc.
+    
     x_pos = constrain(x_pos + xChange, r, width  - r);
     y_pos = constrain(y_pos + yChange, r, height - r);
     
@@ -235,9 +246,11 @@ class Player extends Thing implements Damageable, Collideable {
       return isRunning;
       
     case 'Z':
+    if(p.abilities[0] == 1) {
       for(Monster mons : m) {
         p.attack(mons, 1);
       }
+    }
  
     default:
     return b;
