@@ -23,6 +23,7 @@ ArrayList<PImage> hud = new ArrayList<PImage>();
 ArrayList<PImage> screenImages = new ArrayList<PImage>();
 ArrayList<Screen> screens = new ArrayList<Screen>();
 int iT = 60;
+String mode = "colosseum";
 
 void setup() {
   size(1440,810);
@@ -46,6 +47,7 @@ void setup() {
   }
   scr = new Screen(width/2 - 190, height - 115, width/2, 75, 75, "title");
   screens.add(scr);
+
   s = new Slime(width/2, height/2, 50, 50, 1, 200.0, 4, 4, 120, iT, .5, false, 50);
   s2 = new Slime(200, 600, 50, 50, 1, 200.0, 1, 4, 120, iT, .5, true, 50);
   d = new Baby(500, 800, 90, 90, 1.5, 300.0, 3, 10, 120, iT, 1, false, 100);
@@ -61,9 +63,9 @@ void setup() {
   dr = new Dragon(500, 200, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false, 300);
   dr2 = new Dragon(500, 200, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, true, 300);
   m.add(s);
-  //m.add(s2);
-  //m.add(d);
-  //m.add(d2);
+  m.add(s2);
+  m.add(d);
+  m.add(d2);
   //m.add(min);
   //m.add(min2);
   //m.add(b);
@@ -81,12 +83,13 @@ void setup() {
     assets.add(loadImage("data/player_assets/" + s + ".png"));
   }
   //4 stands for # of sprites for each PHASE. Not the number of sprites in total. The value changes in differnet cases.
-
-  p = new Player(50,50, 700, 0,iT,4,assets);
+  //For dungeon: p = new Player(50,50, 700, 0,iT,4,assets);
+  //Colosseum: 
+  p = new Player(50, 50, 750, 575, iT, 4, assets);
+  //Adding items already to player: (If colosseum mode:)
   h = new HUD(p.m_health, 20, 20, 50);
-
   //Room assets:
-  objects = loadStrings("data/rooms.txt");
+  objects = loadStrings("data/colosseum.txt");
   for(int i = 0; i < objects.length; i++) {
     //If the line/string does not contain Room...
     if(!objects[i].contains("Room")) {

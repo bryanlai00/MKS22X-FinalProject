@@ -3,7 +3,7 @@ class Player extends Thing implements Damageable, Collideable {
   String lastDirection = "right";
   float x_pos, y_pos, x_size, y_size, directionAngle, c_health, magic_cooldown, dash_cooldown;
   boolean isMoving;
-  boolean isLeft, isRight, isUp, isDown, isDashing, isAttacking;
+  boolean isLeft, isRight, isUp, isDown, isDashing, isAttacking, isRunning;
   int[] abilities;
   ArrayList<Item> itemsAcquired = new ArrayList<Item>();
   ArrayList<PImage> localSprites = new ArrayList<PImage>();
