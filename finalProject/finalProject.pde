@@ -17,6 +17,7 @@ ArrayList<OverworldObject> harming = new ArrayList<OverworldObject>();
 ArrayList<Item> allItems = new ArrayList<Item>();
 String[] objects, spriteNames, hudNames, assetNames, playerNames, screenNames, itemNames, effectNames;
 ArrayList<Monster> m = new ArrayList<Monster>();
+ArrayList<Monster> mSpawn = new ArrayList<Monster>();
 ArrayList<PImage> sprite = new ArrayList<PImage>();
 ArrayList<PImage> assets = new ArrayList<PImage>();
 ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
@@ -24,7 +25,7 @@ ArrayList<PImage> hud = new ArrayList<PImage>();
 ArrayList<PImage> screenImages = new ArrayList<PImage>();
 ArrayList<Screen> screens = new ArrayList<Screen>();
 ArrayList<PImage> effectSprites = new ArrayList<PImage>();
-int iT = 60;
+int iT = 60, spawnTime = 10;
 String mode = "colosseum";
 
 void setup() {
@@ -73,20 +74,21 @@ void setup() {
   g2 = new Griffin(300, 600, 150, 150, 1.5, 400.0, 5, 10, 120, iT, .5, true, 150, 250);
   dr = new Dragon(500, 200, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false, 300);
   dr2 = new Dragon(500, 200, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, true, 300);
-  m.add(s);
-  //m.add(s2);
-  //m.add(d);
-  //m.add(d2);
-  //m.add(min);
-  //m.add(min2);
-  //m.add(b);
-  //m.add(b2);
-  //m.add(sp);
-  //m.add(sp2);
-  //m.add(g);
-  //m.add(g2);
-  //m.add(dr);
-  //m.add(dr2);
+  //Array List of possible monsters that may spawn:
+  mSpawn.add(s);
+  mSpawn.add(s2);
+  mSpawn.add(d);
+  mSpawn.add(d2);
+  mSpawn.add(min);
+  mSpawn.add(min2);
+  mSpawn.add(b);
+  mSpawn.add(b2);
+  mSpawn.add(sp);
+  mSpawn.add(sp2);
+  mSpawn.add(g);
+  mSpawn.add(g2);
+  mSpawn.add(dr);
+  mSpawn.add(dr2);
 
   //Player assets:
   playerNames = loadStrings("data/player_sprites.txt");
@@ -147,6 +149,11 @@ void draw() {
       }
 
       Monster target = null;
+      spawnTime--;
+      if(spawnTime == 0) {
+        m.add(mSpawn.get((int)(Math.random() * mSpawn.size())));
+        spawnTime = 100;
+      }
       for (int mons = m.size() - 1; mons >= 0; mons--) {
         m.get(mons).update(p);
         m.get(mons).move(m.get(mons).currentDirection);
