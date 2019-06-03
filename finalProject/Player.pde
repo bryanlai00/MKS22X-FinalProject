@@ -119,13 +119,11 @@ class Player extends Thing implements Damageable, Collideable {
 
   void attack(Thing enemy, float num) {
     isAttacking = true;
-    attackAni = 20;
     float range = 150;
     float coneSliceAngle = degrees(PI/4);
     //If the distance is greater than the range, return and iterate with the next monster.
     //Display attack animation of sword:
     if (dist(x_pos, y_pos, enemy.getX(), enemy.getY()) > range) {
-      isAttacking = false;
       return;
     } else {
       float anglePosition = degrees((float)Math.atan2(enemy.getY() - y_pos, enemy.getX() - x_pos));
@@ -342,6 +340,8 @@ class Player extends Thing implements Damageable, Collideable {
     
     case 'Z':
       if (p.abilities[0] == 1) {
+        isAttacking = true;
+        attackAni = 20;
         for (Monster mons : m) {
           p.attack(mons, 1);
         }
