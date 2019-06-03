@@ -44,7 +44,7 @@ class Player extends Thing implements Damageable, Collideable {
     this.num_sprites = num_sprites;
     this.localSprites = ls;
     //for spinEffect:
-    spinEffect = new OverworldObject(x_pos, y_pos, 200, 200, effectSprites, false, 63);
+    spinEffect = new OverworldObject(x_pos, y_pos - 50, 400, 400, effectSprites, false, 63);
     sprite_index = 0;
     //Takes in pos then size.
   }
@@ -261,7 +261,7 @@ class Player extends Thing implements Damageable, Collideable {
       m.get(i).y_pos += -yChange;
     }
     spinEffect.x_pos = x_pos;
-    spinEffect.y_pos = y_pos;
+    spinEffect.y_pos = y_pos - 10;
     //Checks if the player is moving.
     if (x_prev_pos != x_pos || y_prev_pos != y_pos) {
       isMoving = true;
