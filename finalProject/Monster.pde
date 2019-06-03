@@ -86,7 +86,7 @@ abstract class Monster extends Thing implements Damageable, Movable{
       if(isTouching(o)) {
         if(dist(x_pos + currentSpeed * (float) Math.cos(radians(direction)), y_pos + currentSpeed * (float) Math.sin(radians(direction)), o.getX(), o.getY())
         < dist(x_pos, y_pos, o.getX(), o.getY())) {
-           currentDirection *= -1;
+           direction = degrees((float)Math.atan2(o.getY() - y_pos, o.getX() - x_pos)) * -1;
          }
       }
     }  

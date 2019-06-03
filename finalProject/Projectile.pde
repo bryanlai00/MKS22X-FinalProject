@@ -85,6 +85,13 @@ class Projectile extends Thing {
   void display() {
     imageMode(CENTER);
     noTint();
-    image(sprite, x_pos, y_pos, getX_size(), getY_size());
+    if (direction < 90 && direction >= -90) {
+        pushMatrix();
+        translate(x_pos, y_pos);
+        scale(-1.0, 1.0);
+        image(sprite, 0, 0, getX_size(), getY_size());
+        popMatrix();
+      }
+      else image(sprite, x_pos, y_pos, getX_size(), getY_size());
   }
 }

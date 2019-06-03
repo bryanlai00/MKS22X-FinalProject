@@ -47,8 +47,8 @@ void setup() {
   }
   scr = new Screen(width/2 - 190, height - 115, width/2, 75, 75, "title");
   screens.add(scr);
-
-  s = new Slime(width/2, height/2, 50, 50, 1, 200.0, 4, 4, 120, iT, .5, false, 50);
+  //Slime(float xcor, float ycor, float x_size, float y_size, float spe, float sight, float mH, int numSprites, int pT, int iT, float dam, boolean boss, int sco)
+  s = new Slime(width/2, height/2, 50, 50, 0, 200.0, 50, 4, 120, iT, .5, false, 50);
   s2 = new Slime(200, 600, 50, 50, 1, 200.0, 1, 4, 120, iT, .5, true, 50);
   d = new Baby(500, 800, 90, 90, 1.5, 300.0, 3, 10, 120, iT, 1, false, 100);
   d2 = new Baby(500, 200, 90, 90, 1.5, 300.0, 3, 10, 120, iT, 1, true, 100);
@@ -63,9 +63,9 @@ void setup() {
   dr = new Dragon(500, 200, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false, 300);
   dr2 = new Dragon(500, 200, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, true, 300);
   m.add(s);
-  m.add(s2);
-  m.add(d);
-  m.add(d2);
+  //m.add(s2);
+  //m.add(d);
+  //m.add(d2);
   //m.add(min);
   //m.add(min2);
   //m.add(b);
@@ -136,10 +136,6 @@ void draw() {
         m.get(mons).update(p);
         m.get(mons).move(m.get(mons).currentDirection);
         m.get(mons).display();
-        for (int i = m.size() - 1; i >= 0; i--) {
-          if (m.get(i).cHealth <= 0 && m.get(i).getDeathTimer() == 0) {h.increaseScore(m.get(i).score); m.remove(i);}
-        }
-        //finds closest monster:
         if(target != null) {
           if(dist(p.x_pos, p.y_pos, target.getX(), target.getY()) > dist(p.x_pos, p.y_pos, m.get(mons).getX(), m.get(mons).getY())) {
             target = m.get(mons);
@@ -148,6 +144,10 @@ void draw() {
         else if(m.size() > 0) {
             target = m.get(mons);
         }
+        for (int i = m.size() - 1; i >= 0; i--) {
+          if (m.get(i).cHealth <= 0 && m.get(i).getDeathTimer() == 0) {h.increaseScore(m.get(i).score); m.remove(i);}
+        }
+        //finds closest monster:
     }
     //Added projectile stuff for player as well.
       for (int i = projectiles.size() - 1; i >= 0; i--) {
