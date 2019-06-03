@@ -71,11 +71,13 @@ void setup() {
     assets.add(loadImage("data/player_assets/" + s + ".png"));
   }
   //4 stands for # of sprites for each PHASE. Not the number of sprites in total. The value changes in differnet cases.
-  p = new Player(50,50, 700, 0,iT,4,assets);
+  //For dungeon: p = new Player(50,50, 700, 0,iT,4,assets);
+  //Colosseum: 
+  p = new Player(50, 50, 750, 575, iT, 4, assets);
   
   
   //Room assets:
-  objects = loadStrings("data/rooms.txt");
+  objects = loadStrings("data/colosseum.txt");
   for(int i = 0; i < objects.length; i++) {
     //If the line/string does not contain Room...
     if(!objects[i].contains("Room")) {

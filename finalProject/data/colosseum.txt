@@ -1,0 +1,13 @@
+tile 50 150 50 50 30 20 false 
+left_corner_wall 0 150 50 50 1 1 true
+left_wall 0 200 50 50 1 19 true
+left_bottom_corner 0 1150 50 50 1 1 true
+bottomwall 50 1150 50 50 29 1 true
+right_bottom_corner 1500 1150 50 50 1 1 true
+topwall 50 150 50 50 29 1 true
+right_corner_wall 1500 150 50 50 1 1 true
+right_wall 1500 200 50 50 1 20 true
+peaks 1450 200 50 50 1 19 false 4
+peaks 50 200 50 50 28 1 false 4
+peaks 50 200 50 50 1 19 false 4
+peaks 50 1100 50 50 28 1 false 4
