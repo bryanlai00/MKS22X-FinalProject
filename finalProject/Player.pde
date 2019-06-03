@@ -1,8 +1,8 @@
 class Player extends Thing implements Damageable, Collideable {
   int m_health, damage, gaugeValue, num_sprites, sprite_index, delay = 0, frame = 0, invulTimer, invulTime, score = 0;
   String lastDirection = "right";
-  float x_pos, y_pos, x_size, y_size, directionAngle, c_health, magic_cooldown;
-  boolean isMoving, isRunning;
+  float x_pos, y_pos, x_size, y_size, directionAngle, c_health, magic_cooldown, dash_cooldown;
+  boolean isMoving;
   boolean isLeft, isRight, isUp, isDown, isDashing;
   int[] abilities;
   ArrayList<Item> itemsAcquired = new ArrayList<Item>();
@@ -106,13 +106,6 @@ class Player extends Thing implements Damageable, Collideable {
     float coneSliceAngle = degrees(PI/4);
     //If the distance is greater than the range, return and iterate with the next monster.
     //Display attack animation of sword:
-    for (int i = 0; i < itemsAcquired.size(); i++) {
-        pushMatrix();
-        rotate(10);
-        itemsAcquired.get(i).display();
-        popMatrix();
-        //Insert later code to make image rotate.
-    }
     if (dist(x_pos, y_pos, enemy.getX(), enemy.getY()) > range) {
       return;
     } else {
@@ -143,6 +136,7 @@ class Player extends Thing implements Damageable, Collideable {
       else noTint();
     } else noTint();
     if(magic_cooldown > 0) magic_cooldown--;
+    if(dash_cooldown > 0) dash_cooldown--;
   }
 
   void move() {
@@ -241,21 +235,25 @@ class Player extends Thing implements Damageable, Collideable {
 //Moves you learn on throughout the game:
   void dash() {
     isDashing = true;
-    float speed = 0.5;
-    //If the player encounters a wall while dashing, stop movement.
-  outerloop:
-    for (int i = 0; i < 100; i++) {
-      for (OverworldObject o : collideableRoomObjects) {
-        if (isTouching(o)) {
-          break outerloop;
+    float dashDuration = 2;
+    if(dash_cooldown > 0) {
+       outerloop:
+       while(dashDuration > 0) {
+        float speed = 10;
+        //If the player encounters a wall while dashing, stop movement.
+          for (OverworldObject o : collideableRoomObjects) {
+            if (isTouching(o)) {
+              break outerloop;
+            }
+          }
+          x_pos += speed * (int(isRight) - int(isLeft));
+          y_pos += speed * (int(isDown) - int(isUp));
+          dashDuration--;
         }
+        invulTimer = 2;
       }
-      x_pos += speed * (int(isRight) - int(isLeft));
-      y_pos += speed * (int(isDown) - int(isUp));
-      speed -= 0.001;
+      dash_cooldown = 50;
     }
-    invulTimer = 2;
-  }
   
   void spinAttack() {
     for(Item a : itemsAcquired) {
@@ -269,13 +267,13 @@ class Player extends Thing implements Damageable, Collideable {
   
   void magicAttack() {
     PImage projectile = loadImage("data/items/magic.png");
-    projectile.resize(20,20);
+    projectile.resize(50,50);
     if(magic_cooldown == 0) {
       if(m.size() > 0) {
         Monster target = m.get(0);
-        projectiles.add(new Projectile(x_pos, y_pos, 35, 35, 1, 5, 60, projectile, (Monster)target));
+        projectiles.add(new Projectile(x_pos, y_pos, 35, 35, 1, 8, 60, projectile, (Monster)target));
       }
-      magic_cooldown = 120;
+      magic_cooldown = 80;
     }
   }
     
@@ -301,23 +299,28 @@ class Player extends Thing implements Damageable, Collideable {
       if (p.abilities[1] == 2) {
         p.dash();
       }
+      return true;
 
     case 'C':
       if (p.abilities[2] == 3) {
         p.spinAttack();
       }
+      return true;
 
+    
+    case 'V':
+      if(p.abilities[3] == 4) {
+        p.magicAttack();
+      }
+      return true;
+    
     case 'Z':
       if (p.abilities[0] == 1) {
         for (Monster mons : m) {
           p.attack(mons, 1);
         }
       }
-
-    case 'V':
-      if(p.abilities[3] == 4) {
-        p.magicAttack();
-      }
+      return true;
       
     default:
       return b;

@@ -19,7 +19,8 @@ class Projectile extends Thing {
     duration = d;
     sprite = i;
     target = "monster";
-    direction = (float)Math.toDegrees(Math.atan2((double)(endY - y_pos), (double)(endX - x_pos)));
+    //Shows direction:
+    direction = p.directionAngle;
   }
   Projectile(float xcor, float ycor, float xSize, float ySize, float dam, float spe, int d, PImage i, Player p) {
     super(xSize,ySize);
@@ -73,6 +74,7 @@ class Projectile extends Thing {
     x_pos += speed * Math.cos(radians(direction));
     y_pos += speed * Math.sin(radians(direction));
   }
+  
   void display() {
     imageMode(CENTER);
     image(sprite, x_pos, y_pos, getX_size(), getY_size());

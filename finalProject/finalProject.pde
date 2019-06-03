@@ -107,15 +107,6 @@ void setup() {
 }
 }
 
-void keyPressed() {
-  if (screens.size() > 0) screens.get(0).select();
-  else if(running) p.setMove(keyCode, true, m);
-}
-
-void keyReleased() {
-  p.setMove(keyCode, false, m);
-}
-
 void draw() {
     h = new HUD(p.m_health, 20, 20, 50);
     //Room assets:
@@ -143,11 +134,12 @@ void draw() {
           if(dist(p.x_pos, p.y_pos, target.getX(), target.getY()) > dist(p.x_pos, p.y_pos, m.get(mons).getX(), m.get(mons).getY())) {
             target = m.get(mons);
           }
-          else {
-            target =m.get(mons);
-          }
+        }
+        else if(m.size() > 0) {
+            target = m.get(mons);
         }
     }
+    //Added projectile stuff for player as well.
       for (int i = projectiles.size() - 1; i >= 0; i--) {
         Projectile proj = projectiles.get(i);
         proj.move();
@@ -175,6 +167,14 @@ void draw() {
     }
 }
 
+void keyPressed() {
+  if (screens.size() > 0) screens.get(0).select();
+  else if(running) p.setMove(keyCode, true, m);
+}
+
+void keyReleased() {
+  p.setMove(keyCode, false, m);
+}
 //Clears everything on the screen when reaching gameOver.
 void clear() {
   if(p.c_health <= 0) screens.add(new Screen(width/2, height/2, width/2, 50, 50, "gameover"));

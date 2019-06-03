@@ -26,7 +26,6 @@ class Item extends Thing {
     if(itemValue != 0 && p.isTouching(this)) {
       //If the item touches the player, give the player that ability and add this # to the player's ability array.
       p.abilities[(int)itemValue - 1] = (int)itemValue;
-      print("bruh");
       //Remove Overworldobject from it.
     }
   }
