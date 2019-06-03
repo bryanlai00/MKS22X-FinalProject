@@ -19,7 +19,6 @@ class Item extends Thing {
   }
   
   void display() {
-    noTint();
     if(rotating) {
      image(sprite, 0, 0);
     }
