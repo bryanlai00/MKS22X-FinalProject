@@ -89,7 +89,6 @@ class Player extends Thing implements Damageable, Collideable {
         indexItem.display();
         popMatrix();
       }
-   
     }
       image(localSprites.get(frame + sprite_index), x_pos, y_pos, x_size, y_size);
       if (delay <= 10) delay ++;

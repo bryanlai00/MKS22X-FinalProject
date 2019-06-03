@@ -63,19 +63,19 @@ void setup() {
   dr = new Dragon(500, 200, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false, 300);
   dr2 = new Dragon(500, 200, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, true, 300);
   m.add(s);
-  //m.add(s2);
-  //m.add(d);
-  //m.add(d2);
-  //m.add(min);
-  //m.add(min2);
-  //m.add(b);
-  //m.add(b2);
-  //m.add(sp);
-  //m.add(sp2);
-  //m.add(g);
-  //m.add(g2);
-  //m.add(dr);
-  //m.add(dr2);
+  m.add(s2);
+  m.add(d);
+  m.add(d2);
+  m.add(min);
+  m.add(min2);
+  m.add(b);
+  m.add(b2);
+  m.add(sp);
+  m.add(sp2);
+  m.add(g);
+  m.add(g2);
+  m.add(dr);
+  m.add(dr2);
 
   //Player assets:
   playerNames = loadStrings("data/player_sprites.txt");
