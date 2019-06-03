@@ -101,6 +101,8 @@ class Minotaur extends Monster {
       else if (isMoving()) {phase = "move"; num_sprites = 8;}
       else {phase = "idle"; num_sprites = 5;}
     }
+    
+    
     else attackPhase--;
     
     if (!temp.equals(phase)) {

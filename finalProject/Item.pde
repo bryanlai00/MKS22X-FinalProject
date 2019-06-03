@@ -6,26 +6,27 @@ class Item extends Thing {
   int itemValue;
   PImage sprite;
   
-  public Item(float x_pos, float y_pos, float x_size, float y_size, PImage sprite, int itemValue) {
+  public Item(float x_pos, float y_pos, float x_size, float y_size, PImage sprite, float itemValue){
     super(x_pos, y_pos);
     this.x_pos = x_pos;
-    this.y_pos = x_pos;
+    this.y_pos = y_pos;
     this.x_size = x_size;
     this.y_size = y_size;
     this.sprite = sprite;
     sprite.resize((int) x_size, (int) y_size);
-    this.itemValue = itemValue;
+    this.itemValue = (int) itemValue;
   }
   
   void display() {
-    image(sprite, x_pos,y_pos);
+    noTint();
+    image(sprite, x_pos, y_pos);
   }
   
-    //MAKE SURE THAT ITEMS ARE ADDED AT THE END OF THE ROOMS.TXT FILE.
   void addAbilityToPlayer(Player p) {
-    if(itemValue != 0 && isTouching(p)) {
+    if(itemValue != 0 && p.isTouching(this)) {
       //If the item touches the player, give the player that ability and add this # to the player's ability array.
-      p.abilities[(int)itemValue] = (int)itemValue;
+      p.abilities[(int)itemValue - 1] = (int)itemValue;
+      print("bruh");
       //Remove Overworldobject from it.
     }
   }
