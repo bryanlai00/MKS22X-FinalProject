@@ -1,5 +1,5 @@
 class Player extends Thing implements Damageable, Collideable {
-  int m_health, damage, gaugeValue, num_sprites, sprite_index, delay = 0, frame = 0, invulTimer, invulTime, score = 0, attackAni;
+  int m_health, damage, gaugeValue, num_sprites, sprite_index, delay = 0, frame = 0, invulTimer, invulTime, score = 0, attackAni, dashTimer = 0;
   String lastDirection = "right";
   float x_pos, y_pos, x_size, y_size, directionAngle, c_health, magic_cooldown, dash_cooldown;
   boolean isMoving;
@@ -145,16 +145,17 @@ class Player extends Thing implements Damageable, Collideable {
   void update(HUD h) {
     //If health reaches 0... set game running to false, to call clear().
     //Reset ising:
-    if (c_health <= 0) running = false;
     if (invulTimer < invulTime) {
       h.flashTime = invulTimer;
       invulTimer++;
       if (invulTimer % 10 < 5) tint(255, 0, 0);
       else noTint();
     } else noTint();
+    if (c_health <= 0) running = false;
     if(magic_cooldown > 0) magic_cooldown--;
     if(dash_cooldown > 0) dash_cooldown--;
-    if(dash_cooldown == 0) isDashing = false;
+    if(dashTimer > 0) {p.dash(); dashTimer--;}
+    else isDashing = false;
     if(attackAni > 0) {
       attackAni--;
       isAttacking = true; 
@@ -260,24 +261,19 @@ class Player extends Thing implements Damageable, Collideable {
 //Moves you learn on throughout the game:
   void dash() {
     isDashing = true;
-    float dashDuration = 2;
-    if(dash_cooldown > 0) {
-       outerloop:
-       while(dashDuration > 0) {
-        float speed = 10;
-        //If the player encounters a wall while dashing, stop movement.
-          for (OverworldObject o : collideableRoomObjects) {
-            if (isTouching(o)) {
-              break outerloop;
-            }
-          }
-          x_pos += speed * (int(isRight) - int(isLeft));
-          y_pos += speed * (int(isDown) - int(isUp));
-          dashDuration--;
-        }
+    float speed = 5;
+    boolean inBounds = true;
+    //If the player encounters a wall while dashing, stop movement.
+    for (OverworldObject o : collideableRoomObjects) {
+      if (isTouching(o)) {
+        inBounds = false;
       }
-      dash_cooldown = 50;
     }
+    if (inBounds) {
+      x_pos += speed * (int(isRight) - int(isLeft));
+      y_pos += speed * (int(isDown) - int(isUp));
+    }
+  }
   
   void spinAttack() {
     for(Item a : itemsAcquired) {
@@ -321,7 +317,8 @@ class Player extends Thing implements Damageable, Collideable {
 
     case 'X':
       if (p.abilities[1] == 2) {
-        p.dash();
+        if (dash_cooldown == 0) {dashTimer = 60; dash_cooldown = 200;}
+        //p.dash();
       }
       return true;
 

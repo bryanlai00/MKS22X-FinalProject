@@ -60,7 +60,7 @@ void setup() {
   g2 = new Griffin(300, 600, 150, 150, 1.5, 400.0, 5, 10, 120, iT, .5, true, 150, 250);
   dr = new Dragon(500, 200, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false, 300);
   dr2 = new Dragon(500, 200, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, true, 300);
-  //m.add(s);
+  m.add(s);
   //m.add(s2);
   //m.add(d);
   //m.add(d2);
