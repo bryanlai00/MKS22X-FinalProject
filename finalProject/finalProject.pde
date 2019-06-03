@@ -149,15 +149,15 @@ void draw() {
         }
     }
       for (int i = projectiles.size() - 1; i >= 0; i--) {
-        Projectile p = projectiles.get(i);
-        p.move();
-        p.display();
-        if(p.target.equals("player") {
-          p.update(p);
+        Projectile proj = projectiles.get(i);
+        proj.move();
+        proj.display();
+        if(proj.target.equals("player")) {
+          proj.update(p);
         }
-        if(p.target.equals("monster") {
+        if(proj.target.equals("monster")) {
           if(target != null) {
-            p.update(target);
+            proj.update(target);
           }
         }
       }

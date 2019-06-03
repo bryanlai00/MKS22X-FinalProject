@@ -1,7 +1,7 @@
 class Player extends Thing implements Damageable, Collideable {
   int m_health, damage, gaugeValue, num_sprites, sprite_index, delay = 0, frame = 0, invulTimer, invulTime, score = 0;
   String lastDirection = "right";
-  float x_pos, y_pos, x_size, y_size, directionAngle, c_health;
+  float x_pos, y_pos, x_size, y_size, directionAngle, c_health, magic_cooldown;
   boolean isMoving, isRunning;
   boolean isLeft, isRight, isUp, isDown, isDashing;
   int[] abilities;
@@ -142,6 +142,7 @@ class Player extends Thing implements Damageable, Collideable {
       if (invulTimer % 10 < 5) tint(255, 0, 0);
       else noTint();
     } else noTint();
+    if(magic_cooldown > 0) magic_cooldown--;
   }
 
   void move() {
@@ -269,9 +270,12 @@ class Player extends Thing implements Damageable, Collideable {
   void magicAttack() {
     PImage projectile = loadImage("data/items/magic.png");
     projectile.resize(20,20);
-    Monster target = m.get(0);
-    if(target != null) {
-      projectiles.add(new Projectile(x_pos, y_pos, 35, 35, 1, 5, 60, projectile, (Monster)target));
+    if(magic_cooldown == 0) {
+      if(m.size() > 0) {
+        Monster target = m.get(0);
+        projectiles.add(new Projectile(x_pos, y_pos, 35, 35, 1, 5, 60, projectile, (Monster)target));
+      }
+      magic_cooldown = 120;
     }
   }
     
