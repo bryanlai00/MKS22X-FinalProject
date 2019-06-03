@@ -13,6 +13,7 @@ HUD h;
 boolean running = true;
 ArrayList<OverworldObject> roomObjects = new ArrayList<OverworldObject>();
 ArrayList<OverworldObject> collideableRoomObjects = new ArrayList<OverworldObject>();
+ArrayList<OverworldObject> harming = new ArrayList<OverworldObject>();
 ArrayList<Item> allItems = new ArrayList<Item>();
 String[] objects, spriteNames, hudNames, assetNames, playerNames, screenNames, itemNames, effectNames;
 ArrayList<Monster> m = new ArrayList<Monster>();
@@ -53,7 +54,6 @@ void setup() {
     float spriteAmt = Float.valueOf(params[1]);
     for(int s = 0; s < spriteAmt; s++) {
      effectSprites.add(loadImage("data/effects/" + params[0] + "_" + s + ".png"));
-     print("data/effects/" + params[0] + "_" + s + ".png");
     }
   }
   scr = new Screen(width/2 - 190, height - 115, width/2, 75, 75, "title");
@@ -121,9 +121,13 @@ void setup() {
             for(int s = 0; s < spriteAmt; s++) {
               more_sprites.add(loadImage("data/room_assets/" + params[0] + "_" + s + ".png"));
             }
-            roomObjects.add(new OverworldObject(Float.valueOf(params[1]) + copies * Float.valueOf(params[3]), Float.valueOf(params[2]) + yCopies * Float.valueOf(params[4]) , Float.valueOf(params[3]), Float.valueOf(params[4]), more_sprites, Boolean.valueOf(params[7]), Float.valueOf(params[8])));
+            OverworldObject over = new OverworldObject(Float.valueOf(params[1]) + copies * Float.valueOf(params[3]), Float.valueOf(params[2]) + yCopies * Float.valueOf(params[4]) , Float.valueOf(params[3]), Float.valueOf(params[4]), more_sprites, Boolean.valueOf(params[7]), Float.valueOf(params[8]));
+            roomObjects.add(over);
             if(Boolean.valueOf(params[7])) {
-              collideableRoomObjects.add(new OverworldObject(Float.valueOf(params[1]) + copies * Float.valueOf(params[3]), Float.valueOf(params[2]) + yCopies * Float.valueOf(params[4]) , Float.valueOf(params[3]), Float.valueOf(params[4]), more_sprites, Boolean.valueOf(params[7]), Float.valueOf(params[8])));
+              collideableRoomObjects.add(over);
+            }
+            if(params[0].equals("peaks")) {
+              harming.add(over);
             }
         }
       }

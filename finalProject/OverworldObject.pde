@@ -57,7 +57,6 @@ class OverworldObject extends Thing implements Collideable {
          else {
             frame = 0;
             roomObjects.remove(this);
-            print(roomObjects.contains(p.spinEffect));
             return;
          }
         }
