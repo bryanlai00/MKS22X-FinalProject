@@ -32,6 +32,9 @@ class Item extends Thing {
       //If the item touches the player, give the player that ability and add this # to the player's ability array.
       p.abilities[(int)itemValue - 1] = (int)itemValue;
       //Remove Overworldobject from it.
+      if (itemValue == 2) h.cooldowns[0] = 0;
+      if (itemValue == 3) h.cooldowns[1] = 0;
+      if (itemValue == 4) h.cooldowns[2] = 0;
     }
   }
 }

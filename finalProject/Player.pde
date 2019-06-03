@@ -326,8 +326,7 @@ class Player extends Thing implements Damageable, Collideable {
 
     case 'X':
       if (p.abilities[1] == 2) {
-        if (dash_cooldown == 0) {dashTimer = 60; dash_cooldown = 200; invulTimer = 0;}
-        //p.dash();
+        if (dash_cooldown == 0) {dashTimer = 60; dash_cooldown = 200; invulTimer = 0; h.cooldowns[0] = (int)dash_cooldown;}
       }
       return true;
 
@@ -340,6 +339,7 @@ class Player extends Thing implements Damageable, Collideable {
                 p.spinAttack(mons,2);
              }
             spin_cooldown = 70;
+            h.cooldowns[1] = (int)spin_cooldown;
         }
       }
       return true;
@@ -348,6 +348,7 @@ class Player extends Thing implements Damageable, Collideable {
     case 'V':
       if(p.abilities[3] == 4) {
         p.magicAttack();
+        h.cooldowns[2] = (int)magic_cooldown;
       }
       return true;
     
