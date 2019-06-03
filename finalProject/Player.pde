@@ -65,7 +65,8 @@ class Player extends Thing implements Damageable, Collideable {
       }
     }
     //Display items and created itemsAcquired array for player.
-    for (int i = 0; i < itemsAcquired.size(); i++) {
+    if(!isDashing) {
+      for (int i = 0; i < itemsAcquired.size(); i++) {
       Item indexItem = itemsAcquired.get(i);
       int nepo = 1; 
       if (lastDirection.equals("right")) {
@@ -90,7 +91,6 @@ class Player extends Thing implements Damageable, Collideable {
       }
    
     }
-    if(!isDashing) {
       image(localSprites.get(frame + sprite_index), x_pos, y_pos, x_size, y_size);
       if (delay <= 10) delay ++;
       else {
@@ -100,7 +100,14 @@ class Player extends Thing implements Damageable, Collideable {
       }
     }
     else {
-      image(loadImage("data/player_assets/dash.png"), x_pos, y_pos, 60, 30);
+      if (directionAngle >= 90 && directionAngle < 270) {
+        pushMatrix();
+        translate(x_pos, y_pos);
+        scale(-1.0, 1.0);
+        image(loadImage("data/player_assets/dash.png"), 0, 0, 60, 60);
+        popMatrix();
+      }
+      else image(loadImage("data/player_assets/dash.png"), x_pos, y_pos, 60, 60);
     }
   }
 
@@ -146,9 +153,9 @@ class Player extends Thing implements Damageable, Collideable {
     //If health reaches 0... set game running to false, to call clear().
     //Reset ising:
     if (invulTimer < invulTime) {
-      h.flashTime = invulTimer;
+      if (!isDashing) h.flashTime = invulTimer;
       invulTimer++;
-      if (invulTimer % 10 < 5) tint(255, 0, 0);
+      if (invulTimer % 10 < 5 && !isDashing) tint(255, 0, 0);
       else noTint();
     } else noTint();
     if (c_health <= 0) running = false;
@@ -317,7 +324,7 @@ class Player extends Thing implements Damageable, Collideable {
 
     case 'X':
       if (p.abilities[1] == 2) {
-        if (dash_cooldown == 0) {dashTimer = 60; dash_cooldown = 200;}
+        if (dash_cooldown == 0) {dashTimer = 60; dash_cooldown = 200; invulTimer = 0;}
         //p.dash();
       }
       return true;
