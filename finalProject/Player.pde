@@ -1,9 +1,9 @@
 class Player extends Thing implements Damageable, Collideable {
-  int m_health, damage, gaugeValue, num_sprites, sprite_index, delay = 0, frame = 0, invulTimer, invulTime, score = 0;
+  int m_health, damage, gaugeValue, num_sprites, sprite_index, delay = 0, frame = 0, invulTimer, invulTime, score = 0, attackAni;
   String lastDirection = "right";
   float x_pos, y_pos, x_size, y_size, directionAngle, c_health, magic_cooldown, dash_cooldown;
   boolean isMoving;
-  boolean isLeft, isRight, isUp, isDown, isDashing;
+  boolean isLeft, isRight, isUp, isDown, isDashing, isAttacking;
   int[] abilities;
   ArrayList<Item> itemsAcquired = new ArrayList<Item>();
   ArrayList<PImage> localSprites = new ArrayList<PImage>();
@@ -74,17 +74,33 @@ class Player extends Thing implements Damageable, Collideable {
         nepo = -1;
       }
       if (indexItem.itemValue == 1) {
-        indexItem.x_pos = x_pos + 20 * nepo;
-        indexItem.y_pos = y_pos;
+        //Set sword to a rotating item: Meaning we have to display it not with coords given but at (0,0) after translating the map.
+        indexItem.rotating = true;
+        pushMatrix();
+        if(isAttacking) {
+          translate(x_pos + nepo * 20, y_pos + 10);
+          rotate(nepo * 2 * PI/5);
+        }
+        else {
+          translate(x_pos + nepo * 20,y_pos);
+          rotate(nepo * PI/5);
+        }
         indexItem.display();
+        popMatrix();
+      }
+   
+    }
+    if(!isDashing) {
+      image(localSprites.get(frame + sprite_index), x_pos, y_pos, x_size, y_size);
+      if (delay <= 10) delay ++;
+      else {
+        delay = 0;
+        if (frame + 1 < num_sprites) frame ++;
+        else frame = 0;
       }
     }
-    image(localSprites.get(frame + sprite_index), x_pos, y_pos, x_size, y_size);
-    if (delay <= 10) delay ++;
     else {
-      delay = 0;
-      if (frame + 1 < num_sprites) frame ++;
-      else frame = 0;
+      image(loadImage("data/player_assets/dash.png"), x_pos, y_pos, 60, 30);
     }
   }
 
@@ -102,11 +118,14 @@ class Player extends Thing implements Damageable, Collideable {
   }
 
   void attack(Thing enemy, float num) {
-    float range = 100;
+    isAttacking = true;
+    attackAni = 20;
+    float range = 150;
     float coneSliceAngle = degrees(PI/4);
     //If the distance is greater than the range, return and iterate with the next monster.
     //Display attack animation of sword:
     if (dist(x_pos, y_pos, enemy.getX(), enemy.getY()) > range) {
+      isAttacking = false;
       return;
     } else {
       float anglePosition = degrees((float)Math.atan2(enemy.getY() - y_pos, enemy.getX() - x_pos));
@@ -137,6 +156,14 @@ class Player extends Thing implements Damageable, Collideable {
     } else noTint();
     if(magic_cooldown > 0) magic_cooldown--;
     if(dash_cooldown > 0) dash_cooldown--;
+    if(dash_cooldown == 0) isDashing = false;
+    if(attackAni > 0) {
+      attackAni--;
+      isAttacking = true; 
+    }
+    else {
+      isAttacking = false;
+    }
   }
 
   void move() {
@@ -250,7 +277,6 @@ class Player extends Thing implements Damageable, Collideable {
           y_pos += speed * (int(isDown) - int(isUp));
           dashDuration--;
         }
-        invulTimer = 2;
       }
       dash_cooldown = 50;
     }
