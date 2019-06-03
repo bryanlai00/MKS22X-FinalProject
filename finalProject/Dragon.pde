@@ -19,6 +19,10 @@ class Dragon extends Monster {
      attackPhase = 0;
      deathTimer = 65;
   }
+  //Copying:
+  Dragon(Dragon copy) {
+    this(copy.x_pos, copy.y_pos, copy.x_size, copy.y_size, copy.speed, copy.sightDistance, copy.mHealth, copy.num_sprites, copy.pathTimer, copy.invulTimer, copy.damage, copy.isBoss, copy.score);
+  }
   void attack(Thing target, float num) {
     attack(target, num, reachable);
   }

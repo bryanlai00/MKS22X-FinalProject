@@ -150,14 +150,36 @@ void draw() {
 
       Monster target = null;
       spawnTime--;
-      if(spawnTime == 0) {
-        m.add(mSpawn.get((int)(Math.random() * mSpawn.size())));
-        spawnTime = 100;
+      while(m.size() < 5) {
+            Monster chosen = mSpawn.get((int)(Math.random() * mSpawn.size()));
+            if(chosen instanceof Griffin) {
+              m.add(new Griffin((Griffin)chosen));
+            }
+            if(chosen instanceof Dragon) {
+              m.add(new Dragon((Dragon)chosen));
+            }
+            if(chosen instanceof Baby) {
+              m.add(new Baby((Baby)chosen));
+            }
+            if(chosen instanceof Boar) {
+              m.add(new Boar((Boar)chosen));
+            }
+            if(chosen instanceof Slime) {
+              m.add(new Slime((Slime)chosen));
+            }
+            if(chosen instanceof Spirit) {
+              m.add(new Spirit((Spirit)chosen));
+            }
+            if(chosen instanceof Minotaur) {
+              m.add(new Minotaur((Minotaur)chosen));
+            }
+            spawnTime = 100;
       }
       for (int mons = m.size() - 1; mons >= 0; mons--) {
         m.get(mons).update(p);
         m.get(mons).move(m.get(mons).currentDirection);
         m.get(mons).display();
+        //Continue to keep adding monsters:
         if(target != null) {
           if(dist(p.x_pos, p.y_pos, target.getX(), target.getY()) > dist(p.x_pos, p.y_pos, m.get(mons).getX(), m.get(mons).getY())) {
             target = m.get(mons);

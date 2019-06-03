@@ -18,6 +18,10 @@ class Griffin extends Monster {
      deathTimer = 50;
      if (isBoss) reach *= 1.5;
   }
+  //Copying:
+  Griffin(Griffin copy) {
+    this(copy.x_pos, copy.y_pos, copy.x_size, copy.y_size, copy.speed, copy.sightDistance, copy.mHealth, copy.num_sprites, copy.pathTimer, copy.invulTimer, copy.damage, copy.isBoss, copy.reach, copy.score);
+  }
   void attack(Thing target, float num) {
     float coneSliceAngle = degrees(PI/2);
     //textSize(13);

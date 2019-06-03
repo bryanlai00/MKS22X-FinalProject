@@ -125,7 +125,7 @@ class Player extends Thing implements Damageable, Collideable {
 
   void attack(Thing enemy, float num) {
     isAttacking = true;
-    float range = 150;
+    float range = 200;
     float coneSliceAngle = degrees(PI/4);
     //If the distance is greater than the range, return and iterate with the next monster.
     //Display attack animation of sword:
@@ -262,6 +262,10 @@ class Player extends Thing implements Damageable, Collideable {
       m.get(i).x_pos += -xChange;
       m.get(i).y_pos += -yChange;
     }
+    for(int i = 0; i < projectiles.size(); i++) {
+      projectiles.get(i).x_pos += -xChange;
+      projectiles.get(i).y_pos += -yChange;
+    }
     spinEffect.x_pos = x_pos;
     spinEffect.y_pos = y_pos - 10;
     //Checks if the player is moving.
@@ -299,7 +303,7 @@ class Player extends Thing implements Damageable, Collideable {
 
   void magicAttack() {
     PImage projectile = loadImage("data/items/magic.png");
-    projectile.resize(50, 50);
+    projectile.resize(100, 100);
     if (magic_cooldown == 0) {
       if (m.size() > 0) {
         Monster target = m.get(0);

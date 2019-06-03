@@ -16,6 +16,10 @@ class Boar extends Monster {
      deathTimer = 40;
      if (isBoss) reach *= 1.5;
   }
+    //Copying:
+  Boar(Boar copy) {
+    this(copy.x_pos, copy.y_pos, copy.x_size, copy.y_size, copy.speed, copy.sightDistance, copy.mHealth, copy.num_sprites, copy.pathTimer, copy.invulTimer, copy.damage, copy.isBoss, copy.score);
+  }
   void attack(Thing target, float num) {
     if (cHealth > 0) ((Player)target).loseHealth(num);
   }
