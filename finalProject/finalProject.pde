@@ -14,7 +14,7 @@ boolean running = true;
 ArrayList<OverworldObject> roomObjects = new ArrayList<OverworldObject>();
 ArrayList<OverworldObject> collideableRoomObjects = new ArrayList<OverworldObject>();
 ArrayList<Item> allItems = new ArrayList<Item>();
-String[] objects, spriteNames, hudNames, assetNames, playerNames, screenNames, itemNames;
+String[] objects, spriteNames, hudNames, assetNames, playerNames, screenNames, itemNames, effectNames;
 ArrayList<Monster> m = new ArrayList<Monster>();
 ArrayList<PImage> sprite = new ArrayList<PImage>();
 ArrayList<PImage> assets = new ArrayList<PImage>();
@@ -22,6 +22,7 @@ ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 ArrayList<PImage> hud = new ArrayList<PImage>();
 ArrayList<PImage> screenImages = new ArrayList<PImage>();
 ArrayList<Screen> screens = new ArrayList<Screen>();
+ArrayList<PImage> effectSprites = new ArrayList<PImage>();
 int iT = 60;
 String mode = "colosseum";
 
@@ -45,10 +46,20 @@ void setup() {
     String[] params = itemNames[i].split(",");
     allItems.add(new Item(Float.valueOf(params[0]), Float.valueOf(params[1]), Float.valueOf(params[2]), Float.valueOf(params[3]), loadImage("data/items/" + params[4] + ".png"), Float.valueOf(params[5])));
   }
+  //Going through effects folder:
+  effectNames = loadStrings("data/effectNames.txt");
+  for(int i = 0; i < effectNames.length; i++) {
+    String[] params = effectNames[i].split(" ");
+    float spriteAmt = Float.valueOf(params[1]);
+    for(int s = 0; s < spriteAmt; s++) {
+     effectSprites.add(loadImage("data/effects/" + params[0] + "_" + s + ".png"));
+     print("data/effects/" + params[0] + "_" + s + ".png");
+    }
+  }
   scr = new Screen(width/2 - 190, height - 115, width/2, 75, 75, "title");
   screens.add(scr);
   //Slime(float xcor, float ycor, float x_size, float y_size, float spe, float sight, float mH, int numSprites, int pT, int iT, float dam, boolean boss, int sco)
-  s = new Slime(width/2, height/2, 50, 50, 0, 200.0, 50, 4, 120, iT, .5, false, 50);
+  s = new Slime(width/2, height/2, 50, 50, 0, 200.0, 2, 4, 120, iT, .5, false, 50);
   s2 = new Slime(200, 600, 50, 50, 1, 200.0, 1, 4, 120, iT, .5, true, 50);
   d = new Baby(500, 800, 90, 90, 1.5, 300.0, 3, 10, 120, iT, 1, false, 100);
   d2 = new Baby(500, 200, 90, 90, 1.5, 300.0, 3, 10, 120, iT, 1, true, 100);
@@ -127,8 +138,8 @@ void draw() {
     else if(running){
       background(37,19,26);
       fill(0, 102, 153);
-      for (OverworldObject o : roomObjects) {
-        o.display();
+      for(int i = 0; i < roomObjects.size(); i++) {
+        roomObjects.get(i).display();
       }
 
       Monster target = null;

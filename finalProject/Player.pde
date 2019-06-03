@@ -1,12 +1,13 @@
 class Player extends Thing implements Damageable, Collideable {
   int m_health, damage, gaugeValue, num_sprites, sprite_index, delay = 0, frame = 0, invulTimer, invulTime, score = 0, attackAni, dashTimer = 0;
   String lastDirection = "right";
-  float x_pos, y_pos, x_size, y_size, directionAngle, c_health, magic_cooldown, dash_cooldown;
+  float x_pos, y_pos, x_size, y_size, directionAngle, c_health, magic_cooldown, dash_cooldown, spin_cooldown;
   boolean isMoving;
   boolean isLeft, isRight, isUp, isDown, isDashing, isAttacking, isRunning;
   int[] abilities;
   ArrayList<Item> itemsAcquired = new ArrayList<Item>();
   ArrayList<PImage> localSprites = new ArrayList<PImage>();
+  OverworldObject spinEffect;
 
   float getX() {
     return x_pos;
@@ -42,6 +43,8 @@ class Player extends Thing implements Damageable, Collideable {
     gaugeValue = 0;
     this.num_sprites = num_sprites;
     this.localSprites = ls;
+    //for spinEffect:
+    spinEffect = new OverworldObject(x_pos, y_pos, 200, 200, effectSprites, false, 63);
     sprite_index = 0;
     //Takes in pos then size.
   }
@@ -161,6 +164,7 @@ class Player extends Thing implements Damageable, Collideable {
     if (c_health <= 0) running = false;
     if(magic_cooldown > 0) magic_cooldown--;
     if(dash_cooldown > 0) dash_cooldown--;
+    if(spin_cooldown > 0) spin_cooldown--;
     if(dashTimer > 0) {p.dash(); dashTimer--;}
     else isDashing = false;
     if(attackAni > 0) {
@@ -256,6 +260,8 @@ class Player extends Thing implements Damageable, Collideable {
       m.get(i).x_pos += -xChange;
       m.get(i).y_pos += -yChange;
     }
+    spinEffect.x_pos = x_pos;
+    spinEffect.y_pos = y_pos;
     //Checks if the player is moving.
     if (x_prev_pos != x_pos || y_prev_pos != y_pos) {
       isMoving = true;
@@ -282,14 +288,11 @@ class Player extends Thing implements Damageable, Collideable {
     }
   }
   
-  void spinAttack() {
-    for(Item a : itemsAcquired) {
-      if(a.itemValue == 3) {
-        a.x_pos = x_pos;
-        a.y_pos = y_pos;
-        a.display();
-      }
-    }
+  void spinAttack(Monster enemy, float num) {
+       float range = 150;
+       if (dist(x_pos, y_pos, enemy.getX(), enemy.getY()) < range) {
+         enemy.loseHealth(num);
+       }
   }
   
   void magicAttack() {
@@ -331,7 +334,14 @@ class Player extends Thing implements Damageable, Collideable {
 
     case 'C':
       if (p.abilities[2] == 3) {
-        p.spinAttack();
+        if(spin_cooldown == 0) {
+              roomObjects.add(spinEffect); 
+             print(roomObjects.contains(spinEffect));
+             for( Monster mons : m) {
+                p.spinAttack(mons,2);
+             }
+            spin_cooldown = 70;
+        }
       }
       return true;
 
@@ -343,7 +353,6 @@ class Player extends Thing implements Damageable, Collideable {
       return true;
     
     case 'Z':
-
       if (p.abilities[0] == 1) {
         isAttacking = true;
         attackAni = 20;

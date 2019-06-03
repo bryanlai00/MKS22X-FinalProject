@@ -36,13 +36,30 @@ class OverworldObject extends Thing implements Collideable {
   
   void display() {
       noTint();
+      int timeDelay = 10;
+      if(num_sprites > 30) timeDelay = 1;
       if(num_sprites != 0) {
         image(sprites.get(frame + sprite_index), x_pos, y_pos, x_size, y_size);
-        if (delay <= 10) delay ++;
+        if(timeDelay > 1) {
+          if (delay <= timeDelay) delay ++;
+          else {
+            delay = 0;
+            if (frame + 1 < num_sprites) frame ++;
+            else frame = 0;
+          }
+        }
         else {
-          delay = 0;
-        if (frame + 1 < num_sprites) frame ++;
-        else frame = 0;
+          if(delay <= timeDelay) delay += 0.2;
+          else {
+            delay = 0;
+          }
+         if (frame + 1 < num_sprites) frame ++;
+         else {
+            frame = 0;
+            roomObjects.remove(this);
+            print(roomObjects.contains(p.spinEffect));
+            return;
+         }
         }
       }
       else {
