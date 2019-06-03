@@ -60,7 +60,7 @@ void setup() {
   g2 = new Griffin(300, 600, 150, 150, 1.5, 400.0, 5, 10, 120, iT, .5, true, 150, 250);
   dr = new Dragon(500, 200, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false, 300);
   dr2 = new Dragon(500, 200, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, true, 300);
-  //m.add(s);
+  m.add(s);
   //m.add(s2);
   //m.add(d);
   //m.add(d2);
@@ -118,7 +118,6 @@ void setup() {
 }
 }
 
-
 void draw() {
     //Room assets:
     if (screens.size() > 0) screens.get(0).display();
@@ -128,6 +127,8 @@ void draw() {
       for (OverworldObject o : roomObjects) {
         o.display();
       }
+
+      Monster target = null;
       for (int mons = m.size() - 1; mons >= 0; mons--) {
         m.get(mons).update(p);
         m.get(mons).move(m.get(mons).currentDirection);
@@ -135,11 +136,29 @@ void draw() {
         for (int i = m.size() - 1; i >= 0; i--) {
           if (m.get(i).cHealth <= 0 && m.get(i).getDeathTimer() == 0) {h.increaseScore(m.get(i).score); m.remove(i);}
         }
-      }
+        //finds closest monster:
+        if(target != null) {
+          if(dist(p.x_pos, p.y_pos, target.getX(), target.getY()) > dist(p.x_pos, p.y_pos, m.get(mons).getX(), m.get(mons).getY())) {
+            target = m.get(mons);
+          }
+        }
+        else if(m.size() > 0) {
+            target = m.get(mons);
+        }
+    }
+    //Added projectile stuff for player as well.
       for (int i = projectiles.size() - 1; i >= 0; i--) {
-        projectiles.get(i).move();
-        projectiles.get(i).display();
-        projectiles.get(i).update(p);
+        Projectile proj = projectiles.get(i);
+        proj.move();
+        proj.display();
+        if(proj.target.equals("player")) {
+          proj.update(p);
+        }
+        if(proj.target.equals("monster")) {
+          if(target != null) {
+            proj.update(target);
+          }
+        }
       }
       for(Item i : allItems) {
         i.display();
@@ -155,11 +174,6 @@ void draw() {
     }
 }
 
-//Clears everything on the screen when reaching gameOver.
-void clear() {
-  if(p.c_health <= 0) screens.add(new Screen(width/2, height/2, width/2, 50, 50, "gameover"));
-}
-
 void keyPressed() {
   if (screens.size() > 0) screens.get(0).select();
   else if(running) p.setMove(keyCode, true, m);
@@ -167,4 +181,8 @@ void keyPressed() {
 
 void keyReleased() {
   p.setMove(keyCode, false, m);
+}
+//Clears everything on the screen when reaching gameOver.
+void clear() {
+  if(p.c_health <= 0) screens.add(new Screen(width/2, height/2, width/2, 50, 50, "gameover"));
 }

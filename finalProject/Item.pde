@@ -5,6 +5,7 @@ class Item extends Thing {
   float getY_size() {return y_size;}
   int itemValue;
   PImage sprite;
+  boolean rotating;
   
   public Item(float x_pos, float y_pos, float x_size, float y_size, PImage sprite, float itemValue){
     super(x_pos, y_pos);
@@ -19,14 +20,18 @@ class Item extends Thing {
   
   void display() {
     noTint();
-    image(sprite, x_pos, y_pos);
+    if(rotating) {
+     image(sprite, 0, 0);
+    }
+    else {
+      image(sprite, x_pos, y_pos);
+    }
   }
   
   void addAbilityToPlayer(Player p) {
     if(itemValue != 0 && p.isTouching(this)) {
       //If the item touches the player, give the player that ability and add this # to the player's ability array.
       p.abilities[(int)itemValue - 1] = (int)itemValue;
-      print("bruh");
       //Remove Overworldobject from it.
     }
   }

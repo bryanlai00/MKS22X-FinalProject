@@ -1,23 +1,31 @@
 class Player extends Thing implements Damageable, Collideable {
-  int m_health, damage, gaugeValue, num_sprites, sprite_index, delay = 0, frame = 0, invulTimer, invulTime, score = 0;
+  int m_health, damage, gaugeValue, num_sprites, sprite_index, delay = 0, frame = 0, invulTimer, invulTime, score = 0, attackAni;
   String lastDirection = "right";
-  float x_pos, y_pos, x_size, y_size, directionAngle, c_health;
-  boolean isMoving, isRunning;
-  boolean isLeft, isRight, isUp, isDown, isDashing;
+  float x_pos, y_pos, x_size, y_size, directionAngle, c_health, magic_cooldown, dash_cooldown;
+  boolean isMoving;
+  boolean isLeft, isRight, isUp, isDown, isDashing, isAttacking;
   int[] abilities;
   ArrayList<Item> itemsAcquired = new ArrayList<Item>();
   ArrayList<PImage> localSprites = new ArrayList<PImage>();
-  
-  float getX() {return x_pos;}
-  float getY() {return y_pos;}
-  float getX_size() {return x_size;}
-  float getY_size() {return y_size;}
-  
+
+  float getX() {
+    return x_pos;
+  }
+  float getY() {
+    return y_pos;
+  }
+  float getX_size() {
+    return x_size;
+  }
+  float getY_size() {
+    return y_size;
+  }
+
   //Takes in size then pos.
 
-    //Player(int x_size, int y_size, int x_pos, int y_pos, int iT, PImage s) {
+  //Player(int x_size, int y_size, int x_pos, int y_pos, int iT, PImage s) {
   Player(int x_size, int y_size, int x_pos, int y_pos, int iT, int num_sprites, ArrayList<PImage> ls) {
-    super(x_size,y_size);
+    super(x_size, y_size);
     this.x_size = x_size;
     this.y_size = y_size;
     this.x_pos = x_pos;
@@ -37,112 +45,127 @@ class Player extends Thing implements Damageable, Collideable {
     sprite_index = 0;
     //Takes in pos then size.
   }
-  
+
   void display() {
     //Changes sprite_index based on buttons pressed.
-      /* IF RUNNING Sprites Indexes 4-11*/
-    if(isMoving) {
-      if(lastDirection.equals("right")) {
-        sprite_index = 8;;
+    /* IF RUNNING Sprites Indexes 4-11*/
+    if (isMoving) {
+      if (lastDirection.equals("right")) {
+        sprite_index = 8;
+        ;
+      } else if (lastDirection.equals("left")) {
+        sprite_index = 12;
+        ;
       }
-      else if(lastDirection.equals("left")) {
-        sprite_index = 12;;
-      }
-    }
-    else {
-      if(lastDirection.equals("left")) {
+    } else {
+      if (lastDirection.equals("left")) {
         sprite_index = 4;
-      }
-      else if(lastDirection.equals("right")){
+      } else if (lastDirection.equals("right")) {
         sprite_index = 0;
       }
     }
     //Display items and created itemsAcquired array for player.
-    for(int i = 0; i < itemsAcquired.size(); i++) {
+    for (int i = 0; i < itemsAcquired.size(); i++) {
       Item indexItem = itemsAcquired.get(i);
       int nepo = 1; 
-      if(lastDirection.equals("right")) {
+      if (lastDirection.equals("right")) {
         nepo = 1;
-      }
-      else if(lastDirection.equals("left")) {
+      } else if (lastDirection.equals("left")) {
         nepo = -1;
       }
-      if(indexItem.itemValue == 1) {
-        indexItem.x_pos = x_pos + 20 * nepo;
-        indexItem.y_pos = y_pos;
+      if (indexItem.itemValue == 1) {
+        //Set sword to a rotating item: Meaning we have to display it not with coords given but at (0,0) after translating the map.
+        indexItem.rotating = true;
+        pushMatrix();
+        if(isAttacking) {
+          translate(x_pos + nepo * 20, y_pos + 10);
+          rotate(nepo * 2 * PI/5);
+        }
+        else {
+          translate(x_pos + nepo * 20,y_pos);
+          rotate(nepo * PI/5);
+        }
         indexItem.display();
+        popMatrix();
       }
-      if(indexItem.itemValue == 2 && isDashing) {
-        indexItem.x_pos = x_pos - 20 * nepo;
-        indexItem.y_pos = y_pos;
-        indexItem.display();
+   
+    }
+    if(!isDashing) {
+      image(localSprites.get(frame + sprite_index), x_pos, y_pos, x_size, y_size);
+      if (delay <= 10) delay ++;
+      else {
+        delay = 0;
+        if (frame + 1 < num_sprites) frame ++;
+        else frame = 0;
       }
     }
-    image(localSprites.get(frame + sprite_index), x_pos, y_pos, x_size, y_size);
-    if (delay <= 10) delay ++;
     else {
-      delay = 0;
-      if (frame + 1 < num_sprites) frame ++;
-      else frame = 0;
+      image(loadImage("data/player_assets/dash.png"), x_pos, y_pos, 60, 30);
     }
   }
-  
+
   void loseHealth(float num) {
     if (invulTimer == invulTime) {
       c_health -= num;
       invulTimer = 0;
     }
   }
-  
+
   //Has isTouching method from Thing.
   boolean isTouching(Thing other) {
     //Add statement to deal with OverworldObjects, bottom is used for monster.
     return super.isTouching(other);
   }
-  
+
   void attack(Thing enemy, float num) {
-    float range = 100;
+    isAttacking = true;
+    attackAni = 20;
+    float range = 150;
     float coneSliceAngle = degrees(PI/4);
     //If the distance is greater than the range, return and iterate with the next monster.
     //Display attack animation of sword:
-    for(int i = 0; i < itemsAcquired.size(); i++) {
-      Item indexItem = itemsAcquired.get(i);
-      //Insert later code to make image rotate.
-    }
-    if(dist(x_pos, y_pos, enemy.getX(), enemy.getY()) > range) {
+    if (dist(x_pos, y_pos, enemy.getX(), enemy.getY()) > range) {
+      isAttacking = false;
       return;
-    }
-    else {
+    } else {
       float anglePosition = degrees((float)Math.atan2(enemy.getY() - y_pos, enemy.getX() - x_pos));
       //If angle is less than 0:
       float rightConstraint = directionAngle + coneSliceAngle;
       float leftConstraint = directionAngle - coneSliceAngle;
       /*
       print("\n left constraint: " + leftConstraint);
-      print("\n right constraint: " + rightConstraint);
-      */
-      if(anglePosition < rightConstraint && anglePosition > leftConstraint) {
+       print("\n right constraint: " + rightConstraint);
+       */
+      if (anglePosition < rightConstraint && anglePosition > leftConstraint) {
         ((Monster)enemy).loseHealth(num);
       }
       //print("\n anglePosition: " + anglePosition);  
       //See if the difference angle is applicable for the coneSliceAngle:
-      
     }
   }
-  
+
   void update(HUD h) {
     //If health reaches 0... set game running to false, to call clear().
-    //Reset isDashing:
-    if(c_health <= 0) running = false;
+    //Reset ising:
+    if (c_health <= 0) running = false;
     if (invulTimer < invulTime) {
       h.flashTime = invulTimer;
       invulTimer++;
       if (invulTimer % 10 < 5) tint(255, 0, 0);
       else noTint();
+    } else noTint();
+    if(magic_cooldown > 0) magic_cooldown--;
+    if(dash_cooldown > 0) dash_cooldown--;
+    if(dash_cooldown == 0) isDashing = false;
+    if(attackAni > 0) {
+      attackAni--;
+      isAttacking = true; 
     }
-    else noTint();
+    else {
+      isAttacking = false;
+    }
   }
-  
+
   void move() {
     //Calculating radius.
     double f = Math.pow(x_size, 2);
@@ -151,7 +174,7 @@ class Player extends Thing implements Damageable, Collideable {
     /*Speed for movement 4 for running, 2 for normal*/
     float speed;
     speed = 2.25;
-    
+
     //Makes sure that the position does not go out.
     //Used to see if the position changes to determine if something moves.
     float x_prev_pos = x_pos;
@@ -162,141 +185,173 @@ class Player extends Thing implements Damageable, Collideable {
     //Move all other entities by moving the map.
     //List of x-statements to find angleDirection:
     //For basical cardinal directions:
-        //print("direction angle" + directionAngle + "\n");
-        if(isRight) {
-          directionAngle = 0;
-        }
-        else if(isLeft) {
-          directionAngle = 180;
-        }
-        else if(isDown) {
-          directionAngle = 90;
-        }
-        else if(isUp) {
-          directionAngle = -90;
-        }
+    //print("direction angle" + directionAngle + "\n");
+    if (isRight) {
+      directionAngle = 0;
+    } else if (isLeft) {
+      directionAngle = 180;
+    } else if (isDown) {
+      directionAngle = 90;
+    } else if (isUp) {
+      directionAngle = -90;
+    }
     //For combined directionAngles:
-        if(isRight && isUp) {
-          directionAngle = -45;
-        }
-        else if(isRight && isDown) {
-          directionAngle = 45;
-        }
-        else if(isLeft && isUp) {
-          directionAngle = -135;
-        }
-        else if(isLeft && isDown) {
-          directionAngle = 135;
-        }
-        
+    if (isRight && isUp) {
+      directionAngle = -45;
+    } else if (isRight && isDown) {
+      directionAngle = 45;
+    } else if (isLeft && isUp) {
+      directionAngle = -135;
+    } else if (isLeft && isDown) {
+      directionAngle = 135;
+    }
+
 
     //If the player encounters a "collideableRoomObject, make xChange and yChange == 0
-    for(OverworldObject o : collideableRoomObjects) {
-      if(isTouching(o)) {
+    for (OverworldObject o : collideableRoomObjects) {
+      if (isTouching(o)) {
         //If you have a distance that is closer (less) than the previous distance between the object and player, don't move it in that direction.
         //Instead, just don't allow it.
-         if(dist(x_pos + xChange, y_pos + yChange, o.getX(), o.getY()) < dist(x_pos, y_pos, o.getX(), o.getY())) {
-           xChange = 0;
-           yChange = 0;
-         }
+        if (dist(x_pos + xChange, y_pos + yChange, o.getX(), o.getY()) < dist(x_pos, y_pos, o.getX(), o.getY())) {
+          xChange = 0;
+          yChange = 0;
+        }
       }
     }
-    
-    for(int i = allItems.size() - 1; i > -1; i--) {
+
+    for (int i = allItems.size() - 1; i > -1; i--) {
       Item cur = allItems.get(i);
-      if(isTouching(cur)) {
+      if (isTouching(cur)) {
         cur.addAbilityToPlayer(this);
         itemsAcquired.add(allItems.remove(i));
       }
     }
-    
+
     //If the player touches the item, have the item disappear, add the ability to the array, etc.
-    
+
     x_pos = constrain(x_pos + xChange, r, width  - r);
     y_pos = constrain(y_pos + yChange, r, height - r);
-    
-    
+
+
     //Check boundaries and move other entities based on xChange and yChange.
-      for(int i = 0; i < roomObjects.size(); i++) {
-        roomObjects.get(i).x_pos += -xChange;
-        roomObjects.get(i).y_pos += -yChange;
-      }
-      for(int i = 0; i < collideableRoomObjects.size(); i++ ) {
-        collideableRoomObjects.get(i).x_pos += -xChange;
-        collideableRoomObjects.get(i).y_pos += -yChange;
-      }
-      for(int i = 0; i < allItems.size(); i++) {
-        allItems.get(i).x_pos += -xChange;
-        allItems.get(i).y_pos += -yChange;
-      }
-      for(int i = 0; i < m.size(); i++) {
-        m.get(i).x_pos += -xChange;
-        m.get(i).y_pos += -yChange;
-      }
-    //Checks if the player is moving.
-    if(x_prev_pos != x_pos || y_prev_pos != y_pos) {
-      isMoving = true;
+    for (int i = 0; i < roomObjects.size(); i++) {
+      roomObjects.get(i).x_pos += -xChange;
+      roomObjects.get(i).y_pos += -yChange;
     }
-    else {
+    for (int i = 0; i < collideableRoomObjects.size(); i++ ) {
+      collideableRoomObjects.get(i).x_pos += -xChange;
+      collideableRoomObjects.get(i).y_pos += -yChange;
+    }
+    for (int i = 0; i < allItems.size(); i++) {
+      allItems.get(i).x_pos += -xChange;
+      allItems.get(i).y_pos += -yChange;
+    }
+    for (int i = 0; i < m.size(); i++) {
+      m.get(i).x_pos += -xChange;
+      m.get(i).y_pos += -yChange;
+    }
+    //Checks if the player is moving.
+    if (x_prev_pos != x_pos || y_prev_pos != y_pos) {
+      isMoving = true;
+    } else {
       isMoving = false;
     }
   }
-  
+
+
+//Moves you learn on throughout the game:
   void dash() {
-    float speed = 0.5;
-    //If the player encounters a wall while dashing, stop movement.
-    outerloop:
-    for(int i = 0; i < 100; i++) {
-      for(OverworldObject o : collideableRoomObjects) {
-        if(isTouching(o)) {
-          break outerloop;
+    isDashing = true;
+    float dashDuration = 2;
+    if(dash_cooldown > 0) {
+       outerloop:
+       while(dashDuration > 0) {
+        float speed = 10;
+        //If the player encounters a wall while dashing, stop movement.
+          for (OverworldObject o : collideableRoomObjects) {
+            if (isTouching(o)) {
+              break outerloop;
+            }
+          }
+          x_pos += speed * (int(isRight) - int(isLeft));
+          y_pos += speed * (int(isDown) - int(isUp));
+          dashDuration--;
         }
       }
-      float xDir;
-      float yDir;
-      x_pos += speed * (int(isRight) - int(isLeft));
-      y_pos += speed * (int(isDown) - int(isUp));
-      speed -= 0.001;
+      dash_cooldown = 50;
     }
-    invulTimer = 2;
+  
+  void spinAttack() {
+    for(Item a : itemsAcquired) {
+      if(a.itemValue == 3) {
+        a.x_pos = x_pos;
+        a.y_pos = y_pos;
+        a.display();
+      }
+    }
   }
   
+  void magicAttack() {
+    PImage projectile = loadImage("data/items/magic.png");
+    projectile.resize(50,50);
+    if(magic_cooldown == 0) {
+      if(m.size() > 0) {
+        Monster target = m.get(0);
+        projectiles.add(new Projectile(x_pos, y_pos, 35, 35, 1, 8, 60, projectile, (Monster)target));
+      }
+      magic_cooldown = 80;
+    }
+  }
+    
+
   boolean setMove(int k, boolean b, ArrayList<Monster> m) {
     //Create switch/case to set the boolean variables for up, down, left and right.
     switch (k) {
     case UP:
       return isUp = b;
- 
+
     case DOWN:
       return isDown = b;
- 
+
     case LEFT:
       lastDirection = "left";
       return isLeft = b;
- 
+
     case RIGHT:
       lastDirection = "right";
       return isRight = b;
-     
+
     case 'X':
-      if(p.abilities[1] == 2) {
-        isDashing = true;
+      if (p.abilities[1] == 2) {
         p.dash();
       }
-      
+      return true;
+
     case 'C':
-      isRunning = false;
-      return isRunning;
-      
-    case 'Z':
-    if(p.abilities[0] == 1) {
-      for(Monster mons : m) {
-        p.attack(mons, damage);
+      if (p.abilities[2] == 3) {
+        p.spinAttack();
       }
-    }
- 
+      return true;
+
+    
+    case 'V':
+      if(p.abilities[3] == 4) {
+        p.magicAttack();
+      }
+      return true;
+    
+    case 'Z':
+
+      if (p.abilities[0] == 1) {
+        for (Monster mons : m) {
+          p.attack(mons, 1);
+        }
+
+      }
+      return true;
+      
     default:
-    return b;
+      return b;
     }
   }
 }
