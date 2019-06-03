@@ -4,8 +4,8 @@ class Dragon extends Monster {
   String phase;
   float playerGenDir, reach = 120, range = 110;
   int cooldown, attackPhase, attackDelay = -1;
-  Dragon(float xcor, float ycor, float x_size, float y_size, float spe, float sight, float mH, int numSprites, int pT, int iT, float dam, boolean boss) {
-     super(xcor, ycor, x_size, y_size, spe, sight, mH, numSprites, pT, iT, dam, boss);
+  Dragon(float xcor, float ycor, float x_size, float y_size, float spe, float sight, float mH, int numSprites, int pT, int iT, float dam, boolean boss, int sco) {
+     super(xcor, ycor, x_size, y_size, spe, sight, mH, numSprites, pT, iT, dam, boss, sco);
   for (int i = 0; i < spriteNames.length; i++) {
      if (spriteNames[i].contains("dragon")) {
        localSprite.add(sprite.get(i));
@@ -49,11 +49,13 @@ class Dragon extends Monster {
       }
     }
     else {
-      projectiles.add(0, new Projectile(x_pos, y_pos, 35, 35, num, 5, 60, projectile, (Player)target, 0));
-      projectiles.add(0, new Projectile(x_pos, y_pos, 35, 35, num, 5, 60, projectile, (Player)target, 35));
-      projectiles.add(0, new Projectile(x_pos, y_pos, 35, 35, num, 5, 60, projectile, (Player)target, -35));
-      projectiles.add(0, new Projectile(x_pos, y_pos, 35, 35, num, 5, 60, projectile, (Player)target, 70));
-      projectiles.add(0, new Projectile(x_pos, y_pos, 35, 35, num, 5, 60, projectile, (Player)target, -70));
+      int p_size = 35;
+      if (isBoss) p_size = 50;
+      projectiles.add(0, new Projectile(x_pos, y_pos, p_size, p_size, num, 5, 60, projectile, (Player)target, 0));
+      projectiles.add(0, new Projectile(x_pos, y_pos, p_size, p_size, num, 5, 60, projectile, (Player)target, 35));
+      projectiles.add(0, new Projectile(x_pos, y_pos, p_size, p_size, num, 5, 60, projectile, (Player)target, -35));
+      projectiles.add(0, new Projectile(x_pos, y_pos, p_size, p_size, num, 5, 60, projectile, (Player)target, 70));
+      projectiles.add(0, new Projectile(x_pos, y_pos, p_size, p_size, num, 5, 60, projectile, (Player)target, -70));
     }
   }
   void checkForPlayer(Player p) {
@@ -121,25 +123,28 @@ class Dragon extends Monster {
   void display() {
     imageMode(CENTER);
     if (updateImageDir()) frame = 0;
+    x_size = localSprite.get(frame + index).width;
+    y_size = localSprite.get(frame + index).height;
+    if (isBoss) {x_size *= 1.5; y_size *= 1.5;}
     if (playerInRange) {
       if (playerGenDir >= 90 || playerGenDir < -90) {
         pushMatrix();
         translate(x_pos, y_pos);
         scale(-1.0, 1.0);
-        image(localSprite.get(frame + index), 0, 0);
+        image(localSprite.get(frame + index), 0, 0 , x_size, y_size);
         popMatrix();
       }
-      else image(localSprite.get(frame + index), x_pos, y_pos);
+      else image(localSprite.get(frame + index), x_pos, y_pos, x_size, y_size);
     }
     else {
       if (currentDirection >= 90 || currentDirection < -90 || (currentDirection >= 90 && currentDirection < 270)) {
         pushMatrix();
         translate(x_pos, y_pos);
         scale(-1.0, 1.0);
-        image(localSprite.get(frame + index), 0, 0);
+        image(localSprite.get(frame + index), 0, 0, x_size, y_size);
         popMatrix();
       }
-      else image(localSprite.get(frame + index), x_pos, y_pos);
+      else image(localSprite.get(frame + index), x_pos, y_pos, x_size, y_size);
     }
     if (delay <= 5) delay ++;
     else {

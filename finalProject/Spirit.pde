@@ -4,8 +4,8 @@ class Spirit extends Monster {
   String phase;
   float sRF, playerGenDir;
   int cooldown;
-  Spirit(float xcor, float ycor, float x_size, float y_size, float spe, float sight, float mH, int numSprites, int pT, int iT, float dam, boolean boss) {
-     super(xcor, ycor, x_size, y_size, spe, sight, mH, numSprites, pT, iT, dam, boss);
+  Spirit(float xcor, float ycor, float x_size, float y_size, float spe, float sight, float mH, int numSprites, int pT, int iT, float dam, boolean boss, int sco) {
+     super(xcor, ycor, x_size, y_size, spe, sight, mH, numSprites, pT, iT, dam, boss, sco);
   for (int i = 0; i < spriteNames.length; i++) {
      if (spriteNames[i].contains("spirit")) {
        localSprite.add(sprite.get(i));
@@ -21,9 +21,11 @@ class Spirit extends Monster {
   deathTimer = 55;
   }
   void attack(Thing target, float num) {
-    projectiles.add(0, new Projectile(x_pos, y_pos, 35, 35, num, 5, 60, projectile, (Player)target, 0));
-    projectiles.add(0, new Projectile(x_pos, y_pos, 35, 35, num, 5, 60, projectile, (Player)target, 45));
-    projectiles.add(0, new Projectile(x_pos, y_pos, 35, 35, num, 5, 60, projectile, (Player)target, -45));
+    int p_size = 35;
+    if (isBoss) p_size = 50;
+    projectiles.add(0, new Projectile(x_pos, y_pos, p_size, p_size, num, 5, 60, projectile, (Player)target, 0));
+    projectiles.add(0, new Projectile(x_pos, y_pos, p_size, p_size, num, 5, 60, projectile, (Player)target, 45));
+    projectiles.add(0, new Projectile(x_pos, y_pos, p_size, p_size, num, 5, 60, projectile, (Player)target, -45));
   }
   void checkForPlayer(Player p, float safeRadiusDiff) {
     if (dist(p.x_pos,p.y_pos,x_pos,y_pos) < sightDistance) {

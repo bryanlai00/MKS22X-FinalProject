@@ -1,6 +1,6 @@
 class Slime extends Monster {
-  Slime(float xcor, float ycor, float x_size, float y_size, float spe, float sight, float mH, int numSprites, int pT, int iT, float dam, boolean boss) {
-     super(xcor, ycor, x_size, y_size, spe, sight, mH, numSprites, pT, iT, dam, boss);
+  Slime(float xcor, float ycor, float x_size, float y_size, float spe, float sight, float mH, int numSprites, int pT, int iT, float dam, boolean boss, int sco) {
+     super(xcor, ycor, x_size, y_size, spe, sight, mH, numSprites, pT, iT, dam, boss, sco);
      for (int i = 0; i < spriteNames.length; i++) {
        if (spriteNames[i].contains("slime")) {
          localSprite.add(sprite.get(i));
@@ -23,19 +23,6 @@ class Slime extends Monster {
   }
   void attack(Thing target, float num) {
     if (cHealth > 0) ((Player)target).loseHealth(num);
-  }
-  void move(float direction) {
-    for(OverworldObject o : collideableRoomObjects) {
-      if(isTouching(o)) {
-        if(dist(x_pos + currentSpeed * (float) Math.cos(radians(direction)), y_pos + currentSpeed * (float) Math.sin(radians(direction)), o.getX(), o.getY())
-        < dist(x_pos, y_pos, o.getX(), o.getY())) {
-           currentSpeed = 0;
-           currentSpeed = 0;
-         }
-        }
-      }  
-      x_pos += currentSpeed * Math.cos(radians(direction));
-      y_pos += currentSpeed * Math.sin(radians(direction));
   }
   boolean updateImageDir() {
     String temp = currentDir;
