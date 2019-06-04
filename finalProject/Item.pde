@@ -7,6 +7,7 @@ class Item extends Thing {
   PImage sprite;
   boolean rotating;
   
+  //Constructor:
   public Item(float x_pos, float y_pos, float x_size, float y_size, PImage sprite, float itemValue){
     super(x_pos, y_pos);
     this.x_pos = x_pos;
@@ -18,6 +19,7 @@ class Item extends Thing {
     this.itemValue = (int) itemValue;
   }
   
+  //Displays itself.
   void display() {
     if(rotating) {
      image(sprite, 0, 0);
@@ -27,6 +29,7 @@ class Item extends Thing {
     }
   }
   
+  //Adds ability to player and shows cooldown timers.
   void addAbilityToPlayer(Player p) {
     if(itemValue != 0 && p.isTouching(this)) {
       //If the item touches the player, give the player that ability and add this # to the player's ability array.
