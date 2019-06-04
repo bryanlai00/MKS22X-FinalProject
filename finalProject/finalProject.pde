@@ -224,22 +224,16 @@ void draw() {
 }
 
 void keyPressed() {
-  if (screens.size() > 0) screens.get(0).select();
-  else if(running) p.setMove(keyCode, true, m);
-  else if(!running) {
-    for(int i = 0; i < screens.size(); i++) {
-      if(screens.get(i).codename.equals("gameover")) {
-        screens.get(i).cursorMovement(keyCode);
-        break;
-      }
-    }
+  if (screens.size() > 0) {
+    screens.get(0).select(keyCode);
   }
+  if(running) p.setMove(keyCode, true, m);
 }
 
 void keyReleased() {
-  p.setMove(keyCode, false, m);
+  if(running) p.setMove(keyCode, false, m);
 }
 //Clears everything on the screen when reaching gameOver.
 void clear() {
-  if(p.c_health <= 0) screens.add(new Screen(width/2, height/2, width/2, 50, 50, "gameover"));
+  if(p.c_health <= 0) screens.add(new Screen(width/2, height/2, width/2, 50, 50, "game_over"));
 }
