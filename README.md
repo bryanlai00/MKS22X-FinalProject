@@ -1,19 +1,22 @@
 # Hollow World!
 
-### Project Description
-This game is best described as a hybrid of RPG and action-arcade somewhat similar to that of the original Zelda games (namely The Legend of Zelda: A Link to the Past) while drawing inspiration from Metroidvania series such as Hollow Knight.  The concept of the game is to kill monsters inside an arena, granting the player score and prompting more to spawn.  The player will control a character and be able to move around, attack, and take damage.  There will be a variety of different types of monsters.  Each elimination will add to the player’s score, and the game should continue so long as the player stays alive.  The goal is to get the highest score you can.
+### Project Description:
+This game is best described as a hybrid of RPG and action-arcade somewhat similar to that of the original Zelda games (namely The Legend of Zelda: A Link to the Past) while drawing inspiration from Metroidvania series such as Hollow Knight.  The concept of the game is to kill monsters inside an arena, granting the player score and prompting more to spawn.  The player will control a character and be able to move around, attack, and take damage.  There will be a variety of different types of monsters.  Each elimination will add to the player’s score, and the game should continue so long as the player stays alive. The goal is to get the highest score you can.
 
-### Directions
-  1) Open finalProject.pde in finalProject folder with Processing. 
-  2) Press play. 
-  3) Press any button on keyboard to start. 
-  4) **Want to learn how to play? Press and hold 'I' for instructions.**
-  5) Enter the portal to be transported into the arena. 
-  6) Kill monsters and stay alive. 
-  7) Have fun! 
+### Directions: ⌨
+1) Open finalProject.pde in finalProject folder with Processing. 
+2) Press play. 
+3) Press any button on keyboard to start. 
+4) **Want to learn how to play? Press and hold 'I' for instructions. A GIF can be seen below!**
+5) Enter the portal to be transported into the arena. 
+6) Kill monsters and stay alive. 
+7) Have fun! 
+<br>
+<br>
+<img src="finalProject/data/instruct.gif" style="text-align: center"> </img> 
 _________________________
 
-### Development Log
+### Development Log 💻
 
 ##### 5/16/19 (Start of Project)
 ###### Bryan Lai along with Calvin Chu (Day the prototype was discussed.)
@@ -121,37 +124,65 @@ _________________________
 * added sprite for Spirit's projectile
 * added files for next monster Griffin
 ##### 5/29/19
+###### Bryan Lai:
+* Remove movement constraint.
+* Remove more print statements and change background for better outlook.
+* Create box, create walls, and get sidescrolling to work for player.
+* Start collision on walls.
 ###### Calvin Chu:
 * started a Screens class to display different interfaces in the game
 * worked on a basic title screen and implemented it
 * implemented Griffin class
 * resized Boar sprites
 ##### 5/30/19
+###### Bryan Lai:
+* Fix naming conventions
+* Add new screen for gameOver, block monsters from going through walls.
+* Work on Item class and add torches to the room.
 ###### Calvin Chu:
 * added new Dragon class for next monster
 * remade title screen
 * changes to Screen class => added frame storage for animated screens, modified constructor
 * renamed Piranha Plant to Baby (as in baby dragon)
 ##### 5/31/19
+###### Bryan Lai:
+* Add side torches.
+* Add new items and item recognition. (E.g. sword --> goes to specific int[])
 ###### Calvin Chu:
 * worked on boss modifiers (now making use of isBoss boolean) for Monster class
 * implemented unique boss modifiers to monsters with sprites of varying dimensions to fix resizing
 ##### 6/1/19
+###### Bryan Lai:
+* Add ArrayList<Item> to keep track of acquired items for the player.
 ###### Calvin Chu:
 * added score value to monster constructor and int score for each monster
 * implemented score tracker and displayer in HUD that shows current score in top right corner and accomodates for increasing number of digits in the score
 ##### 6/2/19
+###### Bryan Lai:
+* Have sword/items stick on player.
+* Remove ability to change speed.
+* Get dashing to semi-work.
 ###### Calvin Chu:
 * touched up on player abilities => changed dash sprite, fiddled with cooldowns (still needs work)
 * fixed issue with player no longer flashing when holding a sword and gettting damaged
 ##### 6/3/19
+###### Bryan Lai:
+* Start developing colosseum and scrap multiple hard-coded rooms.
+* Add spikes animation and add monsters.
+* Add spin-attack/fire-spin effect.
+* Added copying constructors for each monster.
+* Add random spawning of monsters.
 ###### Calvin Chu:
 * created the animated instructions screen and implemented it
 * set display of instruction screen to 'I'
 * added basic ability cooldown icons to HUD
 ##### 6/4/19 (Last Day)
+###### Bryan Lai:
+* Update health and spawn rate.
+* Edited damage values for player/balancing. 
+* Add more OverworldObjects: Torches, New rooms, Banners, Portals, Monster spawners, Potions
 ###### Calvin Chu:
 * changed visibility of ability cooldown icons so that you can only see them when you pick up the corresponding item
 * added color codes (light green for ready and brightening red for on cooldown) to cooldown icons on HUD
 * sprinkled in comments for the functions of different classes and variables that are important and need description
-* attempted balancing monsters
+* Attempted balancing monsters
