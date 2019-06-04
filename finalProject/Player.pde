@@ -364,7 +364,7 @@ class Player extends Thing implements Damageable, Collideable {
       return true;
     case 'I':
       if (screens.size() == 0 && b) screens.add(new Screen(width/2 - 190, height - 115, width/2, 75, 75, "instruct"));
-      else screens.remove(0);
+      else if (screens.size() == 1) screens.remove(0);
     
     default:
       return b;
