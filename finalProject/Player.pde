@@ -1,7 +1,7 @@
 class Player extends Thing implements Damageable, Collideable {
   int m_health, damage, gaugeValue, num_sprites, sprite_index, delay = 0, frame = 0, invulTimer, invulTime, score = 0, attackAni, dashTimer = 0;
   String lastDirection = "right";
-  float x_pos, y_pos, x_size, y_size, directionAngle, c_health, magic_cooldown, dash_cooldown, spin_cooldown;
+  float x_pos, y_pos, x_size, y_size, directionAngle, c_health, magic_cooldown, dash_cooldown, spin_cooldown, xChange, yChange;
   boolean isMoving;
   boolean isLeft, isRight, isUp, isDown, isDashing, isAttacking, isRunning;
   int[] abilities;
@@ -187,8 +187,8 @@ class Player extends Thing implements Damageable, Collideable {
     //Used to see if the position changes to determine if something moves.
     float x_prev_pos = x_pos;
     float y_prev_pos = y_pos;
-    float xChange = speed * (int(isRight) - int(isLeft));
-    float yChange = speed * (int(isDown) - int(isUp));
+    xChange = speed * (int(isRight) - int(isLeft));
+    yChange = speed * (int(isDown) - int(isUp));
     //print(x_pos + " " + y_pos);
     //Move all other entities by moving the map.
     //List of x-statements to find angleDirection:

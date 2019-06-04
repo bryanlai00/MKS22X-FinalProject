@@ -25,7 +25,7 @@ ArrayList<PImage> hud = new ArrayList<PImage>();
 ArrayList<PImage> screenImages = new ArrayList<PImage>();
 ArrayList<Screen> screens = new ArrayList<Screen>();
 ArrayList<PImage> effectSprites = new ArrayList<PImage>();
-int iT = 60, spawnTime = 10;
+int iT = 60, spawnTime = 10, screenDelay = 0;
 String mode = "colosseum";
 
 void setup() {
@@ -57,52 +57,10 @@ void setup() {
      effectSprites.add(loadImage("data/effects/" + params[0] + "_" + s + ".png"));
     }
   }
-  scr = new Screen(width/2 - 190, height - 115, width/2, 75, 75, "title");
-  screens.add(scr);
-  //Slime(float xcor, float ycor, float x_size, float y_size, float spe, float sight, float mH, int numSprites, int pT, int iT, float dam, boolean boss, int sco)
-  s = new Slime(width/2, height/2, 50, 50, 0, 200.0, 2, 4, 120, iT, .5, false, 50);
-  s2 = new Slime(200, 600, 50, 50, 1, 200.0, 1, 4, 120, iT, .5, true, 50);
-  d = new Baby(500, 800, 90, 90, 1.5, 300.0, 3, 10, 120, iT, 1, false, 100);
-  d2 = new Baby(500, 200, 90, 90, 1.5, 300.0, 3, 10, 120, iT, 1, true, 100);
-  min = new Minotaur(300, 600, 150, 150, 1.5, 400.0, 5, 4, 120, iT, .5, false, 150, 250);
-  min2 = new Minotaur(300, 600, 150, 150, 1.5, 400.0, 5, 4, 120, iT, .5, true, 150, 250);
-  b = new Boar(200, 600, 50, 50, 2, 300.0, 1, 8, 120, iT, .5, false, 150);
-  b2 = new Boar(200, 600, 50, 50, 2, 300.0, 1, 8, 120, iT, .5, true, 150);
-  sp = new Spirit(600, 200, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false, 200);
-  sp2 = new Spirit(600, 200, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, true, 200);
-  g = new Griffin(300, 600, 150, 150, 1.5, 400.0, 5, 10, 120, iT, .5, false, 150, 250);
-  g2 = new Griffin(300, 600, 150, 150, 1.5, 400.0, 5, 10, 120, iT, .5, true, 150, 250);
-  dr = new Dragon(500, 200, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false, 300);
-  dr2 = new Dragon(500, 200, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, true, 300);
-  //Array List of possible monsters that may spawn:
-  mSpawn.add(s);
-  mSpawn.add(s2);
-  mSpawn.add(d);
-  mSpawn.add(d2);
-  mSpawn.add(min);
-  mSpawn.add(min2);
-  mSpawn.add(b);
-  mSpawn.add(b2);
-  mSpawn.add(sp);
-  mSpawn.add(sp2);
-  mSpawn.add(g);
-  mSpawn.add(g2);
-  mSpawn.add(dr);
-  mSpawn.add(dr2);
-
-  //Player assets:
-  playerNames = loadStrings("data/player_sprites.txt");
-  for (String s : playerNames) {
-    assets.add(loadImage("data/player_assets/" + s + ".png"));
-  }
-  //4 stands for # of sprites for each PHASE. Not the number of sprites in total. The value changes in differnet cases.
-  //For dungeon: p = new Player(50,50, 700, 0,iT,4,assets);
-  //Colosseum: 
-  p = new Player(50, 50, 750, 575, iT, 4, assets);
-  //Adding items already to player: (If colosseum mode:)
-  h = new HUD(p.m_health, 20, 20, 50);
+  
   //Room assets:
   objects = loadStrings("data/colosseum.txt");
+  OverworldObject vortex = null; 
   for(int i = 0; i < objects.length; i++) {
     //If the line/string does not contain Room...
     if(!objects[i].contains("Room")) {
@@ -136,6 +94,54 @@ void setup() {
     }
   }
 }
+  vortex = roomObjects.get(roomObjects.size() - 1);
+
+  scr = new Screen(width/2 - 190, height - 115, width/2, 75, 75, "title");
+  screens.add(scr);
+  //Create vortex for spawning area.
+  //Slime(float xcor, float ycor, float x_size, float y_size, float spe, float sight, float mH, int numSprites, int pT, int iT, float dam, boolean boss, int sco)
+  s = new Slime(vortex.x_pos, vortex.y_pos, 50, 50, 0, 200.0, 2, 4, 120, iT, .5, false, 50);
+  s2 = new Slime(vortex.x_pos, vortex.y_pos, 50, 50, 1, 200.0, 1, 4, 120, iT, .5, true, 50);
+  d = new Baby(vortex.x_pos, vortex.y_pos, 90, 90, 1.5, 300.0, 3, 10, 120, iT, 1, false, 100);
+  d2 = new Baby(vortex.x_pos, vortex.y_pos, 90, 90, 1.5, 300.0, 3, 10, 120, iT, 1, true, 100);
+  min = new Minotaur(vortex.x_pos, vortex.y_pos, 150, 150, 1.5, 400.0, 5, 4, 120, iT, .5, false, 150, 250);
+  min2 = new Minotaur(vortex.x_pos, vortex.y_pos, 150, 150, 1.5, 400.0, 5, 4, 120, iT, .5, true, 150, 250);
+  b = new Boar(vortex.x_pos, vortex.y_pos, 50, 50, 2, 300.0, 1, 8, 120, iT, .5, false, 150);
+  b2 = new Boar(vortex.x_pos, vortex.y_pos, 50, 50, 2, 300.0, 1, 8, 120, iT, .5, true, 150);
+  sp = new Spirit(vortex.x_pos, vortex.y_pos, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false, 200);
+  sp2 = new Spirit(vortex.x_pos, vortex.y_pos, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, true, 200);
+  g = new Griffin(vortex.x_pos, vortex.y_pos, 150, 150, 1.5, 400.0, 5, 10, 120, iT, .5, false, 150, 250);
+  g2 = new Griffin(vortex.x_pos, vortex.y_pos, 150, 150, 1.5, 400.0, 5, 10, 120, iT, .5, true, 150, 250);
+  dr = new Dragon(vortex.x_pos, vortex.y_pos, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false, 300);
+  dr2 = new Dragon(vortex.x_pos, vortex.y_pos, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, true, 300);
+  //Array List of possible monsters that may spawn:
+  mSpawn.add(s);
+  mSpawn.add(s2);
+  mSpawn.add(d);
+  mSpawn.add(d2);
+  mSpawn.add(min);
+  mSpawn.add(min2);
+  mSpawn.add(b);
+  mSpawn.add(b2);
+  mSpawn.add(sp);
+  mSpawn.add(sp2);
+  mSpawn.add(g);
+  mSpawn.add(g2);
+  mSpawn.add(dr);
+  mSpawn.add(dr2);
+
+  //Player assets:
+  playerNames = loadStrings("data/player_sprites.txt");
+  for (String s : playerNames) {
+    assets.add(loadImage("data/player_assets/" + s + ".png"));
+  }
+  //4 stands for # of sprites for each PHASE. Not the number of sprites in total. The value changes in differnet cases.
+  //For dungeon: p = new Player(50,50, 700, 0,iT,4,assets);
+  //Colosseum: 
+  p = new Player(50, 50, 750, 575, iT, 4, assets);
+  //Adding items already to player: (If colosseum mode:)
+  h = new HUD(p.m_health, 20, 20, 50);
+  //Room assets:
 }
 
 void draw() {
@@ -225,9 +231,16 @@ void draw() {
 
 void keyPressed() {
   if (screens.size() > 0) {
-    screens.get(0).select(keyCode);
+    if(screens.get(0).select(keyCode) == true) {
+      draw();
+    }
   }
-  if(running) p.setMove(keyCode, true, m);
+  if(screenDelay == 0) {
+    if(running) p.setMove(keyCode, true, m);
+  }
+  else {
+    screenDelay--;
+  }
 }
 
 void keyReleased() {

@@ -49,20 +49,25 @@ public class Screen {
       image(loadImage("data/screens/Restart.png"), width/5, 3 * height/4);  
     }
   }
-  void select(int k) {
+  boolean select(int k) {
     if (codename.equals("title")) screens.clear();
     if(codename.equals("game_over") && k == 'R') {
         for(int i = 0; i < screens.size(); i++) {
         if(screens.get(i).codename.equals("game_over")) {
-          screens.clear();   
           running = true;
           p.c_health = p.m_health;
+          p.xChange = 750;
+          p.yChange = 750;
+          p.x_pos = 750;
+          p.y_pos = 750;
           h.score = 0;
+          m.clear();
+          screens.clear();  
         }
       }
-      m.clear();
-      p.x_pos = 750;
-      p.y_pos = 575;
+      screens.add(new Screen(width/2 - 190, height - 115, width/2, 75, 75, "title"));
+      return true;
      }
+     return false;
   }
 }
