@@ -21,7 +21,6 @@ public class Screen {
      }
   }
   void display() {
-    image(localFrames.get(frame), 0, 0, width, height);
     
     if (codename.equals("title")) {
       image(cursor, x_pos, y_pos, x_size, y_size); 
@@ -44,6 +43,11 @@ public class Screen {
       textAlign(CENTER);
       text("SCORE: " + h.score, width/2, 7 * height/32 );
    }
+    if(codename.equals("instruct")) {
+      background(255);
+      imageMode(CORNER);
+    }
+    image(localFrames.get(frame), 0, 0, width, height);
     if (frame < localFrames.size() - 1) frame++;
     else frame = 0;
   }

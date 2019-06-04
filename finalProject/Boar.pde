@@ -56,6 +56,7 @@ class Boar extends Monster {
       else frame = 0;
     }
     hBarDisplay();
+    noTint();
   }
   void checkForPlayer(Player p) {
     if (dist(p.x_pos,p.y_pos,x_pos,y_pos) < sightDistance) {

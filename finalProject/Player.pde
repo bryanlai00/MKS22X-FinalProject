@@ -92,6 +92,7 @@ class Player extends Thing implements Damageable, Collideable {
           popMatrix();
         }
       }
+
       image(localSprites.get(frame + sprite_index), x_pos, y_pos, x_size, y_size);
       if (delay <= 10) delay ++;
       else {
@@ -337,27 +338,29 @@ class Player extends Thing implements Damageable, Collideable {
           dashTimer = 60; 
           dash_cooldown = 200; 
           invulTimer = 0;
+           h.cooldowns[0] = (int)dash_cooldown;
         }
-        //p.dash();
       }
       return true;
 
     case 'C':
       if (p.abilities[2] == 3) {
-        if (spin_cooldown == 0) {
-          roomObjects.add(spinEffect); 
-          for ( Monster mons : m) {
-            p.spinAttack(mons, 2);
-          }
-          spin_cooldown = 70;
-        }
+        if(spin_cooldown == 0) {
+              roomObjects.add(spinEffect); 
+             print(roomObjects.contains(spinEffect));
+             for( Monster mons : m) {
+                p.spinAttack(mons,2);
+             }
+            spin_cooldown = 70;
+            h.cooldowns[1] = (int)spin_cooldown;
       }
       return true;
-
+      }
 
     case 'V':
       if (p.abilities[3] == 4) {
         p.magicAttack();
+        h.cooldowns[2] = (int)magic_cooldown;
       }
       return true;
 
@@ -371,6 +374,10 @@ class Player extends Thing implements Damageable, Collideable {
       }
       return true;
 
+    case 'I':
+      if (screens.size() == 0 && b) screens.add(new Screen(width/2 - 190, height - 115, width/2, 75, 75, "instruct"));
+      else if (screens.size() == 1) screens.remove(0);
+    
     default:
       return b;
     }

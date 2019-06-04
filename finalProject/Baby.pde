@@ -116,5 +116,6 @@ class Baby extends Monster {
       else frame = 0;
     }
     hBarDisplay();
+    noTint();
   }
 }

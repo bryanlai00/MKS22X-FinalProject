@@ -24,6 +24,7 @@ class Slime extends Monster {
       else frame = 0;
     }
     hBarDisplay();
+    noTint();
   }
   void attack(Thing target, float num) {
     if (cHealth > 0) ((Player)target).loseHealth(num);

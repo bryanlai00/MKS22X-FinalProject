@@ -227,11 +227,12 @@ void keyPressed() {
   if (screens.size() > 0) screens.get(0).select();
   else if(running) p.setMove(keyCode, true, m);
   else if(!running) {
-    Screen screenTarget = null;
     for(int i = 0; i < screens.size(); i++) {
-      if(screens.get(i).codename.equals("gameover")) screenTarget = screens.get(i);
+      if(screens.get(i).codename.equals("gameover")) {
+        screens.get(i).cursorMovement(keyCode);
+        break;
+      }
     }
-    screenTarget.cursorMovement(keyCode);
   }
 }
 
