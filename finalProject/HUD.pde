@@ -54,7 +54,7 @@ class HUD {
     noFill();
     float sep = x_pos;
     for (int i = 0; i < cooldowns.length; i++) {
-      if (cooldowns[i] < 0) tint(0);
+      if (cooldowns[i] < 0) tint(0, 0);
       else if (cooldowns[i] > 0) {tint(128, 0, 0); cooldowns[i]--;}
       else noTint();
       image(abilities.get(i), x_pos + 25, height - 200 + sep, 60, 60);
