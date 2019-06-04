@@ -1,4 +1,4 @@
 interface Movable {
-  void move(float direction);
-  boolean isMoving();
+        void move(float direction);
+        boolean isMoving();
 }

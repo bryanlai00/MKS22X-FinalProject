@@ -1,4 +1,4 @@
 interface Damageable {
-  void loseHealth(float num);
-  void attack(Thing other, float num);
+        void loseHealth(float num);
+        void attack(Thing other, float num);
 }

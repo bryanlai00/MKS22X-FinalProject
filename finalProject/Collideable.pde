@@ -1,3 +1,3 @@
 interface Collideable {
-  boolean isTouching(Thing other); 
+        boolean isTouching(Thing other); 
 }
