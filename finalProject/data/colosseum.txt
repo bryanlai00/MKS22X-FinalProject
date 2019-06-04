@@ -5,10 +5,13 @@ left_bottom_corner 0 1150 50 50 1 1 true
 bottomwall 50 1150 50 50 29 1 true
 right_bottom_corner 1500 1150 50 50 1 1 true
 topwall 50 150 50 50 29 1 true
+flag 50 150 50 50 29 1 false 5
 right_corner_wall 1500 150 50 50 1 1 true
 right_wall 1500 200 50 50 1 20 true
 peaks 1450 200 50 50 1 19 false 4
 peaks 50 200 50 50 28 1 false 4
 peaks 50 200 50 50 1 19 false 4
 peaks 50 1100 50 50 28 1 false 4
+side_torch 25 200 50 50 1 19 false 4
+side_torch_left 1475 200 50 50 1 20 false 4
 vortex 750 750 500 500 1 1 false 62

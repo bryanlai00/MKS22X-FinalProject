@@ -304,11 +304,10 @@ class Player extends Thing implements Damageable, Collideable {
 
   void magicAttack() {
     PImage projectile = loadImage("data/items/magic.png");
-    projectile.resize(100, 100);
     if (magic_cooldown == 0) {
       if (m.size() > 0) {
         Monster target = m.get(0);
-        projectiles.add(new Projectile(x_pos, y_pos, 35, 35, 1, 8, 60, projectile, (Monster)target));
+        projectiles.add(new Projectile(x_pos, y_pos, 60, 60, 1, 8, 60, projectile, (Monster)target));
       }
       magic_cooldown = 80;
     }

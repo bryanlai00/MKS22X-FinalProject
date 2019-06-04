@@ -34,6 +34,7 @@ class Projectile extends Thing {
     duration = d;
     sprite = i;
     target = "player";
+    sprite.resize((int)xSize, (int)ySize);
     direction = (float)Math.toDegrees(Math.atan2((double)(endY - y_pos), (double)(endX - x_pos)));
   }
   Projectile(float xcor, float ycor, float xSize, float ySize, float dam, float spe, int d, PImage i, Player p, float directionalDiff) {
@@ -47,6 +48,7 @@ class Projectile extends Thing {
     duration = d;
     sprite = i;
     target = "player";
+    sprite.resize((int)xSize, (int)ySize);
     direction = (float)Math.toDegrees(Math.atan2((double)(endY - y_pos), (double)(endX - x_pos))) + directionalDiff;
   }
   void update(Player p) {
@@ -90,9 +92,9 @@ class Projectile extends Thing {
         pushMatrix();
         translate(x_pos, y_pos);
         scale(-1.0, 1.0);
-        image(sprite, 0, 0, getX_size(), getY_size());
+        image(sprite, 0, 0);
         popMatrix();
       }
-      else image(sprite, x_pos, y_pos, getX_size(), getY_size());
+      else image(sprite, x_pos, y_pos);
   }
 }

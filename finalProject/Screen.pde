@@ -47,6 +47,7 @@ public class Screen {
     //Specific for gameover because we need to display text over the image.
     if(codename.equals("game_over")) {
       image(loadImage("data/screens/Restart.png"), width/5, 3 * height/4);  
+      text("SCORE: " + h.score, width/2, 15 * height/ 16);
     }
   }
   boolean select(int k) {

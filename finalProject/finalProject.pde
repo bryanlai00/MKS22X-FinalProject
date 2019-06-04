@@ -27,7 +27,7 @@ ArrayList<Screen> screens = new ArrayList<Screen>();
 ArrayList<PImage> effectSprites = new ArrayList<PImage>();
 int iT = 60, spawnTime = 10;
 String mode = "colosseum";
-
+  
 void setup() {
   size(1440,810);
   spriteNames = loadStrings("data/SpriteNames.txt");
