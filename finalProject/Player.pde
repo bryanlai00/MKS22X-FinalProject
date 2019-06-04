@@ -234,9 +234,29 @@ class Player extends Thing implements Damageable, Collideable {
 
     for (int i = allItems.size() - 1; i > -1; i--) {
       Item cur = allItems.get(i);
-      if (isTouching(cur)) {
-        cur.addAbilityToPlayer(this);
-        itemsAcquired.add(allItems.remove(i));
+      if(isTouching(cur)) {
+        //If the item is a small potion (itemValue 5), restore 1 hp to c_health.
+        if(cur.itemValue == 5) {
+          if(c_health < m_health) {
+            c_health++;
+            allItems.remove(i);
+          }
+        }
+        //If the item is a small potion (itemValue 5), restore 2 hp to c_health.
+        else if(cur.itemValue == 6) {
+          if(c_health < m_health - 1) {
+            c_health += 2;
+            allItems.remove(i);
+          }
+          else if(c_health < m_health) {
+            c_health++;
+            allItems.remove(i);
+          }
+        }
+        else {
+          cur.addAbilityToPlayer(this);
+          itemsAcquired.add(allItems.remove(i));
+        }
       }
     }
 
@@ -261,6 +281,8 @@ class Player extends Thing implements Damageable, Collideable {
       x_pos = vortex.x_pos;
       y_pos = vortex.y_pos + 100;
       updateOtherMovement(xportChange, yportChange);
+      mSpawn.clear();
+      addMonsters();
     }
   }
 

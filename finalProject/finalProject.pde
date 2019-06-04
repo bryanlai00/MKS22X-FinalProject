@@ -25,7 +25,7 @@ ArrayList<PImage> hud = new ArrayList<PImage>();
 ArrayList<PImage> screenImages = new ArrayList<PImage>();
 ArrayList<Screen> screens = new ArrayList<Screen>();
 ArrayList<PImage> effectSprites = new ArrayList<PImage>();
-int iT = 60, spawnTime = 10;
+int iT = 60, spawnTime = 10, itemTime = 10;
 String mode = "colosseum";
 OverworldObject vortex = null, portal = null;
   
@@ -94,41 +94,12 @@ void setup() {
     }
   }
 }
+  //Create vortex for spawning area.
   vortex = roomObjects.get(roomObjects.size() - 1);
   portal = roomObjects.get(roomObjects.size() - 2);
   scr = new Screen(width/2 - 190, height - 115, width/2, 75, 75, "title");
   screens.add(scr);
-  //Create vortex for spawning area.
-  //Slime(float xcor, float ycor, float x_size, float y_size, float spe, float sight, float mH, int numSprites, int pT, int iT, float dam, boolean boss, int sco)
-  s = new Slime(vortex.x_pos, vortex.y_pos, 50, 50, 0, 200.0, 2, 4, 120, iT, .5, false, 50);
-  s2 = new Slime(vortex.x_pos, vortex.y_pos, 50, 50, 1, 200.0, 1, 4, 120, iT, .5, true, 50);
-  d = new Baby(vortex.x_pos, vortex.y_pos, 90, 90, 1.5, 300.0, 3, 10, 120, iT, 1, false, 100);
-  d2 = new Baby(vortex.x_pos, vortex.y_pos, 90, 90, 1.5, 300.0, 3, 10, 120, iT, 1, true, 100);
-  min = new Minotaur(vortex.x_pos, vortex.y_pos, 150, 150, 1.5, 400.0, 5, 4, 120, iT, .5, false, 150, 250);
-  min2 = new Minotaur(vortex.x_pos, vortex.y_pos, 150, 150, 1.5, 400.0, 5, 4, 120, iT, .5, true, 150, 250);
-  b = new Boar(vortex.x_pos, vortex.y_pos, 50, 50, 2, 300.0, 1, 8, 120, iT, .5, false, 150);
-  b2 = new Boar(vortex.x_pos, vortex.y_pos, 50, 50, 2, 300.0, 1, 8, 120, iT, .5, true, 150);
-  sp = new Spirit(vortex.x_pos, vortex.y_pos, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false, 200);
-  sp2 = new Spirit(vortex.x_pos, vortex.y_pos, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, true, 200);
-  g = new Griffin(vortex.x_pos, vortex.y_pos, 150, 150, 1.5, 400.0, 5, 10, 120, iT, .5, false, 150, 250);
-  g2 = new Griffin(vortex.x_pos, vortex.y_pos, 150, 150, 1.5, 400.0, 5, 10, 120, iT, .5, true, 150, 250);
-  dr = new Dragon(vortex.x_pos, vortex.y_pos, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false, 300);
-  dr2 = new Dragon(vortex.x_pos, vortex.y_pos, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, true, 300);
-  //Array List of possible monsters that may spawn:
-  mSpawn.add(s);
-  mSpawn.add(s2);
-  mSpawn.add(d);
-  mSpawn.add(d2);
-  mSpawn.add(min);
-  mSpawn.add(min2);
-  mSpawn.add(b);
-  mSpawn.add(b2);
-  mSpawn.add(sp);
-  mSpawn.add(sp2);
-  mSpawn.add(g);
-  mSpawn.add(g2);
-  mSpawn.add(dr);
-  mSpawn.add(dr2);
+  addMonsters();  
 
   //Player assets:
   playerNames = loadStrings("data/player_sprites.txt");
@@ -215,6 +186,21 @@ void draw() {
           }
         }
       }
+      //Add random potions:
+      print(allItems.size());
+      if(itemTime == 0) {
+        Random rand = new Random();
+        if(rand.nextInt(1) == 2) {
+          allItems.add(new Item(((float)rand.nextInt(1000) + vortex.x_pos - 500), ((float)rand.nextInt(700) + vortex.y_pos - 200), 50, 50, loadImage("data/items/smallPotion.png"), 5)); 
+        }
+        else {
+          allItems.add(new Item(((float)rand.nextInt(1000) + vortex.x_pos - 500), ((float)rand.nextInt(700) + vortex.y_pos - 200), 50, 50, loadImage("data/items/largePotion.png"), 6));
+        }
+        itemTime = 2000;
+      }
+      else {
+        itemTime--;
+      }
       for(Item i : allItems) {
         i.display();
       }
@@ -259,7 +245,12 @@ void restart() {
           mSpawn.clear();
           screens.clear();  
           screens.add(new Screen(width/2 - 190, height - 115, width/2, 75, 75, "title"));
-          //Adds all monsters again because vortex.x_pos has changed.
+          addMonsters();
+          running = true;
+}
+
+void addMonsters() {
+  //Adds all monsters again because vortex.x_pos has changed.
           s = new Slime(vortex.x_pos, vortex.y_pos, 50, 50, 0, 200.0, 2, 4, 120, iT, .5, false, 50);
           s2 = new Slime(vortex.x_pos, vortex.y_pos, 50, 50, 1, 200.0, 1, 4, 120, iT, .5, true, 50);
           d = new Baby(vortex.x_pos, vortex.y_pos, 90, 90, 1.5, 300.0, 3, 10, 120, iT, 1, false, 100);
@@ -289,5 +280,4 @@ void restart() {
           mSpawn.add(g2);
           mSpawn.add(dr);
           mSpawn.add(dr2);
-          running = true;
 }
