@@ -33,8 +33,8 @@ class Player extends Thing implements Damageable, Collideable {
     this.y_pos = y_pos;
     invulTimer = iT;
     invulTime = iT;
-    m_health = 10;
-    c_health = 1;
+    m_health = 8;
+    c_health = 8;
     damage = 1;
     //Boolean values are default set to false. 
     //# of abilties. All filled with 0 right now.
@@ -340,7 +340,7 @@ class Player extends Thing implements Damageable, Collideable {
     if (magic_cooldown == 0) {
       if (m.size() > 0) {
         Monster target = m.get(0);
-        projectiles.add(new Projectile(x_pos, y_pos, 60, 60, 1, 8, 60, projectile, (Monster)target));
+        projectiles.add(new Projectile(x_pos, y_pos, 60, 60, 2, 8, 60, projectile, (Monster)target));
       }
       magic_cooldown = 80;
     }
@@ -401,7 +401,7 @@ class Player extends Thing implements Damageable, Collideable {
         isAttacking = true;
         attackAni = 20;
         for (Monster mons : m) {
-          p.attack(mons, 1);
+          p.attack(mons, 3);
         }
       }
       return true;

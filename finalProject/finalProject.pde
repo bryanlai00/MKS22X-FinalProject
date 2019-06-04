@@ -187,7 +187,6 @@ void draw() {
         }
       }
       //Add random potions:
-      print(allItems.size());
       if(itemTime == 0) {
         Random rand = new Random();
         if(rand.nextInt(1) == 2) {
@@ -227,7 +226,7 @@ void keyPressed() {
 }
 
 void keyReleased() {
-  if(running) p.setMove(keyCode, false, m);
+  p.setMove(keyCode, false, m);
 }
 //Clears everything on the screen when reaching gameOver.
 void clear() {
