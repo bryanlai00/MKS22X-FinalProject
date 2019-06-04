@@ -277,9 +277,9 @@ class Player extends Thing implements Damageable, Collideable {
     
     if(isTouching(portal)) {
       float xportChange = (float)Math.abs(x_pos - vortex.x_pos);
-      float yportChange = (float)Math.abs(y_pos - vortex.y_pos + 100);
+      float yportChange = (float)Math.abs(y_pos - vortex.y_pos - 300);
       x_pos = vortex.x_pos;
-      y_pos = vortex.y_pos + 100;
+      y_pos = vortex.y_pos - 300;
       updateOtherMovement(xportChange, yportChange);
       mSpawn.clear();
       addMonsters();
