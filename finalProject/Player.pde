@@ -33,8 +33,8 @@ class Player extends Thing implements Damageable, Collideable {
     this.y_pos = y_pos;
     invulTimer = iT;
     invulTime = iT;
-    m_health = 10;
-    c_health = 1;
+    m_health = 8;
+    c_health = 8;
     damage = 1;
     //Boolean values are default set to false. 
     //# of abilties. All filled with 0 right now.
@@ -234,19 +234,61 @@ class Player extends Thing implements Damageable, Collideable {
 
     for (int i = allItems.size() - 1; i > -1; i--) {
       Item cur = allItems.get(i);
-      if (isTouching(cur)) {
-        cur.addAbilityToPlayer(this);
-        itemsAcquired.add(allItems.remove(i));
+      if(isTouching(cur)) {
+        //If the item is a small potion (itemValue 5), restore 1 hp to c_health.
+        if(cur.itemValue == 5) {
+          if(c_health < m_health) {
+            c_health++;
+            allItems.remove(i);
+          }
+        }
+        //If the item is a small potion (itemValue 5), restore 2 hp to c_health.
+        else if(cur.itemValue == 6) {
+          if(c_health < m_health - 1) {
+            c_health += 2;
+            allItems.remove(i);
+          }
+          else if(c_health < m_health) {
+            c_health++;
+            allItems.remove(i);
+          }
+        }
+        else {
+          cur.addAbilityToPlayer(this);
+          itemsAcquired.add(allItems.remove(i));
+        }
       }
     }
 
     //If the player touches the item, have the item disappear, add the ability to the array, etc.
 
-    x_pos = constrain(x_pos + xChange, r, width  - r);
+    x_pos = constrain(x_pos + xChange, 300, width  - 300);
     y_pos = constrain(y_pos + yChange, r, height - r);
+    
+    updateOtherMovement(xChange, yChange);
+    spinEffect.x_pos = x_pos;
+    spinEffect.y_pos = y_pos - 10;
+    //Checks if the player is moving.
+    if (x_prev_pos != x_pos || y_prev_pos != y_pos) {
+      isMoving = true;
+    } else {
+      isMoving = false;
+    }
+    
+    if(isTouching(portal)) {
+      float xportChange = (float)Math.abs(x_pos - vortex.x_pos);
+      float yportChange = (float)Math.abs(y_pos - vortex.y_pos + 100);
+      x_pos = vortex.x_pos;
+      y_pos = vortex.y_pos + 100;
+      updateOtherMovement(xportChange, yportChange);
+      mSpawn.clear();
+      addMonsters();
+    }
+  }
 
 
-    //Check boundaries and move other entities based on xChange and yChange.
+  void updateOtherMovement(float xChange, float yChange) {
+     //Check boundaries and move other entities based on xChange and yChange.
     for (int i = 0; i < roomObjects.size(); i++) {
       roomObjects.get(i).x_pos += -xChange;
       roomObjects.get(i).y_pos += -yChange;
@@ -267,17 +309,8 @@ class Player extends Thing implements Damageable, Collideable {
       projectiles.get(i).x_pos += -xChange;
       projectiles.get(i).y_pos += -yChange;
     }
-    spinEffect.x_pos = x_pos;
-    spinEffect.y_pos = y_pos - 10;
-    //Checks if the player is moving.
-    if (x_prev_pos != x_pos || y_prev_pos != y_pos) {
-      isMoving = true;
-    } else {
-      isMoving = false;
-    }
   }
-
-
+  
   //Moves you learn on throughout the game:
   void dash() {
     isDashing = true;
@@ -307,7 +340,7 @@ class Player extends Thing implements Damageable, Collideable {
     if (magic_cooldown == 0) {
       if (m.size() > 0) {
         Monster target = m.get(0);
-        projectiles.add(new Projectile(x_pos, y_pos, 60, 60, 1, 8, 60, projectile, (Monster)target));
+        projectiles.add(new Projectile(x_pos, y_pos, 60, 60, 2, 8, 60, projectile, (Monster)target));
       }
       magic_cooldown = 80;
     }
@@ -368,7 +401,7 @@ class Player extends Thing implements Damageable, Collideable {
         isAttacking = true;
         attackAni = 20;
         for (Monster mons : m) {
-          p.attack(mons, 1);
+          p.attack(mons, 3);
         }
       }
       return true;
