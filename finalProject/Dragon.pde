@@ -23,6 +23,7 @@ class Dragon extends Monster {
   Dragon(Dragon copy) {
     this(copy.x_pos, copy.y_pos, copy.x_size, copy.y_size, copy.speed, copy.sightDistance, copy.mHealth, copy.num_sprites, copy.pathTimer, copy.invulTimer, copy.damage, copy.isBoss, copy.score);
   }
+  //Attack: If playerInRange, slashes if reachable, else spawns five projectiles
   void attack(Thing target, float num) {
     attack(target, num, reachable);
   }
@@ -40,16 +41,11 @@ class Dragon extends Monster {
         //If angle is less than 0:
         float rightConstraint = currentDirection + coneSliceAngle;
         float leftConstraint = currentDirection - coneSliceAngle;
-        /*
-        print("\n left constraint: " + leftConstraint);
-        print("\n right constraint: " + rightConstraint);
-        */
         if(anglePosition < rightConstraint && anglePosition > leftConstraint) {
           ((Player)target).loseHealth(num);
         }
         print("\n anglePosition: " + anglePosition);
         arc(x_pos, y_pos, reach, reach, radians(currentDirection) - PI/2, PI/2 + radians(currentDirection));
-        //See if the difference angle is applicable for the coneSliceAngle:
       }
     }
     else {
@@ -62,6 +58,7 @@ class Dragon extends Monster {
       projectiles.add(0, new Projectile(x_pos, y_pos, p_size, p_size, num, 5, 60, projectile, (Player)target, -70));
     }
   }
+  //Updates the playerInRange boolean, determines if player is reachable
   void checkForPlayer(Player p) {
     if (dist(p.x_pos,p.y_pos,x_pos,y_pos) < sightDistance) {
       playerInRange = true;
@@ -71,6 +68,7 @@ class Dragon extends Monster {
     }
     else {playerInRange = false; reachable = false;}
   }
+  //Updates the monster's phase being displayed to call the correct sprites
   boolean updateImageDir() {
     String temp = phase;
     if (cHealth <= 0) {phase = "death"; deathTimer--; num_sprites = 10;}
@@ -95,6 +93,7 @@ class Dragon extends Monster {
     }
     return false;
   }
+  //Calls checkForPlayer function, changes current speed/direction and calls attack function based on player's proximity and location
   void updateBehavior(Player p) {
     playerGenDir = (float)Math.toDegrees(Math.atan2((double)(p.y_pos - y_pos), (double)(p.x_pos - x_pos)));
     if (cHealth <= 0) currentSpeed = 0;
@@ -124,6 +123,7 @@ class Dragon extends Monster {
   }
     attackDelay--;
   }
+  //Displays the sprites and/or health of the monster
   void display() {
     imageMode(CENTER);
     if (updateImageDir()) frame = 0;

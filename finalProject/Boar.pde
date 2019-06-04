@@ -20,9 +20,11 @@ class Boar extends Monster {
   Boar(Boar copy) {
     this(copy.x_pos, copy.y_pos, copy.x_size, copy.y_size, copy.speed, copy.sightDistance, copy.mHealth, copy.num_sprites, copy.pathTimer, copy.invulTimer, copy.damage, copy.isBoss, copy.score);
   }
+  //Attack: calls the target (player) to lose health
   void attack(Thing target, float num) {
     if (cHealth > 0) ((Player)target).loseHealth(num);
   }
+  //Displays the sprites and/or health of the monster
   void display() {
     imageMode(CENTER);
     if (updateImageDir()) frame = 0;
@@ -58,12 +60,14 @@ class Boar extends Monster {
     hBarDisplay();
     noTint();
   }
+  //Updates the playerInRange boolean
   void checkForPlayer(Player p) {
     if (dist(p.x_pos,p.y_pos,x_pos,y_pos) < sightDistance) {
       playerInRange = true;
     }
     else {playerInRange = false;}
   }
+  //Updates the monster's phase being displayed to call the correct sprites
   boolean updateImageDir() {
     String temp = phase;
     if (cHealth <= 0) {phase = "death"; deathTimer--;}
@@ -89,8 +93,8 @@ class Boar extends Monster {
     }
     return false;
   }
+  //Calls checkForPlayer function, changes current speed/direction and calls attack function based on player's proximity and location
   void updateBehavior(Player p) {
-
     if (cHealth <= 0) currentSpeed = 0;
     else {
       checkForPlayer(p);

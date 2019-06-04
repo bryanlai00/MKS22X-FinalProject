@@ -24,6 +24,7 @@ class Spirit extends Monster {
   Spirit(Spirit copy) {
     this(copy.x_pos, copy.y_pos, copy.x_size, copy.y_size, copy.speed, copy.sightDistance, copy.mHealth, copy.num_sprites, copy.pathTimer, copy.invulTimer, copy.damage, copy.isBoss, copy.score);
   }
+  //Attack: spawns 3 projectiles (shadowball) - one goes in the direction of player while the others go in that direction +- angle (currently 45)
   void attack(Thing target, float num) {
     int p_size = 35;
     if (isBoss) p_size = 50;
@@ -31,6 +32,7 @@ class Spirit extends Monster {
     projectiles.add(0, new Projectile(x_pos, y_pos, p_size, p_size, num, 5, 60, projectile, (Player)target, 45));
     projectiles.add(0, new Projectile(x_pos, y_pos, p_size, p_size, num, 5, 60, projectile, (Player)target, -45));
   }
+  //Updates the playerInRange boolean, determines if it is a safe distance from player
   void checkForPlayer(Player p, float safeRadiusDiff) {
     if (dist(p.x_pos,p.y_pos,x_pos,y_pos) < sightDistance) {
       playerInRange = true;
@@ -43,6 +45,7 @@ class Spirit extends Monster {
     }
     else safe = true;
   }
+  //Calls checkForPlayer function, changes current speed/direction and calls attack function based on player's proximity and location
   void updateBehavior(Player p) {
     checkForPlayer(p, sRF);
     playerGenDir = (float)Math.toDegrees(Math.atan2((double)(p.y_pos - y_pos), (double)(p.x_pos - x_pos)));
@@ -73,6 +76,7 @@ class Spirit extends Monster {
     }
     if (cHealth <= 0) currentSpeed = 0;
   }
+  //Updates the monster's phase being displayed to call the correct sprites
   boolean updateImageDir() {
     String temp = phase;
     if (cHealth <= 0) {phase = "death"; deathTimer--; num_sprites = 11;}
@@ -90,6 +94,7 @@ class Spirit extends Monster {
     }
     return false;
   }
+  //Displays the sprites and/or health of the monster
   void display() {
     imageMode(CENTER);
     if (updateImageDir()) frame = 0;
