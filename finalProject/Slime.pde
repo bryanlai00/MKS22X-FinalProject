@@ -9,6 +9,10 @@ class Slime extends Monster {
      }
      deathTimer = 40;
   }
+  //Copying:
+  Slime(Slime copy) {
+    this(copy.x_pos, copy.y_pos, copy.x_size, copy.y_size, copy.speed, copy.sightDistance, copy.mHealth, copy.num_sprites, copy.pathTimer, copy.invulTimer, copy.damage, copy.isBoss, copy.score);
+  }
   void display() {
     imageMode(CENTER);
     if (updateImageDir()) frame = 0;

@@ -13,9 +13,11 @@ HUD h;
 boolean running = true;
 ArrayList<OverworldObject> roomObjects = new ArrayList<OverworldObject>();
 ArrayList<OverworldObject> collideableRoomObjects = new ArrayList<OverworldObject>();
+ArrayList<OverworldObject> harming = new ArrayList<OverworldObject>();
 ArrayList<Item> allItems = new ArrayList<Item>();
 String[] objects, spriteNames, hudNames, assetNames, playerNames, screenNames, itemNames, effectNames;
 ArrayList<Monster> m = new ArrayList<Monster>();
+ArrayList<Monster> mSpawn = new ArrayList<Monster>();
 ArrayList<PImage> sprite = new ArrayList<PImage>();
 ArrayList<PImage> assets = new ArrayList<PImage>();
 ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
@@ -23,7 +25,7 @@ ArrayList<PImage> hud = new ArrayList<PImage>();
 ArrayList<PImage> screenImages = new ArrayList<PImage>();
 ArrayList<Screen> screens = new ArrayList<Screen>();
 ArrayList<PImage> effectSprites = new ArrayList<PImage>();
-int iT = 60;
+int iT = 60, spawnTime = 10;
 String mode = "colosseum";
 
 void setup() {
@@ -53,13 +55,12 @@ void setup() {
     float spriteAmt = Float.valueOf(params[1]);
     for(int s = 0; s < spriteAmt; s++) {
      effectSprites.add(loadImage("data/effects/" + params[0] + "_" + s + ".png"));
-     print("data/effects/" + params[0] + "_" + s + ".png");
     }
   }
   scr = new Screen(width/2 - 190, height - 115, width/2, 75, 75, "title");
   screens.add(scr);
   //Slime(float xcor, float ycor, float x_size, float y_size, float spe, float sight, float mH, int numSprites, int pT, int iT, float dam, boolean boss, int sco)
-  s = new Slime(width/2, height/2, 50, 50, 0, 200.0, 50, 4, 120, iT, .5, false, 50);
+  s = new Slime(width/2, height/2, 50, 50, 0, 200.0, 2, 4, 120, iT, .5, false, 50);
   s2 = new Slime(200, 600, 50, 50, 1, 200.0, 1, 4, 120, iT, .5, true, 50);
   d = new Baby(500, 800, 90, 90, 1.5, 300.0, 3, 10, 120, iT, 1, false, 100);
   d2 = new Baby(500, 200, 90, 90, 1.5, 300.0, 3, 10, 120, iT, 1, true, 100);
@@ -73,20 +74,21 @@ void setup() {
   g2 = new Griffin(300, 600, 150, 150, 1.5, 400.0, 5, 10, 120, iT, .5, true, 150, 250);
   dr = new Dragon(500, 200, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false, 300);
   dr2 = new Dragon(500, 200, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, true, 300);
-  m.add(s);
-  //m.add(s2);
-  //m.add(d);
-  //m.add(d2);
-  //m.add(min);
-  //m.add(min2);
-  //m.add(b);
-  //m.add(b2);
-  //m.add(sp);
-  //m.add(sp2);
-  //m.add(g);
-  //m.add(g2);
-  //m.add(dr);
-  //m.add(dr2);
+  //Array List of possible monsters that may spawn:
+  mSpawn.add(s);
+  mSpawn.add(s2);
+  mSpawn.add(d);
+  mSpawn.add(d2);
+  mSpawn.add(min);
+  mSpawn.add(min2);
+  mSpawn.add(b);
+  mSpawn.add(b2);
+  mSpawn.add(sp);
+  mSpawn.add(sp2);
+  mSpawn.add(g);
+  mSpawn.add(g2);
+  mSpawn.add(dr);
+  mSpawn.add(dr2);
 
   //Player assets:
   playerNames = loadStrings("data/player_sprites.txt");
@@ -121,9 +123,13 @@ void setup() {
             for(int s = 0; s < spriteAmt; s++) {
               more_sprites.add(loadImage("data/room_assets/" + params[0] + "_" + s + ".png"));
             }
-            roomObjects.add(new OverworldObject(Float.valueOf(params[1]) + copies * Float.valueOf(params[3]), Float.valueOf(params[2]) + yCopies * Float.valueOf(params[4]) , Float.valueOf(params[3]), Float.valueOf(params[4]), more_sprites, Boolean.valueOf(params[7]), Float.valueOf(params[8])));
+            OverworldObject over = new OverworldObject(Float.valueOf(params[1]) + copies * Float.valueOf(params[3]), Float.valueOf(params[2]) + yCopies * Float.valueOf(params[4]) , Float.valueOf(params[3]), Float.valueOf(params[4]), more_sprites, Boolean.valueOf(params[7]), Float.valueOf(params[8]));
+            roomObjects.add(over);
             if(Boolean.valueOf(params[7])) {
-              collideableRoomObjects.add(new OverworldObject(Float.valueOf(params[1]) + copies * Float.valueOf(params[3]), Float.valueOf(params[2]) + yCopies * Float.valueOf(params[4]) , Float.valueOf(params[3]), Float.valueOf(params[4]), more_sprites, Boolean.valueOf(params[7]), Float.valueOf(params[8])));
+              collideableRoomObjects.add(over);
+            }
+            if(params[0].equals("peaks")) {
+              harming.add(over);
             }
         }
       }
@@ -143,10 +149,37 @@ void draw() {
       }
 
       Monster target = null;
+      spawnTime--;
+      while(m.size() < 5) {
+            Monster chosen = mSpawn.get((int)(Math.random() * mSpawn.size()));
+            if(chosen instanceof Griffin) {
+              m.add(new Griffin((Griffin)chosen));
+            }
+            if(chosen instanceof Dragon) {
+              m.add(new Dragon((Dragon)chosen));
+            }
+            if(chosen instanceof Baby) {
+              m.add(new Baby((Baby)chosen));
+            }
+            if(chosen instanceof Boar) {
+              m.add(new Boar((Boar)chosen));
+            }
+            if(chosen instanceof Slime) {
+              m.add(new Slime((Slime)chosen));
+            }
+            if(chosen instanceof Spirit) {
+              m.add(new Spirit((Spirit)chosen));
+            }
+            if(chosen instanceof Minotaur) {
+              m.add(new Minotaur((Minotaur)chosen));
+            }
+            spawnTime = 100;
+      }
       for (int mons = m.size() - 1; mons >= 0; mons--) {
         m.get(mons).update(p);
         m.get(mons).move(m.get(mons).currentDirection);
         m.get(mons).display();
+        //Continue to keep adding monsters:
         if(target != null) {
           if(dist(p.x_pos, p.y_pos, target.getX(), target.getY()) > dist(p.x_pos, p.y_pos, m.get(mons).getX(), m.get(mons).getY())) {
             target = m.get(mons);

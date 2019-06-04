@@ -3,6 +3,7 @@ class Minotaur extends Monster {
   float playerGenDir, reach, range = 100;
   int cooldown, attackPhase, attackDelay = -1;
   boolean reachable = false;
+  //Constructor for copying:
   Minotaur(float xcor, float ycor, float x_size, float y_size, float spe, float sight, float mH, int numSprites, int pT, int iT, float dam, boolean boss, float rea, int sco) {
      super(xcor, ycor, x_size, y_size, spe, sight, mH, numSprites, pT, iT, dam, boss, sco);
      reach = rea * 1.5;
@@ -17,6 +18,9 @@ class Minotaur extends Monster {
      attackPhase = 0;
      deathTimer = 45;
      if (isBoss) reach *= 1.5;
+  }
+  Minotaur(Minotaur copy) {
+    this(copy.x_pos, copy.y_pos, copy.x_size, copy.y_size, copy.speed, copy.sightDistance, copy.mHealth, copy.num_sprites, copy.pathTimer, copy.invulTimer, copy.damage, copy.isBoss, copy.reach, copy.score);
   }
   void attack(Thing target, float num) {
     float coneSliceAngle = degrees(PI/2);

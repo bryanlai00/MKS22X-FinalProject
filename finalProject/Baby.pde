@@ -20,6 +20,10 @@ class Baby extends Monster {
   cooldown = 0;
   deathTimer = 50;
   }
+  //Copying:
+  Baby(Baby copy) {
+    this(copy.x_pos, copy.y_pos, copy.x_size, copy.y_size, copy.speed, copy.sightDistance, copy.mHealth, copy.num_sprites, copy.pathTimer, copy.invulTimer, copy.damage, copy.isBoss, copy.score);
+  }
   void attack(Thing target, float num) {
     projectiles.add(0, new Projectile(x_pos, y_pos, 35, 35, num, 5, 60, projectile, (Player)target));
   }

@@ -68,31 +68,31 @@ class Player extends Thing implements Damageable, Collideable {
       }
     }
     //Display items and created itemsAcquired array for player.
-    if(!isDashing) {
+    if (!isDashing) {
       for (int i = 0; i < itemsAcquired.size(); i++) {
-      Item indexItem = itemsAcquired.get(i);
-      int nepo = 1; 
-      if (lastDirection.equals("right")) {
-        nepo = 1;
-      } else if (lastDirection.equals("left")) {
-        nepo = -1;
-      }
-      if (indexItem.itemValue == 1) {
-        //Set sword to a rotating item: Meaning we have to display it not with coords given but at (0,0) after translating the map.
-        indexItem.rotating = true;
-        pushMatrix();
-        if(isAttacking) {
-          translate(x_pos + nepo * 20, y_pos + 10);
-          rotate(nepo * 2 * PI/5);
+        Item indexItem = itemsAcquired.get(i);
+        int nepo = 1; 
+        if (lastDirection.equals("right")) {
+          nepo = 1;
+        } else if (lastDirection.equals("left")) {
+          nepo = -1;
         }
-        else {
-          translate(x_pos + nepo * 20,y_pos);
-          rotate(nepo * PI/5);
+        if (indexItem.itemValue == 1) {
+          //Set sword to a rotating item: Meaning we have to display it not with coords given but at (0,0) after translating the map.
+          indexItem.rotating = true;
+          pushMatrix();
+          if (isAttacking) {
+            translate(x_pos + nepo * 20, y_pos + 10);
+            rotate(nepo * 2 * PI/5);
+          } else {
+            translate(x_pos + nepo * 20, y_pos);
+            rotate(nepo * PI/5);
+          }
+          indexItem.display();
+          popMatrix();
         }
-        indexItem.display();
-        popMatrix();
       }
-    }
+
       image(localSprites.get(frame + sprite_index), x_pos, y_pos, x_size, y_size);
       if (delay <= 10) delay ++;
       else {
@@ -100,16 +100,14 @@ class Player extends Thing implements Damageable, Collideable {
         if (frame + 1 < num_sprites) frame ++;
         else frame = 0;
       }
-    }
-    else {
+    } else {
       if (directionAngle >= 90 && directionAngle < 270) {
         pushMatrix();
         translate(x_pos, y_pos);
         scale(-1.0, 1.0);
         image(loadImage("data/player_assets/dash.png"), 0, 0, 60, 60);
         popMatrix();
-      }
-      else image(loadImage("data/player_assets/dash.png"), x_pos, y_pos, 60, 60);
+      } else image(loadImage("data/player_assets/dash.png"), x_pos, y_pos, 60, 60);
     }
   }
 
@@ -128,7 +126,7 @@ class Player extends Thing implements Damageable, Collideable {
 
   void attack(Thing enemy, float num) {
     isAttacking = true;
-    float range = 150;
+    float range = 200;
     float coneSliceAngle = degrees(PI/4);
     //If the distance is greater than the range, return and iterate with the next monster.
     //Display attack animation of sword:
@@ -161,16 +159,17 @@ class Player extends Thing implements Damageable, Collideable {
       else noTint();
     } else noTint();
     if (c_health <= 0) running = false;
-    if(magic_cooldown > 0) magic_cooldown--;
-    if(dash_cooldown > 0) dash_cooldown--;
-    if(spin_cooldown > 0) spin_cooldown--;
-    if(dashTimer > 0) {p.dash(); dashTimer--;}
-    else isDashing = false;
-    if(attackAni > 0) {
+    if (magic_cooldown > 0) magic_cooldown--;
+    if (dash_cooldown > 0) dash_cooldown--;
+    if (spin_cooldown > 0) spin_cooldown--;
+    if (dashTimer > 0) {
+      p.dash(); 
+      dashTimer--;
+    } else isDashing = false;
+    if (attackAni > 0) {
       attackAni--;
-      isAttacking = true; 
-    }
-    else {
+      isAttacking = true;
+    } else {
       isAttacking = false;
     }
   }
@@ -227,6 +226,11 @@ class Player extends Thing implements Damageable, Collideable {
         }
       }
     }
+    for (OverworldObject o : harming) {
+      if (isTouching(o) && o.frame < 2) {
+        loseHealth(0.5);
+      }
+    }
 
     for (int i = allItems.size() - 1; i > -1; i--) {
       Item cur = allItems.get(i);
@@ -259,6 +263,10 @@ class Player extends Thing implements Damageable, Collideable {
       m.get(i).x_pos += -xChange;
       m.get(i).y_pos += -yChange;
     }
+    for(int i = 0; i < projectiles.size(); i++) {
+      projectiles.get(i).x_pos += -xChange;
+      projectiles.get(i).y_pos += -yChange;
+    }
     spinEffect.x_pos = x_pos;
     spinEffect.y_pos = y_pos - 10;
     //Checks if the player is moving.
@@ -270,7 +278,7 @@ class Player extends Thing implements Damageable, Collideable {
   }
 
 
-//Moves you learn on throughout the game:
+  //Moves you learn on throughout the game:
   void dash() {
     isDashing = true;
     float speed = 5;
@@ -286,26 +294,26 @@ class Player extends Thing implements Damageable, Collideable {
       y_pos += speed * (int(isDown) - int(isUp));
     }
   }
-  
+
   void spinAttack(Monster enemy, float num) {
-       float range = 150;
-       if (dist(x_pos, y_pos, enemy.getX(), enemy.getY()) < range) {
-         enemy.loseHealth(num);
-       }
+    float range = 150;
+    if (dist(x_pos, y_pos, enemy.getX(), enemy.getY()) < range) {
+      enemy.loseHealth(num);
+    }
   }
-  
+
   void magicAttack() {
     PImage projectile = loadImage("data/items/magic.png");
-    projectile.resize(50,50);
-    if(magic_cooldown == 0) {
-      if(m.size() > 0) {
+    projectile.resize(100, 100);
+    if (magic_cooldown == 0) {
+      if (m.size() > 0) {
         Monster target = m.get(0);
         projectiles.add(new Projectile(x_pos, y_pos, 35, 35, 1, 8, 60, projectile, (Monster)target));
       }
       magic_cooldown = 80;
     }
   }
-    
+
 
   boolean setMove(int k, boolean b, ArrayList<Monster> m) {
     //Create switch/case to set the boolean variables for up, down, left and right.
@@ -326,7 +334,12 @@ class Player extends Thing implements Damageable, Collideable {
 
     case 'X':
       if (p.abilities[1] == 2) {
-        if (dash_cooldown == 0) {dashTimer = 60; dash_cooldown = 200; invulTimer = 0; h.cooldowns[0] = (int)dash_cooldown;}
+        if (dash_cooldown == 0) {
+          dashTimer = 60; 
+          dash_cooldown = 200; 
+          invulTimer = 0;
+           h.cooldowns[0] = (int)dash_cooldown;
+        }
       }
       return true;
 
@@ -340,18 +353,17 @@ class Player extends Thing implements Damageable, Collideable {
              }
             spin_cooldown = 70;
             h.cooldowns[1] = (int)spin_cooldown;
-        }
       }
       return true;
+      }
 
-    
     case 'V':
-      if(p.abilities[3] == 4) {
+      if (p.abilities[3] == 4) {
         p.magicAttack();
         h.cooldowns[2] = (int)magic_cooldown;
       }
       return true;
-    
+
     case 'Z':
       if (p.abilities[0] == 1) {
         isAttacking = true;
@@ -359,9 +371,9 @@ class Player extends Thing implements Damageable, Collideable {
         for (Monster mons : m) {
           p.attack(mons, 1);
         }
-
       }
       return true;
+
     case 'I':
       if (screens.size() == 0 && b) screens.add(new Screen(width/2 - 190, height - 115, width/2, 75, 75, "instruct"));
       else if (screens.size() == 1) screens.remove(0);

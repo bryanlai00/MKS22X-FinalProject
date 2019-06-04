@@ -20,6 +20,7 @@ class Projectile extends Thing {
     sprite = i;
     target = "monster";
     //Shows direction:
+    sprite.resize((int)xSize, (int)ySize);
     direction = p.directionAngle;
   }
   Projectile(float xcor, float ycor, float xSize, float ySize, float dam, float spe, int d, PImage i, Player p) {
@@ -72,7 +73,7 @@ class Projectile extends Thing {
     }
    
   void update(Monster m) {
-    if (isTouching(m)) {
+    if(isTouching(m)) {
       m.loseHealth(damage);
       projectiles.remove(projectiles.size() - 1);
     }
