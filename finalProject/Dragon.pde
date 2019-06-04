@@ -49,8 +49,7 @@ class Dragon extends Monster {
       }
     }
     else {
-      int p_size = 35;
-      if (isBoss) p_size = 50;
+      int p_size = 40;
       projectiles.add(0, new Projectile(x_pos, y_pos, p_size, p_size, num, 5, 60, projectile, (Player)target, 0));
       projectiles.add(0, new Projectile(x_pos, y_pos, p_size, p_size, num, 5, 60, projectile, (Player)target, 35));
       projectiles.add(0, new Projectile(x_pos, y_pos, p_size, p_size, num, 5, 60, projectile, (Player)target, -35));

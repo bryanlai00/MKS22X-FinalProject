@@ -30,9 +30,7 @@ class Griffin extends Monster {
       return;
     }
     else {
-      float anglePosition = degrees((float)Math.atan2(((Player)target).getY() - y_pos, ((Player)target).getX() - x_pos));
-      textSize(13);
-      text("Angle between monster and player: " + anglePosition, 100, 130);    
+      float anglePosition = degrees((float)Math.atan2(((Player)target).getY() - y_pos, ((Player)target).getX() - x_pos));  
       //If angle is less than 0:
       float rightConstraint = currentDirection + coneSliceAngle;
       float leftConstraint = currentDirection - coneSliceAngle;
@@ -40,7 +38,6 @@ class Griffin extends Monster {
         ((Player)target).loseHealth(num);
       }
       print("\n anglePosition: " + anglePosition);
-      arc(x_pos, y_pos, reach, reach, radians(currentDirection) - PI/2, PI/2 + radians(currentDirection));
     }
   }
   //Displays the sprites and/or health of the monster

@@ -30,7 +30,7 @@ abstract class Monster extends Thing implements Damageable, Movable{
   
   Monster(float xcor, float ycor, float x_si, float y_si, float spe, float sight, float mH, int numSprites, int pT, int iT, float dam, boolean boss, int sco) {
     super(x_si, y_si);
-    if (boss) {x_si *= 1.5; y_si *= 1.5; spe *= .75; sight *= 1.25; mH *= 2.5; dam *= 2;}
+    if (boss) {x_si *= 1.25; y_si *= 1.25; spe *= .85; sight *= 1.25; mH *= 2; dam *= 1.5;}
     x_size = x_si;
     y_size = y_si;
     healthBarSize = x_size;
