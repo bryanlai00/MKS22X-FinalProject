@@ -1,11 +1,16 @@
 # Hollow World!
 
 ### Project Description
-This game is best described as a hybrid of RPG and action-adventure similar to that of the original Zelda games (namely The Legend of Zelda: A Link to the Past) while drawing inspiration from Metroidvania series such as Hollow Knight.  The concept of the game is to clear rooms/floors of monsters in order to unlock the next room/floor.  The player will control a character and be able to move around, attack, and take damage.  There will be different presets of rooms and types of monsters.  Each elimination will add to the player’s score, and the game should continue so long as the player stays alive.
+This game is best described as a hybrid of RPG and action-arcade somewhat similar to that of the original Zelda games (namely The Legend of Zelda: A Link to the Past) while drawing inspiration from Metroidvania series such as Hollow Knight.  The concept of the game is to kill monsters inside an arena, granting the player score and prompting more to spawn.  The player will control a character and be able to move around, attack, and take damage.  There will be a variety of different types of monsters.  Each elimination will add to the player’s score, and the game should continue so long as the player stays alive.  The goal is to get the highest score you can.
 
 ### Directions
-
-
+  1) Open finalProject.pde in finalProject folder with Processing. 
+  2) Press play. 
+  3) Press any button on keyboard to start. 
+  4) **Want to learn how to play? Press and hold 'I' for instructions.**
+  5) Enter the portal to be transported into the arena. 
+  6) Kill monsters and stay alive. 
+  7) Have fun! 
 _________________________
 
 ### Development Log
@@ -149,3 +154,4 @@ _________________________
 * changed visibility of ability cooldown icons so that you can only see them when you pick up the corresponding item
 * added color codes (light green for ready and brightening red for on cooldown) to cooldown icons on HUD
 * sprinkled in comments for the functions of different classes and variables that are important and need description
+* attempted balancing monsters
