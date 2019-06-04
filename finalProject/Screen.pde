@@ -39,11 +39,11 @@ public class Screen {
     if(codename.equals("instruct")) {
       background(255);
       imageMode(CORNER);
-      text("Press R to restart!", width/2, height/2);
     }
     image(localFrames.get(frame), 0, 0, width, height);
     if (frame < localFrames.size() - 1) frame++;
     else frame = 0;
+    
     //Specific for gameover because we need to display text over the image.
     if(codename.equals("game_over")) {
       image(loadImage("data/screens/Restart.png"), width/5, 3 * height/4);  
@@ -51,7 +51,7 @@ public class Screen {
   }
   boolean select(int k) {
     if (codename.equals("title")) screens.clear();
-    if(codename.equals("game_over") && k == 'R') {
+    else if(codename.equals("game_over") && k == 'R') {
         for(int i = 0; i < screens.size(); i++) {
         if(screens.get(i).codename.equals("game_over")) {
           running = true;

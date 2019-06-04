@@ -25,7 +25,7 @@ ArrayList<PImage> hud = new ArrayList<PImage>();
 ArrayList<PImage> screenImages = new ArrayList<PImage>();
 ArrayList<Screen> screens = new ArrayList<Screen>();
 ArrayList<PImage> effectSprites = new ArrayList<PImage>();
-int iT = 60, spawnTime = 10, screenDelay = 0;
+int iT = 60, spawnTime = 10;
 String mode = "colosseum";
 
 void setup() {
@@ -231,15 +231,10 @@ void draw() {
 
 void keyPressed() {
   if (screens.size() > 0) {
-    if(screens.get(0).select(keyCode) == true) {
-      draw();
-    }
+    screens.get(0).select(keyCode);
   }
-  if(screenDelay == 0) {
-    if(running) p.setMove(keyCode, true, m);
-  }
-  else {
-    screenDelay--;
+  else if(running) {
+    p.setMove(keyCode, true, m);
   }
 }
 

@@ -6,7 +6,7 @@ class Projectile extends Thing {
   float x_pos, y_pos, endX, endY, damage, direction, speed;
   String target;
   int duration;
-  PImage sprite; //<>// //<>//
+  PImage sprite; //<>//
   //Projectile against Monsters:
   Projectile(float xcor, float ycor, float xSize, float ySize, float dam, float spe, int d, PImage i, Monster m) {
     super(xSize,ySize);
