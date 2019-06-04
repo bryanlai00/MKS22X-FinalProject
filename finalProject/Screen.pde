@@ -53,20 +53,6 @@ public class Screen {
   boolean select(int k) {
     if (codename.equals("title")) screens.clear();
     else if(codename.equals("game_over") && k == 'R') {
-        for(int i = 0; i < screens.size(); i++) {
-        if(screens.get(i).codename.equals("game_over")) {
-          running = true;
-          p.c_health = p.m_health;
-          p.xChange = 750;
-          p.yChange = 750;
-          p.x_pos = 750;
-          p.y_pos = 750;
-          h.score = 0;
-          m.clear();
-          screens.clear();  
-        }
-      }
-      screens.add(new Screen(width/2 - 190, height - 115, width/2, 75, 75, "title"));
       return true;
      }
      return false;

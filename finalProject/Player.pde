@@ -242,11 +242,31 @@ class Player extends Thing implements Damageable, Collideable {
 
     //If the player touches the item, have the item disappear, add the ability to the array, etc.
 
-    x_pos = constrain(x_pos + xChange, r, width  - r);
+    x_pos = constrain(x_pos + xChange, 300, width  - 300);
     y_pos = constrain(y_pos + yChange, r, height - r);
+    
+    updateOtherMovement(xChange, yChange);
+    spinEffect.x_pos = x_pos;
+    spinEffect.y_pos = y_pos - 10;
+    //Checks if the player is moving.
+    if (x_prev_pos != x_pos || y_prev_pos != y_pos) {
+      isMoving = true;
+    } else {
+      isMoving = false;
+    }
+    
+    if(isTouching(portal)) {
+      float xportChange = (float)Math.abs(x_pos - vortex.x_pos);
+      float yportChange = (float)Math.abs(y_pos - vortex.y_pos + 100);
+      x_pos = vortex.x_pos;
+      y_pos = vortex.y_pos + 100;
+      updateOtherMovement(xportChange, yportChange);
+    }
+  }
 
 
-    //Check boundaries and move other entities based on xChange and yChange.
+  void updateOtherMovement(float xChange, float yChange) {
+     //Check boundaries and move other entities based on xChange and yChange.
     for (int i = 0; i < roomObjects.size(); i++) {
       roomObjects.get(i).x_pos += -xChange;
       roomObjects.get(i).y_pos += -yChange;
@@ -267,17 +287,8 @@ class Player extends Thing implements Damageable, Collideable {
       projectiles.get(i).x_pos += -xChange;
       projectiles.get(i).y_pos += -yChange;
     }
-    spinEffect.x_pos = x_pos;
-    spinEffect.y_pos = y_pos - 10;
-    //Checks if the player is moving.
-    if (x_prev_pos != x_pos || y_prev_pos != y_pos) {
-      isMoving = true;
-    } else {
-      isMoving = false;
-    }
   }
-
-
+  
   //Moves you learn on throughout the game:
   void dash() {
     isDashing = true;

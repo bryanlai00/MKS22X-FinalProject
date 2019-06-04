@@ -27,6 +27,7 @@ ArrayList<Screen> screens = new ArrayList<Screen>();
 ArrayList<PImage> effectSprites = new ArrayList<PImage>();
 int iT = 60, spawnTime = 10;
 String mode = "colosseum";
+OverworldObject vortex = null, portal = null;
   
 void setup() {
   size(1440,810);
@@ -60,7 +61,6 @@ void setup() {
   
   //Room assets:
   objects = loadStrings("data/colosseum.txt");
-  OverworldObject vortex = null; 
   for(int i = 0; i < objects.length; i++) {
     //If the line/string does not contain Room...
     if(!objects[i].contains("Room")) {
@@ -95,7 +95,7 @@ void setup() {
   }
 }
   vortex = roomObjects.get(roomObjects.size() - 1);
-
+  portal = roomObjects.get(roomObjects.size() - 2);
   scr = new Screen(width/2 - 190, height - 115, width/2, 75, 75, "title");
   screens.add(scr);
   //Create vortex for spawning area.
@@ -138,7 +138,7 @@ void setup() {
   //4 stands for # of sprites for each PHASE. Not the number of sprites in total. The value changes in differnet cases.
   //For dungeon: p = new Player(50,50, 700, 0,iT,4,assets);
   //Colosseum: 
-  p = new Player(50, 50, 750, 575, iT, 4, assets);
+  p = new Player(50, 50, 700, 175, iT, 4, assets);
   //Adding items already to player: (If colosseum mode:)
   h = new HUD(p.m_health, 20, 20, 50);
   //Room assets:
@@ -231,7 +231,9 @@ void draw() {
 
 void keyPressed() {
   if (screens.size() > 0) {
-    screens.get(0).select(keyCode);
+    if(screens.get(0).select(keyCode) == true) {
+      restart();
+    }
   }
   else if(running) {
     p.setMove(keyCode, true, m);
@@ -244,4 +246,48 @@ void keyReleased() {
 //Clears everything on the screen when reaching gameOver.
 void clear() {
   if(p.c_health <= 0) screens.add(new Screen(width/2, height/2, width/2, 50, 50, "game_over"));
+}
+
+void restart() {
+          p.c_health = p.m_health;
+          p.xChange = 750;
+          p.yChange = 750;
+          p.x_pos = 750;
+          p.y_pos = 750;
+          h.score = 0;
+          m.clear();
+          mSpawn.clear();
+          screens.clear();  
+          screens.add(new Screen(width/2 - 190, height - 115, width/2, 75, 75, "title"));
+          //Adds all monsters again because vortex.x_pos has changed.
+          s = new Slime(vortex.x_pos, vortex.y_pos, 50, 50, 0, 200.0, 2, 4, 120, iT, .5, false, 50);
+          s2 = new Slime(vortex.x_pos, vortex.y_pos, 50, 50, 1, 200.0, 1, 4, 120, iT, .5, true, 50);
+          d = new Baby(vortex.x_pos, vortex.y_pos, 90, 90, 1.5, 300.0, 3, 10, 120, iT, 1, false, 100);
+          d2 = new Baby(vortex.x_pos, vortex.y_pos, 90, 90, 1.5, 300.0, 3, 10, 120, iT, 1, true, 100);
+          min = new Minotaur(vortex.x_pos, vortex.y_pos, 150, 150, 1.5, 400.0, 5, 4, 120, iT, .5, false, 150, 250);
+          min2 = new Minotaur(vortex.x_pos, vortex.y_pos, 150, 150, 1.5, 400.0, 5, 4, 120, iT, .5, true, 150, 250);
+          b = new Boar(vortex.x_pos, vortex.y_pos, 50, 50, 2, 300.0, 1, 8, 120, iT, .5, false, 150);
+          b2 = new Boar(vortex.x_pos, vortex.y_pos, 50, 50, 2, 300.0, 1, 8, 120, iT, .5, true, 150);
+          sp = new Spirit(vortex.x_pos, vortex.y_pos, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false, 200);
+          sp2 = new Spirit(vortex.x_pos, vortex.y_pos, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, true, 200);
+          g = new Griffin(vortex.x_pos, vortex.y_pos, 150, 150, 1.5, 400.0, 5, 10, 120, iT, .5, false, 150, 250);
+          g2 = new Griffin(vortex.x_pos, vortex.y_pos, 150, 150, 1.5, 400.0, 5, 10, 120, iT, .5, true, 150, 250);
+          dr = new Dragon(vortex.x_pos, vortex.y_pos, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false, 300);
+          dr2 = new Dragon(vortex.x_pos, vortex.y_pos, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, true, 300);
+          //Array List of possible monsters that may spawn:
+          mSpawn.add(s);
+          mSpawn.add(s2);
+          mSpawn.add(d);
+          mSpawn.add(d2);
+          mSpawn.add(min);
+          mSpawn.add(min2);
+          mSpawn.add(b);
+          mSpawn.add(b2);
+          mSpawn.add(sp);
+          mSpawn.add(sp2);
+          mSpawn.add(g);
+          mSpawn.add(g2);
+          mSpawn.add(dr);
+          mSpawn.add(dr2);
+          running = true;
 }
