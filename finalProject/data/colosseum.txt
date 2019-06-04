@@ -48,4 +48,4 @@ side_torch 25 1200 50 50 1 19 false 4
 side_torch_left 1475 1200 50 50 1 20 false 4
 Portal Room and Spawner in Colosseum:
 portal 675 950 300 300 1 1 false 101
-vortex 720 1650 500 500 1 1 false 62
+vortex 720 1450 500 500 1 1 false 62

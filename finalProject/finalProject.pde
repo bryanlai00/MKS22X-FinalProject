@@ -1,5 +1,6 @@
 import java.util.*;
 
+//All constants and variables:
 Screen scr;
 Player p;
 Slime s, s2;
@@ -29,16 +30,21 @@ int iT = 60, spawnTime = 10, itemTime = 10;
 String mode = "colosseum";
 OverworldObject vortex = null, portal = null;
   
+  
+//Setup: Loads sprites and strings and then adds it to its specific ArrayList.
 void setup() {
   size(1440,810);
+  //Going through sprite names:
   spriteNames = loadStrings("data/SpriteNames.txt");
   for (String str : spriteNames) {
      sprite.add(loadImage("data/sprites/" + str + ".png"));
   }
+  //Going through hud names:
   hudNames = loadStrings("data/hudNames.txt");
   for (String str : hudNames) {
      hud.add(loadImage("data/hud/" + str + ".png"));
   }
+  //Going through screenNames:
   screenNames = loadStrings("data/screenNames.txt");
   for (String str : screenNames) {
      screenImages.add(loadImage("data/screens/" + str + ".png"));
@@ -59,7 +65,7 @@ void setup() {
     }
   }
   
-  //Room assets:
+  //Going through room and Overworld Objects. 
   objects = loadStrings("data/colosseum.txt");
   for(int i = 0; i < objects.length; i++) {
     //If the line/string does not contain Room...
@@ -94,9 +100,12 @@ void setup() {
     }
   }
 }
-  //Create vortex for spawning area.
+
+  //Create vortex for monster-spawning area.
   vortex = roomObjects.get(roomObjects.size() - 1);
   portal = roomObjects.get(roomObjects.size() - 2);
+  
+  //Creates a new title screen.
   scr = new Screen(width/2 - 190, height - 115, width/2, 75, 75, "title");
   screens.add(scr);
   addMonsters();  
@@ -110,14 +119,13 @@ void setup() {
   //For dungeon: p = new Player(50,50, 700, 0,iT,4,assets);
   //Colosseum: 
   p = new Player(50, 50, 700, 175, iT, 4, assets);
-  //Adding items already to player: (If colosseum mode:)
   h = new HUD(p.m_health, 20, 20, 50);
-  //Room assets:
 }
 
 void draw() {
-    //Room assets:
+    //Always displays screen if the array size > 0.
     if (screens.size() > 0) screens.get(0).display();
+    //If the game is "running" which is determined by still having HP...
     else if(running){
       background(37,19,26);
       fill(0, 102, 153);
@@ -125,8 +133,10 @@ void draw() {
         roomObjects.get(i).display();
       }
 
+      //Creates null target in the beginning that will always be found later on.
       Monster target = null;
       if(spawnTime < 0 && m.size() < 5) {
+            //Creates copy of a random monster chosen and adds it to an Array of monsters that are on the screen. Must be < 5 monsters.
             Monster chosen = mSpawn.get((int)(Math.random() * mSpawn.size()));
             if(chosen instanceof Griffin) {
               m.add(new Griffin((Griffin)chosen));
@@ -154,6 +164,7 @@ void draw() {
       else {
         spawnTime--;
       }
+      //Monster updates/calls. 
       for (int mons = m.size() - 1; mons >= 0; mons--) {
         m.get(mons).update(p);
         m.get(mons).move(m.get(mons).currentDirection);
@@ -170,9 +181,9 @@ void draw() {
         for (int i = m.size() - 1; i >= 0; i--) {
           if (m.get(i).cHealth <= 0 && m.get(i).getDeathTimer() == 0) {h.increaseScore(m.get(i).score); m.remove(i);}
         }
-        //finds closest monster:
     }
-    //Added projectile stuff for player as well.
+    
+    //Projectile Behavior.
       for (int i = projectiles.size() - 1; i >= 0; i--) {
         Projectile proj = projectiles.get(i);
         proj.move();
@@ -186,8 +197,9 @@ void draw() {
           }
         }
       }
-      //Add random potions:
-      if(itemTime == 0) {
+
+      //Item behavior. (not iterating through array because Item behavior is different for potions. It's just randomny spawning.)
+      if(itemTime == 0 && allItems.size() < 10) {
         Random rand = new Random();
         if(rand.nextInt(1) == 2) {
           allItems.add(new Item(((float)rand.nextInt(1000) + vortex.x_pos - 500), ((float)rand.nextInt(700) + vortex.y_pos - 200), 50, 50, loadImage("data/items/smallPotion.png"), 5)); 
@@ -195,17 +207,24 @@ void draw() {
         else {
           allItems.add(new Item(((float)rand.nextInt(1000) + vortex.x_pos - 500), ((float)rand.nextInt(700) + vortex.y_pos - 200), 50, 50, loadImage("data/items/largePotion.png"), 6));
         }
-        itemTime = 2000;
+        //Long time to spawn.
+        itemTime = 500;
       }
       else {
         itemTime--;
       }
+      
+      //Display all items part of the arraylist above.
       for(Item i : allItems) {
         i.display();
       }
+      
+      //Player behavior:
       p.update(h);
       p.move();
       p.display();
+      
+      //HUD Behavior:
       h.update(p.c_health);
       h.display();
     }
@@ -215,6 +234,7 @@ void draw() {
 }
 
 void keyPressed() {
+  //If key is pressed and certain reqs are made, it will restart the game or move your character in your designated direction.
   if (screens.size() > 0) {
     if(screens.get(0).select(keyCode) == true) {
       restart();
@@ -226,13 +246,16 @@ void keyPressed() {
 }
 
 void keyReleased() {
+  //De-registers key input.
   p.setMove(keyCode, false, m);
 }
+
 //Clears everything on the screen when reaching gameOver.
 void clear() {
   if(p.c_health <= 0) screens.add(new Screen(width/2, height/2, width/2, 50, 50, "game_over"));
 }
 
+//Method called to restart the game with a title screen after pressing 'R' in gameover.
 void restart() {
           p.c_health = p.m_health;
           p.xChange = 750;
@@ -248,6 +271,7 @@ void restart() {
           running = true;
 }
 
+//Adds new monsters to an ArrayList mSpawn. This is because vortex.x_pos changes when you move down or up as the player.
 void addMonsters() {
   //Adds all monsters again because vortex.x_pos has changed.
           s = new Slime(vortex.x_pos, vortex.y_pos, 50, 50, 0, 200.0, 2, 4, 120, iT, .5, false, 50);

@@ -9,6 +9,7 @@ class OverworldObject extends Thing implements Collideable {
   //Value to see if the overworldObject is an item.
   boolean blocking;
   
+  //Constructor that only has 1 sprite.
   OverworldObject(float x_pos, float y_pos, float x_size, float y_size, PImage sprite, boolean blocking) {
     super(x_pos,y_pos);
     this.x_pos = x_pos;
@@ -20,6 +21,7 @@ class OverworldObject extends Thing implements Collideable {
     this.blocking = blocking;
   }
   
+    //Constructor for an OverworldObject with more than one sprite.
     OverworldObject(float x_pos, float y_pos, float x_size, float y_size, ArrayList<PImage> sprites, boolean blocking, float num_sprites) {
     super(x_pos,y_pos);
     this.x_pos = x_pos;
@@ -34,6 +36,7 @@ class OverworldObject extends Thing implements Collideable {
     this.num_sprites = (int)num_sprites;
   }
   
+  //Displays the overworldobject based on # of sprites.
   void display() {
       noTint();
       int timeDelay = 10;

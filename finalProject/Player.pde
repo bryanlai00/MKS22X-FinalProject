@@ -111,6 +111,7 @@ class Player extends Thing implements Damageable, Collideable {
     }
   }
 
+  //Subtract health.
   void loseHealth(float num) {
     if (invulTimer == invulTime) {
       c_health -= num;
@@ -260,14 +261,13 @@ class Player extends Thing implements Damageable, Collideable {
       }
     }
 
-    //If the player touches the item, have the item disappear, add the ability to the array, etc.
-
     x_pos = constrain(x_pos + xChange, 300, width  - 300);
     y_pos = constrain(y_pos + yChange, r, height - r);
     
     updateOtherMovement(xChange, yChange);
     spinEffect.x_pos = x_pos;
     spinEffect.y_pos = y_pos - 10;
+    
     //Checks if the player is moving.
     if (x_prev_pos != x_pos || y_prev_pos != y_pos) {
       isMoving = true;
@@ -275,18 +275,19 @@ class Player extends Thing implements Damageable, Collideable {
       isMoving = false;
     }
     
+    //If you touch the green portal, you go into the colosseum/arena.
     if(isTouching(portal)) {
       float xportChange = (float)Math.abs(x_pos - vortex.x_pos);
-      float yportChange = (float)Math.abs(y_pos - vortex.y_pos + 100);
+      float yportChange = (float)Math.abs(y_pos - vortex.y_pos - 300);
       x_pos = vortex.x_pos;
-      y_pos = vortex.y_pos + 100;
+      y_pos = vortex.y_pos - 300;
       updateOtherMovement(xportChange, yportChange);
       mSpawn.clear();
       addMonsters();
     }
   }
-
-
+   
+  //Everytime the player moves, it causes the other entities in the game to move the opposite direction. 
   void updateOtherMovement(float xChange, float yChange) {
      //Check boundaries and move other entities based on xChange and yChange.
     for (int i = 0; i < roomObjects.size(); i++) {
@@ -340,7 +341,7 @@ class Player extends Thing implements Damageable, Collideable {
     if (magic_cooldown == 0) {
       if (m.size() > 0) {
         Monster target = m.get(0);
-        projectiles.add(new Projectile(x_pos, y_pos, 60, 60, 2, 8, 60, projectile, (Monster)target));
+        projectiles.add(0,new Projectile(x_pos, y_pos, 60, 60, 2, 10, 60, projectile, (Monster)target));
       }
       magic_cooldown = 80;
     }
