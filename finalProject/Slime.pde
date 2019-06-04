@@ -13,6 +13,7 @@ class Slime extends Monster {
   Slime(Slime copy) {
     this(copy.x_pos, copy.y_pos, copy.x_size, copy.y_size, copy.speed, copy.sightDistance, copy.mHealth, copy.num_sprites, copy.pathTimer, copy.invulTimer, copy.damage, copy.isBoss, copy.score);
   }
+  //Displays the sprites and/or health of the monster
   void display() {
     imageMode(CENTER);
     if (updateImageDir()) frame = 0;
@@ -26,9 +27,11 @@ class Slime extends Monster {
     hBarDisplay();
     noTint();
   }
+  //Attack: calls the target (player) to lose health
   void attack(Thing target, float num) {
     if (cHealth > 0) ((Player)target).loseHealth(num);
   }
+  //Updates the monster's phase being displayed to call the correct sprites
   boolean updateImageDir() {
     String temp = currentDir;
     if (cHealth <= 0) {currentDir = "death"; currentSpeed = 0; deathTimer--; num_sprites = 8;}
@@ -46,6 +49,7 @@ class Slime extends Monster {
     }
     return false;
   }
+  //Calls checkForPlayer function, changes current speed/direction and calls attack function based on player's proximity and location
   void updateBehavior(Player p) {
     if (cHealth <= 0) currentSpeed = 0;
     else {

@@ -24,9 +24,11 @@ class Baby extends Monster {
   Baby(Baby copy) {
     this(copy.x_pos, copy.y_pos, copy.x_size, copy.y_size, copy.speed, copy.sightDistance, copy.mHealth, copy.num_sprites, copy.pathTimer, copy.invulTimer, copy.damage, copy.isBoss, copy.score);
   }
+  //Attack: spawns a new projectile headed in the player's direction using the sprite stored (fireball)
   void attack(Thing target, float num) {
     projectiles.add(0, new Projectile(x_pos, y_pos, 35, 35, num, 5, 60, projectile, (Player)target));
   }
+  //Updates the playerInRange boolean, determines if it is a safe distance from player
   void checkForPlayer(Player p, float safeRadiusDiff) {
     if (dist(p.x_pos,p.y_pos,x_pos,y_pos) < sightDistance) {
       playerInRange = true;
@@ -39,6 +41,7 @@ class Baby extends Monster {
     }
     else safe = true;
   }
+  //Calls checkForPlayer function, changes current speed/direction and calls attack function based on player's proximity and location
   void updateBehavior(Player p) {
     checkForPlayer(p, sRF);
     playerGenDir = (float)Math.toDegrees(Math.atan2((double)(p.y_pos - y_pos), (double)(p.x_pos - x_pos)));
@@ -69,6 +72,7 @@ class Baby extends Monster {
     }
     if (cHealth <= 0) currentSpeed = 0;
   }
+  //Updates the monster's phase being displayed to call the correct sprites
   boolean updateImageDir() {
     String temp = phase;
     if (cHealth <= 0) {phase = "death"; deathTimer--;}
@@ -86,6 +90,7 @@ class Baby extends Monster {
     }
     return false;
   }
+  //Displays the sprites and/or health of the monster
   void display() {
     imageMode(CENTER);
     if (updateImageDir()) frame = 0;

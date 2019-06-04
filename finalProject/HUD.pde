@@ -14,7 +14,7 @@ class HUD {
     y_pos = ycor;
     separation = sep;
     for (int i = 0; i < hudNames.length; i++) {
-      if (hudNames[i].contains("full")) full = hud.get(i);
+      if (hudNames[i].contains("full")) full = hud.get(i); //stores visuals
       if (hudNames[i].contains("half")) half = hud.get(i);
       if (hudNames[i].contains("empty")) empty = hud.get(i);
       if (hudNames[i].contains("dash")) dash = hud.get(i);
@@ -24,10 +24,11 @@ class HUD {
     heartCount = (int)mHealth;
     if (mHealth % 1.0 >= .5) heartCount++;
     for (int i = heartCount; i > 0; i--) hearts.add(full);
-    abilities.add(dash);
+    abilities.add(dash); //stores abilities
     abilities.add(spin);
     abilities.add(proj);
   }
+  //Updates the health to be displayed and when to flash when player gets hit
   void update(float cHealth) {
     for (int i = 0; i < hearts.size(); i++) {
       if (cHealth < i + 1 && cHealth > i && cHealth >= (float)i - .5) hearts.set(i, half);
@@ -40,7 +41,8 @@ class HUD {
     }
     else noTint();
   }
-  void increaseScore(int sco) {score += sco;}
+  void increaseScore(int sco) {score += sco;} //increases score to be displayed
+  //Displays the current health in hearts in top left, score in top right, abilities icons in bottom left
   void display() {
     float sepTrack = x_pos;
     for (int i = 0; i < hearts.size(); i++) {

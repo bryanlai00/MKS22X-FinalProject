@@ -1,11 +1,27 @@
 abstract class Monster extends Thing implements Damageable, Movable{
-  int num_sprites, delay = 0, frame = 0, pathTimer, pathTime, index, invulTimer, invulTime, healthTimer, deathTimer, score = 100;
+  /**
+   * num_sprites = number of sprites in the current phase
+   * delay = used for delay tracking between frames
+   * frame = current frame to be displayed of a phase
+   * pathTimer & pathTime = sets timers for intervals of monsters randomly wandering around their spawnpoint
+   * index = keeps track of position of the current phase of sprites to use in the ArrayList of sprites
+   * invulTimer & invulTime = timer for granting short invulnerability after getting damaged, determines flashing red when hit
+   * healthTimer = keeps track of how long to display health bar
+   * deathTimer = how long to display dying monster's animation before removing it
+   * score = how much score to add when killed
+   * currentDirection, currentSpeed, sightDistance, damage = monster stats and conditions
+   * cHealth, mHealth = current health and max health
+   * localSprite, localSpriteName = contains sprites and sprite names corresponding to the specific type of monster it is (i.e. if Dragon, only contains Dragon sprites)
+   * if (isBoss) = monster is bigger, slower, has a larger hitbox, and does more damage (may also have more reach/sight where applicable)
+   * playerInRange = boolean checking to see if player is in range of the monster and provide trigger for monster's behavior
+   */
+  int num_sprites, delay = 0, frame = 0, pathTimer, pathTime, index, invulTimer, invulTime, healthTimer, deathTimer, score;
   float x_pos, y_pos, spawnX, spawnY, healthBarSize, currentDirection, speed, currentSpeed, sightDistance, damage, cHealth, mHealth;
   ArrayList<PImage> localSprite = new ArrayList<PImage>();
   ArrayList<String> localSpriteName = new ArrayList<String>();
   boolean isBoss, playerInRange;
   String currentDir;
-  
+  //Getter methods
   float getX() {return x_pos;}
   float getY() {return y_pos;}
   float getX_size() {return x_size;}
@@ -40,6 +56,7 @@ abstract class Monster extends Thing implements Damageable, Movable{
     deathTimer = 10 * numSprites;
     score = sco;
   }
+  //Displays the health bar over monster's sprite for a certain duration of time after being damaged
   void hBarDisplay() {
     if (healthTimer > 0) {
       healthTimer--;
@@ -52,6 +69,7 @@ abstract class Monster extends Thing implements Damageable, Movable{
       rect(x_pos - .5 * healthBarSize, y_pos - 50, healthBarSize, 10);
     }
   }
+  //Decreases the current health by num
   void loseHealth(float num) {
     if (invulTimer == invulTime) {
       cHealth -= num;
@@ -59,6 +77,7 @@ abstract class Monster extends Thing implements Damageable, Movable{
       healthTimer = 240;
     }
   }
+  //Default playerInRange updating method
   void checkForPlayer(Player p) {
     if (dist(p.x_pos,p.y_pos,x_pos,y_pos) < sightDistance) {
       playerInRange = true;
@@ -69,6 +88,7 @@ abstract class Monster extends Thing implements Damageable, Movable{
   boolean isMoving() {
     return currentSpeed > 0;
   }
+  //Updates invulnerability time after getting damaged, also determines flashing red
   void updateInvul() {
     if (invulTimer < invulTime) {
       invulTimer++;
@@ -77,10 +97,12 @@ abstract class Monster extends Thing implements Damageable, Movable{
     }
     else noTint();
   }
+  //Calls update methods
   void update(Player p) {
     updateInvul();
     updateBehavior(p);
   }
+  //Moves the monster in direction at currentSpeed, keeps the monsters in bounds
   void move(float direction) {
     for(OverworldObject o : collideableRoomObjects) {
       if(isTouching(o)) {

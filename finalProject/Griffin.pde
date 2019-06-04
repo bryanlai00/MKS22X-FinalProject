@@ -22,10 +22,9 @@ class Griffin extends Monster {
   Griffin(Griffin copy) {
     this(copy.x_pos, copy.y_pos, copy.x_size, copy.y_size, copy.speed, copy.sightDistance, copy.mHealth, copy.num_sprites, copy.pathTimer, copy.invulTimer, copy.damage, copy.isBoss, copy.reach, copy.score);
   }
+  //Attack: Slashes in an arc, player takes damage if caught in this arc
   void attack(Thing target, float num) {
     float coneSliceAngle = degrees(PI/2);
-    //textSize(13);
-    //text(dist(x_pos, y_pos, enemy.getX(), enemy.getY()), 100, 100);
     //If the distance is greater than the range, return and iterate with the next monster.
     if(dist(x_pos, y_pos, ((Player)target).getX(), ((Player)target).getY()) > reach) {
       return;
@@ -37,18 +36,14 @@ class Griffin extends Monster {
       //If angle is less than 0:
       float rightConstraint = currentDirection + coneSliceAngle;
       float leftConstraint = currentDirection - coneSliceAngle;
-      /*
-      print("\n left constraint: " + leftConstraint);
-      print("\n right constraint: " + rightConstraint);
-      */
       if(anglePosition < rightConstraint && anglePosition > leftConstraint) {
         ((Player)target).loseHealth(num);
       }
       print("\n anglePosition: " + anglePosition);
       arc(x_pos, y_pos, reach, reach, radians(currentDirection) - PI/2, PI/2 + radians(currentDirection));
-      //See if the difference angle is applicable for the coneSliceAngle:
     }
   }
+  //Displays the sprites and/or health of the monster
   void display() {
     imageMode(CENTER);
     if (updateImageDir()) frame = 0;
@@ -83,6 +78,7 @@ class Griffin extends Monster {
     }
     hBarDisplay();
   }
+  //Updates the playerInRange boolean, determines if player is reachable
   void checkForPlayer(Player p) {
     if (dist(p.x_pos,p.y_pos,x_pos,y_pos) < sightDistance) {
       playerInRange = true;
@@ -92,6 +88,7 @@ class Griffin extends Monster {
     }
     else {playerInRange = false; reachable = false;}
   }
+  //Updates the monster's phase being displayed to call the correct sprites
   boolean updateImageDir() {
     String temp = phase;
     if (cHealth <= 0) {phase = "death"; deathTimer--;}
@@ -104,8 +101,7 @@ class Griffin extends Monster {
       else if (isMoving()) phase = "move";
       else phase = "idle";
     }
-    else attackPhase--;
-    
+    else attackPhase--;   
     if (!temp.equals(phase)) {
       for (int i = 0; i < localSpriteName.size(); i++) {
         if (localSpriteName.get(i).contains(phase)) {
@@ -116,6 +112,7 @@ class Griffin extends Monster {
     }
     return false;
   }
+  //Calls checkForPlayer function, changes current speed/direction and calls attack function based on player's proximity and location
   void updateBehavior(Player p) {
     playerGenDir = (float)Math.toDegrees(Math.atan2((double)(p.y_pos - y_pos), (double)(p.x_pos - x_pos)));
     if (cHealth <= 0) currentSpeed = 0;

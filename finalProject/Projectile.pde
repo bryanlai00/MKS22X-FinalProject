@@ -23,6 +23,7 @@ class Projectile extends Thing {
     sprite.resize((int)xSize, (int)ySize);
     direction = p.directionAngle;
   }
+  //Single projectile against player in a straight path
   Projectile(float xcor, float ycor, float xSize, float ySize, float dam, float spe, int d, PImage i, Player p) {
     super(xSize,ySize);
     endX = p.getX();
@@ -37,6 +38,7 @@ class Projectile extends Thing {
     sprite.resize((int)xSize, (int)ySize);
     direction = (float)Math.toDegrees(Math.atan2((double)(endY - y_pos), (double)(endX - x_pos)));
   }
+  //Single projectile against player at directionalDiff angle away from straight
   Projectile(float xcor, float ycor, float xSize, float ySize, float dam, float spe, int d, PImage i, Player p, float directionalDiff) {
     super(xSize,ySize);
     endX = p.getX();
@@ -51,6 +53,7 @@ class Projectile extends Thing {
     sprite.resize((int)xSize, (int)ySize);
     direction = (float)Math.toDegrees(Math.atan2((double)(endY - y_pos), (double)(endX - x_pos))) + directionalDiff;
   }
+  //Updates projectiles - when to do damage to player and remove from ArrayList
   void update(Player p) {
     if (isTouching(p)) {
       p.loseHealth(damage);
@@ -61,6 +64,7 @@ class Projectile extends Thing {
     }
     else duration--;
   }
+  //Moves the projectile in direction at speed, if the projectile goes out of bounds it "removes" it
   void move() {  
       for(OverworldObject o : collideableRoomObjects) {
           if(isTouching(o)) {
@@ -73,7 +77,7 @@ class Projectile extends Thing {
         x_pos += speed * Math.cos(radians(direction));
         y_pos += speed * Math.sin(radians(direction));
     }
-   
+  //Updates projectiles - when to do damage to monster and remove from ArrayList
   void update(Monster m) {
     if(isTouching(m)) {
       m.loseHealth(damage);
@@ -84,7 +88,7 @@ class Projectile extends Thing {
     }
     else duration--;
   }
-  
+  //Displays the sprite of the projectile at its current position
   void display() {
     imageMode(CENTER);
     noTint();

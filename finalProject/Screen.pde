@@ -1,9 +1,10 @@
 public class Screen {
   int frame = 0;
+  //contains the frames and their names for Screens only
   ArrayList<PImage> localFrames = new ArrayList<PImage>();
   ArrayList<String> localFrameNames = new ArrayList<String>();
   PImage cursor;
-  String codename;
+  String codename; //Determines what type of screen it is and how to display it
   float x_pos, y_pos, mx_pos, my_pos, x_size, y_size;
   Screen(float x, float y, float mirX, float x_si, float y_si, String code) {
      x_pos = x;
@@ -20,8 +21,17 @@ public class Screen {
        if (screenNames[i].contains("cursor")) cursor = screenImages.get(i);
      }
   }
-  void display() {
-    
+  //Displays the screen based on its codename
+  void display() {    
+    if(codename.equals("game_over")) {
+      background(255);
+      imageMode(CORNER);
+   }
+    if(codename.equals("instruct")) {
+      background(255);
+      imageMode(CORNER);
+    }
+    image(localFrames.get(frame), 0, 0, width, height);
     if (codename.equals("title")) {
       image(cursor, x_pos, y_pos, x_size, y_size); 
       pushMatrix();
@@ -32,24 +42,15 @@ public class Screen {
       textAlign(CENTER);
       text("Press Any Key", width / 2, 31 * height / 32);
     }
-    if(codename.equals("game_over")) {
-      background(255);
-      imageMode(CORNER);
-   }
-    if(codename.equals("instruct")) {
-      background(255);
-      imageMode(CORNER);
-    }
-    image(localFrames.get(frame), 0, 0, width, height);
     if (frame < localFrames.size() - 1) frame++;
-    else frame = 0;
-    
+    else frame = 0;    
     //Specific for gameover because we need to display text over the image.
     if(codename.equals("game_over")) {
       image(loadImage("data/screens/Restart.png"), width/5, 3 * height/4);  
       text("SCORE: " + h.score, width/2, 15 * height/ 16);
     }
   }
+  //Determines actions for screens
   boolean select(int k) {
     if (codename.equals("title")) screens.clear();
     else if(codename.equals("game_over") && k == 'R') {
