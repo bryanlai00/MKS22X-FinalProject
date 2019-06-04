@@ -33,8 +33,8 @@ class Player extends Thing implements Damageable, Collideable {
     this.y_pos = y_pos;
     invulTimer = iT;
     invulTime = iT;
-    m_health = 3;
-    c_health = 3;
+    m_health = 10;
+    c_health = 10;
     damage = 1;
     //Boolean values are default set to false. 
     //# of abilties. All filled with 0 right now.

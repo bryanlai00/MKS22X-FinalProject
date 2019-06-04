@@ -149,8 +149,7 @@ void draw() {
       }
 
       Monster target = null;
-      spawnTime--;
-      while(m.size() < 5) {
+      if(spawnTime < 0 && m.size() < 5) {
             Monster chosen = mSpawn.get((int)(Math.random() * mSpawn.size()));
             if(chosen instanceof Griffin) {
               m.add(new Griffin((Griffin)chosen));
@@ -174,6 +173,9 @@ void draw() {
               m.add(new Minotaur((Minotaur)chosen));
             }
             spawnTime = 100;
+      }
+      else {
+        spawnTime--;
       }
       for (int mons = m.size() - 1; mons >= 0; mons--) {
         m.get(mons).update(p);
@@ -224,6 +226,13 @@ void draw() {
 void keyPressed() {
   if (screens.size() > 0) screens.get(0).select();
   else if(running) p.setMove(keyCode, true, m);
+  else if(!running) {
+    Screen screenTarget = null;
+    for(int i = 0; i < screens.size(); i++) {
+      if(screens.get(i).codename.equals("gameover")) screenTarget = screens.get(i);
+    }
+    screenTarget.cursorMovement(keyCode);
+  }
 }
 
 void keyReleased() {

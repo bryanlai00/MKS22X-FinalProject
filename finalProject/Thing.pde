@@ -17,5 +17,4 @@ abstract class Thing implements Collideable {
     
     return dist(getX(), getY() , other.getX(), other.getY()) < getX_size() || dist(getX(), getY() , other.getX(), other.getY()) < getY_size();
   }
-
 }

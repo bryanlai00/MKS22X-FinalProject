@@ -40,13 +40,17 @@ public class Screen {
       pushMatrix();
       translate(mx_pos, my_pos);
       scale(-1.0, 1.0);
-      textAlign(CENTER);
       popMatrix();
-    }
+      textAlign(CENTER);
+      text("SCORE: " + h.score, width/2, 7 * height/32 );
+   }
     if (frame < localFrames.size() - 1) frame++;
     else frame = 0;
   }
   void select() {
     if (codename.equals("title")) screens.clear();
+  }
+    boolean cursorMovement(int k) {
+    return true;
   }
 }
