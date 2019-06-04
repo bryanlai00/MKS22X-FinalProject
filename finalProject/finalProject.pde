@@ -201,6 +201,7 @@ void draw() {
         itemTime--;
       }
       for(Item i : allItems) {
+        noTint();
         i.display();
       }
       p.update(h);
@@ -250,20 +251,21 @@ void restart() {
 
 void addMonsters() {
   //Adds all monsters again because vortex.x_pos has changed.
-          s = new Slime(vortex.x_pos, vortex.y_pos, 50, 50, 0, 200.0, 2, 4, 120, iT, .5, false, 50);
-          s2 = new Slime(vortex.x_pos, vortex.y_pos, 50, 50, 1, 200.0, 1, 4, 120, iT, .5, true, 50);
-          d = new Baby(vortex.x_pos, vortex.y_pos, 90, 90, 1.5, 300.0, 3, 10, 120, iT, 1, false, 100);
-          d2 = new Baby(vortex.x_pos, vortex.y_pos, 90, 90, 1.5, 300.0, 3, 10, 120, iT, 1, true, 100);
-          min = new Minotaur(vortex.x_pos, vortex.y_pos, 150, 150, 1.5, 400.0, 5, 4, 120, iT, .5, false, 150, 250);
-          min2 = new Minotaur(vortex.x_pos, vortex.y_pos, 150, 150, 1.5, 400.0, 5, 4, 120, iT, .5, true, 150, 250);
-          b = new Boar(vortex.x_pos, vortex.y_pos, 50, 50, 2, 300.0, 1, 8, 120, iT, .5, false, 150);
-          b2 = new Boar(vortex.x_pos, vortex.y_pos, 50, 50, 2, 300.0, 1, 8, 120, iT, .5, true, 150);
-          sp = new Spirit(vortex.x_pos, vortex.y_pos, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false, 200);
-          sp2 = new Spirit(vortex.x_pos, vortex.y_pos, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, true, 200);
-          g = new Griffin(vortex.x_pos, vortex.y_pos, 150, 150, 1.5, 400.0, 5, 10, 120, iT, .5, false, 150, 250);
-          g2 = new Griffin(vortex.x_pos, vortex.y_pos, 150, 150, 1.5, 400.0, 5, 10, 120, iT, .5, true, 150, 250);
-          dr = new Dragon(vortex.x_pos, vortex.y_pos, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false, 300);
-          dr2 = new Dragon(vortex.x_pos, vortex.y_pos, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, true, 300);
+  //Monster(float xcor, float ycor, float x_size, float y_size, float spe, float sight, float mH, int numSprites, int pT, int iT, float dam, boolean boss, (float reach), int sco) {
+          s = new Slime(vortex.x_pos, vortex.y_pos, 50, 50, 1, 200.0, 1, 4, 120, iT, .5, false, 50);
+          s2 = new Slime(vortex.x_pos, vortex.y_pos, 50, 50, 1, 200.0, 1, 4, 180, iT, .5, true, 100);
+          d = new Baby(vortex.x_pos, vortex.y_pos, 90, 90, 1.5, 250.0, 3, 10, 120, iT, .75, false, 75);
+          d2 = new Baby(vortex.x_pos, vortex.y_pos, 75, 75, 1.5, 250.0, 3, 10, 120, iT, .75, true, 150);
+          min = new Minotaur(vortex.x_pos, vortex.y_pos, 150, 150, 1.5, 300.0, 5, 4, 120, iT, 1, false, 150, 200);
+          min2 = new Minotaur(vortex.x_pos, vortex.y_pos, 150, 150, 1.5, 300.0, 3.5, 4, 120, iT, 1, true, 150, 400);
+          b = new Boar(vortex.x_pos, vortex.y_pos, 65, 65, 2.5, 300.0, 4, 8, 120, iT, .5, false, 100);
+          b2 = new Boar(vortex.x_pos, vortex.y_pos, 65, 65, 2.5, 300.0, 4, 8, 120, iT, .5, true, 200);
+          sp = new Spirit(vortex.x_pos, vortex.y_pos, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, false, 225);
+          sp2 = new Spirit(vortex.x_pos, vortex.y_pos, 100, 100, 1.5, 300.0, 3, 10, 120, iT, 1, true, 450);
+          g = new Griffin(vortex.x_pos, vortex.y_pos, 150, 150, 1.5, 300.0, 5, 10, 120, iT, .75, false, 150, 200);
+          g2 = new Griffin(vortex.x_pos, vortex.y_pos, 150, 150, 1.5, 300.0, 5, 10, 120, iT, .75, true, 150, 400);
+          dr = new Dragon(vortex.x_pos, vortex.y_pos, 100, 100, 1.5, 300.0, 5, 10, 120, iT, 1, false, 250);
+          dr2 = new Dragon(vortex.x_pos, vortex.y_pos, 100, 100, 1.5, 300.0, 4, 10, 120, iT, .75, true, 500);
           //Array List of possible monsters that may spawn:
           mSpawn.add(s);
           mSpawn.add(s2);

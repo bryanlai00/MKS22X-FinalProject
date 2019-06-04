@@ -340,7 +340,7 @@ class Player extends Thing implements Damageable, Collideable {
     if (magic_cooldown == 0) {
       if (m.size() > 0) {
         Monster target = m.get(0);
-        projectiles.add(new Projectile(x_pos, y_pos, 60, 60, 2, 8, 60, projectile, (Monster)target));
+        projectiles.add(new Projectile(x_pos, y_pos, 60, 60, damage * 2, 8, 60, projectile, (Monster)target));
       }
       magic_cooldown = 80;
     }
@@ -381,7 +381,7 @@ class Player extends Thing implements Damageable, Collideable {
               roomObjects.add(spinEffect); 
              print(roomObjects.contains(spinEffect));
              for( Monster mons : m) {
-                p.spinAttack(mons,2);
+                p.spinAttack(mons, damage * 2);
              }
             spin_cooldown = 70;
             h.cooldowns[1] = (int)spin_cooldown;
@@ -401,7 +401,7 @@ class Player extends Thing implements Damageable, Collideable {
         isAttacking = true;
         attackAni = 20;
         for (Monster mons : m) {
-          p.attack(mons, 3);
+          p.attack(mons, damage);
         }
       }
       return true;
