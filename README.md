@@ -1,4 +1,4 @@
-# Hollow World! (for now)
+# Hollow World!
 
 ### Project Description
 This game is best described as a hybrid of RPG and action-adventure similar to that of the original Zelda games (namely The Legend of Zelda: A Link to the Past) while drawing inspiration from Metroidvania series such as Hollow Knight.  The concept of the game is to clear rooms/floors of monsters in order to unlock the next room/floor.  The player will control a character and be able to move around, attack, and take damage.  There will be different presets of rooms and types of monsters.  Each elimination will add to the player’s score, and the game should continue so long as the player stays alive.
@@ -135,3 +135,17 @@ _________________________
 ###### Calvin Chu:
 * added score value to monster constructor and int score for each monster
 * implemented score tracker and displayer in HUD that shows current score in top right corner and accomodates for increasing number of digits in the score
+##### 6/2/19
+###### Calvin Chu:
+* touched up on player abilities => changed dash sprite, fiddled with cooldowns (still needs work)
+* fixed issue with player no longer flashing when holding a sword and gettting damaged
+##### 6/3/19
+###### Calvin Chu:
+* created the animated instructions screen and implemented it
+* set display of instruction screen to 'I'
+* added basic ability cooldown icons to HUD
+##### 6/4/19 (Last Day)
+###### Calvin Chu:
+* changed visibility of ability cooldown icons so that you can only see them when you pick up the corresponding item
+* added color codes (light green for ready and brightening red for on cooldown) to cooldown icons on HUD
+* sprinkled in comments for the functions of different classes and variables that are important and need description
