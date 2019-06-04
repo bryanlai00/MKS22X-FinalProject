@@ -6,7 +6,7 @@ class Projectile extends Thing {
   float x_pos, y_pos, endX, endY, damage, direction, speed;
   String target;
   int duration;
-  PImage sprite; //<>//
+  PImage sprite; //<>// //<>//
   //Projectile against Monsters:
   Projectile(float xcor, float ycor, float xSize, float ySize, float dam, float spe, int d, PImage i, Monster m) {
     super(xSize,ySize);
@@ -77,10 +77,10 @@ class Projectile extends Thing {
   void update(Monster m) {
     if(isTouching(m)) {
       m.loseHealth(damage);
-      projectiles.remove(projectiles.size() - 1);
+      projectiles.remove(0);
     }
     else if (projectiles.size() > 0 && duration < 0) {
-      projectiles.remove(projectiles.size() - 1);
+      projectiles.remove(0);
     }
     else duration--;
   }

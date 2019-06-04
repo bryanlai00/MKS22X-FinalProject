@@ -199,7 +199,7 @@ void draw() {
       }
 
       //Item behavior. (not iterating through array because Item behavior is different for potions. It's just randomny spawning.)
-      if(itemTime == 0) {
+      if(itemTime == 0 && allItems.size() < 10) {
         Random rand = new Random();
         if(rand.nextInt(1) == 2) {
           allItems.add(new Item(((float)rand.nextInt(1000) + vortex.x_pos - 500), ((float)rand.nextInt(700) + vortex.y_pos - 200), 50, 50, loadImage("data/items/smallPotion.png"), 5)); 
@@ -208,7 +208,7 @@ void draw() {
           allItems.add(new Item(((float)rand.nextInt(1000) + vortex.x_pos - 500), ((float)rand.nextInt(700) + vortex.y_pos - 200), 50, 50, loadImage("data/items/largePotion.png"), 6));
         }
         //Long time to spawn.
-        itemTime = 2000;
+        itemTime = 500;
       }
       else {
         itemTime--;

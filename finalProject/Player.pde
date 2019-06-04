@@ -341,7 +341,7 @@ class Player extends Thing implements Damageable, Collideable {
     if (magic_cooldown == 0) {
       if (m.size() > 0) {
         Monster target = m.get(0);
-        projectiles.add(new Projectile(x_pos, y_pos, 60, 60, 2, 8, 60, projectile, (Monster)target));
+        projectiles.add(0,new Projectile(x_pos, y_pos, 60, 60, 2, 10, 60, projectile, (Monster)target));
       }
       magic_cooldown = 80;
     }
